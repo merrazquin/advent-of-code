@@ -15,7 +15,7 @@ function partOne(data) {
     }
 }
 
-// part 2, find 3 numbers which sum to 2020, reurn product
+// part 2, find 3 numbers which sum to 2020, return product
 function partTwo(data) {
     for (var i = 0; i < data.length - 2; i++) {
         for(var j = i + 1; j < data.length - 1; j++) {
