@@ -45,7 +45,11 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-  return getTreeCount(input, 1, 1) * getTreeCount(input, 1, 3) * getTreeCount(input, 1, 5) * getTreeCount(input, 1, 7) * getTreeCount(input, 2, 1);
+  return [
+    [1, 1], [1, 3], [1, 5], [1, 7], [2, 1]
+  ].reduce((previous, current) => {
+    return previous * getTreeCount(input, ...current); 
+  }, 1);
 }
 
 module.exports = { part1, part2 }
