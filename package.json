@@ -1,0 +1,29 @@
+{
+  "name": "aoc2020",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "advent-of-code": "^5.0.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/merrazquin/AoC2020.git"
+  },
+  "author": "Marcela Errazquin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/merrazquin/AoC2020/issues"
+  },
+  "homepage": "https://github.com/merrazquin/AoC2020#readme",
+  "adventConfig": {
+    "year": "2020",
+    "nameTemplate": "day{{num}}.js",
+    "templateFile": "node_modules/advent-of-code/src/templates/day.js"
+  }
+}
