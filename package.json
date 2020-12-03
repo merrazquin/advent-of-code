@@ -24,6 +24,6 @@
   "adventConfig": {
     "year": "2020",
     "nameTemplate": "day{{num}}.js",
-    "templateFile": "node_modules/advent-of-code/src/templates/day.js"
+    "templateFile": "templates/day.js"
   }
 }
