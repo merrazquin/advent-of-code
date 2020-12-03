@@ -7,27 +7,28 @@
 //6:39 AM part 2 correct answer
 
 /** BENCHMARKING */
-//  advent Running part 1 +0ms
+// advent Running part 1 +0ms
 // advent Got output in 0.136191ms +0ms
 // advent Running part 2 +0ms
 // advent Got output in 0.280581ms +1ms
 
 const TREE = '#';
 
-const getTrees = (input, rowIncrememnt, colIncrement) => {
+const getTreeCount = (input, rowIncrememnt, colIncrement) => {
   const data = input.split('\n');
+  const height = data.length;
+
   let rowIndex = 0;
   let colIndex = 0;
   let treeCount = 0;
 
-  while (rowIndex + rowIncrememnt < data.length) {
-    rowIndex += rowIncrememnt;
-    colIndex += colIncrement;
-
+  while (rowIndex < height) {
     const row = data[rowIndex];
     if (row.charAt(colIndex % row.length) === TREE) {
       treeCount++;
     }
+    rowIndex += rowIncrememnt;
+    colIndex += colIncrement;
   }
 
   return treeCount;
@@ -37,14 +38,14 @@ const getTrees = (input, rowIncrememnt, colIncrement) => {
 // ======
 
 const part1 = input => {
-  return getTrees(input, 1, 3);
+  return getTreeCount(input, 1, 3);
 }
 
 // Part 2
 // ======
 
 const part2 = input => {
-  return getTrees(input, 1, 1) * getTrees(input, 1, 3) * getTrees(input, 1, 5) * getTrees(input, 1, 7) * getTrees(input, 2, 1);
+  return getTreeCount(input, 1, 1) * getTreeCount(input, 1, 3) * getTreeCount(input, 1, 5) * getTreeCount(input, 1, 7) * getTreeCount(input, 2, 1);
 }
 
 module.exports = { part1, part2 }
