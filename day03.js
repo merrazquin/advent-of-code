@@ -5,6 +5,13 @@
 
 //6:34 AM part 2 begin
 //6:39 AM part 2 correct answer
+
+/** BENCHMARKING */
+//  advent Running part 1 +0ms
+// advent Got output in 0.136191ms +0ms
+// advent Running part 2 +0ms
+// advent Got output in 0.280581ms +1ms
+
 const TREE = '#';
 
 const getTrees = (input, rowIncrememnt, colIncrement) => {
