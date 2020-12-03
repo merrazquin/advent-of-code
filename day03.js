@@ -8,19 +8,20 @@
 const TREE = '#';
 
 const getTrees = (input, rowIncrememnt, colIncrement) => {
+  const data = input.split('\n');
   let rowIndex = 0;
   let colIndex = 0;
   let treeCount = 0;
-  const data = input.split('\n');
+
   while (rowIndex + rowIncrememnt < data.length) {
     rowIndex += rowIncrememnt;
     colIndex += colIncrement;
 
     const row = data[rowIndex];
     if (row.charAt(colIndex % row.length) === TREE) {
-      treeCount++
+      treeCount++;
     }
-  } 
+  }
 
   return treeCount;
 }
