@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "advent-of-code": "^5.0.0",
-    "dotenv": "^8.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +"
   },
   "repository": {
     "type": "git",
