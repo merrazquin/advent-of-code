@@ -6,30 +6,11 @@
 
 
 // Setup
-const KEYS = {
-  byr: true,
-  iyr: true,
-  eyr: true,
-  hgt: true,
-  hcl: true,
-  ecl: true,
-  pid: true,
-  cid: false
+const validYear = (year, min, max) => {
+  year = parseInt(year)
+  return min <= year && year <= max;
 }
 
-
-const validBirthYear = year => {
-  year = parseInt(year);
-  return 1920 <= year && year <= 2002;
-}
-const validIssueYear = year => {
-  year = parseInt(year)
-  return 2010 <= year && year <= 2020;
-}
-const validExpirationYear = year => {
-  year = parseInt(year)
-  return 2020 <= year && year <= 2030;
-}
 const validHeight = height => {
   let parsed = /^(\d+)(cm|in)$/.exec(height);
   
@@ -44,30 +25,57 @@ const validHeight = height => {
   }
   return false;
 }
-const validHairColor = color => {
-  return /^#[0-9a-f]{6}$/.test(color);
-}
-const validEyeColor = color => {
-  return /^amb|blu|brn|gry|grn|hzl|oth$/.test(color)
-}
-const validPassportId = id => {
-  return /^\d{9}$/.test(id)
+
+const validPattern = (val, pattern) => {
+  return pattern.test(val);
 }
 
-const optional = input => {
-  return true
-}
+const optional = input => true
 
+const KEYS = {
+  byr: true,
+  iyr: true,
+  eyr: true,
+  hgt: true,
+  hcl: true,
+  ecl: true,
+  pid: true,
+  cid: false
+}
 
 const VALIDATORS = {
-  byr: validBirthYear,
-  iyr: validIssueYear,
-  eyr: validExpirationYear,
-  hgt: validHeight,
-  hcl: validHairColor,
-  ecl: validEyeColor,
-  pid: validPassportId,
-  cid: optional
+  byr: {
+    validator: validYear,
+    args: [1920, 2002]
+  },
+  iyr: {
+    validator: validYear,
+    args: [2010, 2020]
+  },
+  eyr: {
+    validator: validYear,
+    args: [2020, 2030]
+  },
+  hgt:{
+    validator: validHeight,
+    args: []
+  },
+  hcl: {
+    validator: validPattern,
+    args: [/^#[0-9a-f]{6}$/]
+  },
+  ecl: {
+    validator: validPattern,
+    args: [/^amb|blu|brn|gry|grn|hzl|oth$/]
+  },
+  pid: {
+    validator: validPattern,
+    args: [/^\d{9}$/]
+  },
+  cid: {
+    validator: optional,
+    args: []
+  }
 };
 
 const processCredential = credential => {
@@ -83,14 +91,19 @@ const processCredential = credential => {
 
 const isCredentialValid = credential => {
   for (const key in KEYS) {
-    if(KEYS[key] && !credential[key]) return false;
+    if(KEYS[key] && !credential[key]){
+      return false;
+    }
   }
   return true;
 }
 
 const isCredentialFullyValid = credential => {
   for (const key in VALIDATORS) {
-    if(!VALIDATORS[key](credential[key])) return false;
+    let {validator, args} = VALIDATORS[key]
+    if(!validator(credential[key], ...args)) {
+      return false;
+    }
   }
   return true;
 }
