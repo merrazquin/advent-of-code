@@ -8,26 +8,27 @@
 // Setup
 const validYear = (year, min, max) => {
   year = parseInt(year)
-  return min <= year && year <= max;
+  return min <= year && year <= max
 }
 
 const validHeight = height => {
-  let parsed = /^(\d+)(cm|in)$/.exec(height);
+  const parsed = /^(\d+)(cm|in)$/.exec(height)
   
   if (parsed) {
-    let [raw, h, u] = parsed;
-    h = parseInt(h);
-    if (u == 'in') {
-      return 59 <= h && h <= 76;
-    } else {
-      return 150 <= h && h <= 193;
+    let [raw, height, unit] = parsed
+    height = parseInt(height)
+    if (unit == 'in') {
+      return 59 <= height && height <= 76
+    } 
+    if (unit == 'cm') {
+      return 150 <= height && height <= 193
     }
   }
-  return false;
+  return false
 }
 
 const validPattern = (val, pattern) => {
-  return pattern.test(val);
+  return pattern.test(val)
 }
 
 const optional = input => true
@@ -76,54 +77,52 @@ const VALIDATORS = {
     validator: optional,
     args: []
   }
-};
+}
 
 const processCredential = credential => {
-  let keys = [];
   return credential.split(/ |\n/)
     .reduce((prev, curr) => {
-      let [key, val] = curr.split(':');
-      prev[key] = val;
-      keys.push(key);
-      return prev;
-    }, {});
+      const [key, val] = curr.split(':')
+      prev[key] = val
+      return prev
+    }, {})
 }
 
 const isCredentialValid = credential => {
   for (const key in KEYS) {
     if(KEYS[key] && !credential[key]){
-      return false;
+      return false
     }
   }
-  return true;
+  return true
 }
 
 const isCredentialFullyValid = credential => {
   for (const key in VALIDATORS) {
-    let {validator, args} = VALIDATORS[key]
+    const {validator, args} = VALIDATORS[key]
     if(!validator(credential[key], ...args)) {
-      return false;
+      return false
     }
   }
-  return true;
+  return true
 }
 
 // Part 1
 // ======
 
 const part1 = input => {
-  const data = input.split('\n\n')
-    .map(processCredential);
-  return data.filter(isCredentialValid).length;
+  return input.split('\n\n')
+    .map(processCredential)
+    .filter(isCredentialValid).length
 }
 
 // Part 2
 // ======
 
 const part2 = input => {
-  const data = input.split('\n\n')
-    .map(processCredential);
-  return data.filter(isCredentialFullyValid).length;
+  return input.split('\n\n')
+    .map(processCredential)
+    .filter(isCredentialFullyValid).length
 }
 
 module.exports = { part1, part2 }
