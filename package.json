@@ -5,10 +5,11 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "eslint": "^7.14.0"
+    "eslint": "^7.14.0",
+    "mocha": "^8.2.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha day*/**/test.js",
     "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +",
     "lint": "eslint ."
   },
