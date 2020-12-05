@@ -1,4 +1,5 @@
 # Advent of Code 2020 - My Solutions
+[![Build Status](https://github.com/merrazquin/AoC2020/workflows/build/badge.svg)](https://github.com/merrazquin/AoC2020/actions)
 [![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/merrazquin/AoC2020/main/.github/badges/completion.json)](https://github.com/merrazquin/AoC2020)
 
 After saving Christmas [five years in a row](https://adventofcode.com/events), you've decided to take a vacation at a nice resort on a tropical island. Surely, Christmas will go on without you.
