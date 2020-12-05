@@ -57,7 +57,15 @@ const part2 = input => {
   }
 }
 
-module.exports = { part1, part2 }
+const part3 = input => {
+  return parseInt(input).toString(2)
+    .padStart(10, '0')
+    .replace(/^((?:0|1){7})((?:0|1){3})$/, (match, row, col) => {
+      return row.replace(/1/g, 'B').replace(/0/g, 'F') + col.replace(/1/g, 'R').replace(/0/g, 'L')
+    })
+}
+
+module.exports = { part1, part2, part3 }
 
 //12:00 AM - start
 //12:18 AM - getRange method 

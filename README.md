@@ -15,7 +15,7 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 - [Day 2: Password Philosophy](day02/)
 - [Day 3: Toboggan Trajectory](day03/)
 - [Day 4: Passport Processing](day04/)
-- [Day 5: TBD](day05/)
+- [Day 5: Binary Boarding](day05/)
 - [Day 6: TBD](day06/)
 - [Day 7: TBD](day07/)
 - [Day 8: TBD](day08/)
