@@ -1,34 +1,10 @@
 'use strict'
 // Setup
 
-const getRange = (min, max, lower) => {
-  const mid = min + Math.floor((max - min - 1) / 2)
-
-  if (lower) {
-    return [min, mid]
-  } else {
-    return [mid + 1, max]
-  }
-}
-
 const getSeatIDs = boardingPasses => {
   return boardingPasses.split('\n')
     .map(boardingPass => {
-      let rowRangeMin = 0
-      let rowRangeMax = 127
-      let colRangeMin = 0
-      let colRangeMax = 7
-
-      boardingPass.split('').forEach((instruction, index) => {
-        if (index < 7) {
-          [rowRangeMin, rowRangeMax] = getRange(rowRangeMin, rowRangeMax, instruction === 'F')
-        }
-        else {
-          [colRangeMin, colRangeMax] = getRange(colRangeMin, colRangeMax, instruction === 'L')
-        }
-      })
-
-      return 8 * rowRangeMin + colRangeMin
+      return parseInt(boardingPass.replace(/F|L/g, '0').replace(/B|R/g, '1'), 2)
     })
 }
 
