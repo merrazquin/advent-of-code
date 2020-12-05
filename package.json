@@ -7,7 +7,6 @@
   "devDependencies": {
     "eslint": "^7.14.0",
     "mocha": "^8.2.1",
-    "pre-commit": "^1.2.2",
     "pre-push": "^0.1.1"
   },
   "scripts": {
@@ -15,10 +14,8 @@
     "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +",
     "lint": "eslint ."
   },
-  "pre-commit": [
-    "lint"
-  ],
   "pre-push": [
+    "lint",
     "test"
   ],
   "repository": {
