@@ -6,13 +6,21 @@
   "dependencies": {},
   "devDependencies": {
     "eslint": "^7.14.0",
-    "mocha": "^8.2.1"
+    "mocha": "^8.2.1",
+    "pre-commit": "^1.2.2",
+    "pre-push": "^0.1.1"
   },
   "scripts": {
     "test": "mocha day*/**/test.js",
     "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +",
     "lint": "eslint ."
   },
+  "pre-commit": [
+    "lint"
+  ],
+  "pre-push": [
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/merrazquin/AoC2020.git"
