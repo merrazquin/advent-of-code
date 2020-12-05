@@ -15,7 +15,7 @@ const validHeight = height => {
   const parsed = /^(\d+)(cm|in)$/.exec(height)
   
   if (parsed) {
-    let [raw, height, unit] = parsed
+    let [height, unit] = parsed?.slice(1)
     height = parseInt(height)
     if (unit == 'in') {
       return 59 <= height && height <= 76
@@ -31,7 +31,7 @@ const validPattern = (val, pattern) => {
   return pattern.test(val)
 }
 
-const optional = input => true
+const optional = () => true
 
 const KEYS = {
   byr: true,

@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.14.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +"
+    "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
