@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { part1, part2 } = require('../day01/script')
+const { part1, part2 } = require('./script')
 const numbers =
     `1721
     979

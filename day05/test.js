@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { part1, part2, part3 } = require('../day05/script')
+const { part1, part2, part3 } = require('./script')
 const boardingPasses = 
 `BFFFBBFRRR
 FFFBBBFRRR

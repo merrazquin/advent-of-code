@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { part1, part2 } = require('../day03/script')
+const { part1, part2 } = require('./script')
 
 const geology = 
 `..##.......
