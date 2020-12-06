@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 // Setup
 
@@ -18,8 +18,7 @@ const part1 = input => {
 const part2 = input => {
   return input.split('\n\n').map(answers => {
     let partySize = answers.split('\n').length
-    answers = answers.split('\n').join('')
-    answers = answers.split('').sort((a, b) => a < b ? -1 : 1).join('')
+    answers = answers.split('\n').join('').split('').sort((a, b) => a < b ? -1 : 1).join('')
     var regex = new RegExp(`(.)\\1{${partySize - 1}}`, 'g')
     return [...answers.matchAll(regex)].length
     
