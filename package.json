@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "advent-of-code": "^5.0.0",
     "eslint": "^7.14.0",
     "mocha": "^8.2.1",
     "pre-push": "^0.1.1"
