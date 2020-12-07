@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { part1, part2 } = require('./script')
+const { part1, part2, findBagCount, processData } = require('./script')
 
 const baggageRules = 
 `light red bags contain 1 bright white bag, 2 muted yellow bags.
@@ -22,6 +22,19 @@ dark blue bags contain 2 dark violet bags.
 dark violet bags contain no other bags.`
 
 describe('Day 7: Handy Haversacks', () => {
+    describe('findBagCount', () => {
+        processData(baggageRules)
+        it('should return a count of 1 for a bag with no children', ()=> {
+            assert.strictEqual(findBagCount('dotted_black'), 1)            
+        })
+        it('should return the correct count for a bag with one level of children', ()=> {
+            assert.strictEqual(findBagCount('dark_olive'), 7)
+        })
+        it('should return the correct count for a bag with multiple levels of children', () => {
+            assert.strictEqual(findBagCount('shiny_gold'), 32)
+        })
+    })
+
     describe('Part One', () => {
         it('should find all possible parents of a bag type', () => {
             assert.strictEqual(part1(baggageRules), 4)
