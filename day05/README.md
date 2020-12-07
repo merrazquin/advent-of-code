@@ -49,3 +49,12 @@ It's a completely full flight, so your seat should be the only missing boarding 
 Your seat wasn't at the very front or back, though; the seats with IDs +1 and -1 from yours will be in your list.
 
 **What is the ID of your seat?**
+
+## Part Three 
+**Source:** https://www.reddit.com/r/adventofcode/comments/k72oom/2020_day_5_part_3_boarding_pass_generator/
+
+The boarding agent has called final boarding for your flight, but for some reason, they won't just take you at your word regarding your seat number.
+
+You'll have to produce a boarding pass if you want to get on the plane. There's a shady character in the terminal who has offered to print you a "totally legit" looking one, if you can provide them with your boarding pass string.
+
+**Given your seat ID, provide the boarding pass string.**
