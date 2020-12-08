@@ -32,6 +32,8 @@ const parseTree = (data, parentNode, name, count) => {
                 parseTree(data, node, child, children[child])
             }
         }
+
+        // Add this child to all instances of its parent type
         parentNode.all(foundParentNode => foundParentNode.model.name === parentNode.model.name)
             .forEach(foundParentNode => foundParentNode.addChild(node))
     }
