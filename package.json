@@ -1,5 +1,5 @@
 {
-  "name": "aoc2020",
+  "name": "adventofcode",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -23,18 +23,18 @@
     "test"
   ],
   "nyc": {
-    "exclude": "**/test.js" 
+    "exclude": "**/*test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/merrazquin/AoC2020.git"
+    "url": "git+https://github.com/merrazquin/advent-of-code.git"
   },
   "author": "Marcela Errazquin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/merrazquin/AoC2020/issues"
+    "url": "https://github.com/merrazquin/advent-of-code/issues"
   },
-  "homepage": "https://github.com/merrazquin/AoC2020#readme",
+  "homepage": "https://github.com/merrazquin/advent-of-code#readme",
   "adventConfig": {
     "year": "2020",
     "nameTemplate": "year-2020/day{{num}}/script.js",
