@@ -3,7 +3,7 @@
 const TreeModel = require('tree-model')
 
 // Setup
-const bagInQuestion = 'shiny_gold'
+const SHINY_GOLD_BAG = 'shiny_gold'
 const childBagRule = /^(\w+ \w+) bags contain no other bags\.$/
 const parentBagRule = /^(\w+ \w+) bags contain .*$/
 const findChildren = /((\d+) (\w+ \w+) bags?)/g
@@ -27,6 +27,10 @@ const parseTree = (bagChildren, parentNode, nodeName, count) => {
     }
 }
 
+/**
+ * Create a TreeModel of all bags
+ * @param {string} input 
+ */
 const createBagTree = input => {
     const bagChildren = {}
     input.split('\n')
@@ -50,8 +54,13 @@ const createBagTree = input => {
 
     // start with shiny gold
     const bagTree = tree.parse({ name: 'root', count: 1, children: [] })
-    return parseTree(bagChildren, bagTree, 'shiny_gold', 1)
+    return parseTree(bagChildren, bagTree, SHINY_GOLD_BAG, 1)
 }
+
+/**
+ * Associate bags with their possible parents
+ * @param {string} input 
+ */
 const getBagParents = input => {
     const bagParents = {}
     input.split('\n')
@@ -74,6 +83,11 @@ const getBagParents = input => {
     return bagParents
 }
 
+/**
+ * Find all possible parents for a given bag type
+ * @param {*} bagParents 
+ * @param {string} bagType 
+ */
 const findParents = (bagParents, bagType) => {
     let possibleParents = bagParents[bagType]
     if (possibleParents) {
@@ -107,14 +121,13 @@ const findBagCount = (bagTree, bagType) => {
 // Part 1
 // ======
 const part1 = input => {
-    return findParents(getBagParents(input), bagInQuestion).size
+    return findParents(getBagParents(input), SHINY_GOLD_BAG).size
 }
 
 // Part 2
 // ======
-
 const part2 = input => {
-    return findBagCount(createBagTree(input), 'shiny_gold')
+    return findBagCount(createBagTree(input), SHINY_GOLD_BAG)
 }
 
 module.exports = { part1, part2, processData: getBagParents, createBagTree, findBagCount }
