@@ -52,23 +52,14 @@ const getVariation = (instructions, startIndex) => {
             instructions: instructions.substr(0, nextNop) + 'jmp' + instructions.substr(nextNop + 3)
         }
     }
-    return false
 }
 
 const part2 = input => {
     /* eslint-disable no-fallthrough */
-    const variations = [input]
-    
     let variation = getVariation(input, 0)
     while (variation) {
-        variations.push(variation.instructions)
-        variation = getVariation(input, variation.index)
-    }
-
-    for (let v = 0; v < variations.length; v++) {
-        let variation = variations[v]
         let acc = 0
-        const instructions = variation.split('\n')
+        const instructions = variation.instructions.split('\n')
         let visitedIndices = {}
         let infiniteLoopFound = false
         for (let i = 0; i < instructions.length;) {
@@ -76,8 +67,9 @@ const part2 = input => {
                 infiniteLoopFound = true
                 break
             }
+            
             visitedIndices[i] = true
-    
+
             const instructionSet = instructions[i]
             let [operation, argument] = instructionSet.split(' ')
             argument = parseInt(argument)
@@ -92,10 +84,11 @@ const part2 = input => {
                 break
             }
         }
-    
+
         if (!infiniteLoopFound) {
             return acc
         }
+        variation = getVariation(input, variation.index)
     }
     /* eslint-disable no-fallthrough */
 }
