@@ -1,7 +1,7 @@
 'use strict'
 
 const TreeModel = require('tree-model')
-const { parseTree } = require('../utils')
+const { parseTree } = require('../../utils')
 
 // Setup
 const SHINY_GOLD_BAG = 'shiny_gold'

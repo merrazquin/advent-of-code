@@ -14,7 +14,7 @@
     "pre-push": "^0.1.1"
   },
   "scripts": {
-    "test": "nyc --reporter=lcov --reporter=text --reporter=text-summary mocha day*/**/*test.js utils.test.js",
+    "test": "nyc --reporter=lcov --reporter=text --reporter=text-summary mocha **/day*/**/*test.js utils.test.js",
     "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +",
     "lint": "eslint ."
   },
@@ -37,7 +37,7 @@
   "homepage": "https://github.com/merrazquin/AoC2020#readme",
   "adventConfig": {
     "year": "2020",
-    "nameTemplate": "day{{num}}/script.js",
+    "nameTemplate": "year-2020/day{{num}}/script.js",
     "templateFile": "templates/day.js"
   }
 }
