@@ -6,14 +6,14 @@
 // ======
 
 const part1 = input => {
-  return input
+    return input
 }
 
 // Part 2
 // ======
 
 const part2 = input => {
-  return input
+    return input
 }
 
 module.exports = { part1, part2 }

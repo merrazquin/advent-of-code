@@ -15,41 +15,41 @@
 const TREE = '#'
 
 const getTreeCount = (input, rowIncrememnt, colIncrement) => {
-  const data = input.split('\n')
-  const height = data.length
+    const data = input.split('\n')
+    const height = data.length
 
-  let rowIndex = 0
-  let colIndex = 0
-  let treeCount = 0
+    let rowIndex = 0
+    let colIndex = 0
+    let treeCount = 0
 
-  while (rowIndex < height) {
-    const row = data[rowIndex]
-    if (row.charAt(colIndex % row.length) === TREE) {
-      treeCount++
+    while (rowIndex < height) {
+        const row = data[rowIndex]
+        if (row.charAt(colIndex % row.length) === TREE) {
+            treeCount++
+        }
+        rowIndex += rowIncrememnt
+        colIndex += colIncrement
     }
-    rowIndex += rowIncrememnt
-    colIndex += colIncrement
-  }
 
-  return treeCount
+    return treeCount
 }
 
 // Part 1
 // ======
 
 const part1 = input => {
-  return getTreeCount(input, 1, 3)
+    return getTreeCount(input, 1, 3)
 }
 
 // Part 2
 // ======
 
 const part2 = input => {
-  return [
-    [1, 1], [1, 3], [1, 5], [1, 7], [2, 1]
-  ].reduce((previous, current) => {
-    return previous * getTreeCount(input, ...current) 
-  }, 1)
+    return [
+        [1, 1], [1, 3], [1, 5], [1, 7], [2, 1]
+    ].reduce((previous, current) => {
+        return previous * getTreeCount(input, ...current) 
+    }, 1)
 }
 
 module.exports = { part1, part2 }
