@@ -19,8 +19,7 @@ const validHeight = height => {
         height = parseInt(height)
         if (unit == 'in') {
             return 59 <= height && height <= 76
-        } 
-        if (unit == 'cm') {
+        } else {
             return 150 <= height && height <= 193
         }
     }

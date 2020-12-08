@@ -10,10 +10,11 @@
     "advent-of-code": "^5.0.0",
     "eslint": "^7.14.0",
     "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
     "pre-push": "^0.1.1"
   },
   "scripts": {
-    "test": "mocha day*/**/test.js",
+    "test": "nyc --reporter=lcov --reporter=text --reporter=text-summary mocha day*/**/test.js",
     "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +",
     "lint": "eslint ."
   },
@@ -21,6 +22,9 @@
     "lint",
     "test"
   ],
+  "nyc": {
+    "exclude": "**/test.js" 
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/merrazquin/AoC2020.git"

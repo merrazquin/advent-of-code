@@ -20,6 +20,18 @@ iyr:2019
 hcl:#602927 eyr:1967 hgt:170cm
 ecl:grn pid:012533040 byr:1946`
 
+const validHeightInInches = 
+`hcl:#ae17e1 iyr:2013
+eyr:2024
+ecl:brn pid:760753108 byr:1931
+hgt:62in
+`
+const invalidHeightInInches = 
+`hcl:#ae17e1 iyr:2013
+eyr:2024
+ecl:brn pid:760753108 byr:1931
+hgt:15in
+`
 describe('Day 4: Passport Processing', () => {
     describe('Part One', () => {
         it('it should return the total number of valid passports', () => {
@@ -30,6 +42,8 @@ describe('Day 4: Passport Processing', () => {
     describe ('Part Two', () => {
         it('it should return the total number of stringently-validated passports', () => {
             assert.strictEqual(part2(passports), 2)
+            assert.strictEqual(part2(validHeightInInches), 1)
+            assert.strictEqual(part2(invalidHeightInInches), 0)
         })
     })
 })

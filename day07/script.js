@@ -22,9 +22,7 @@ const parseTree = (bagChildren, parentNode, nodeName, count) => {
         }
         parentNode.all(pn => pn.model.name === parentNode.model.name).forEach(pn => pn.addChild(node))
     }
-    if (parentNode.isRoot()){
-        return node
-    }
+    return node
 }
 
 /**
