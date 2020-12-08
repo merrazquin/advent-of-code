@@ -1,6 +1,6 @@
 # Advent of Code 2020 - My Solutions
 [![Build Status](https://github.com/merrazquin/advent-of-code/workflows/build/badge.svg)](https://github.com/merrazquin/advent-of-code/actions)
-[![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/merrazquin/advent-of-code/main/.github/badges/completion.json)](https://github.com/merrazquin/advent-of-code)
+[![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/merrazquin/advent-of-code/main/.github/year-2020/badges/completion.json&label=stars+collected)](https://github.com/merrazquin/advent-of-code)
 
 After saving Christmas [five years in a row](https://adventofcode.com/events), you've decided to take a vacation at a nice resort on a tropical island. Surely, Christmas will go on without you.
 
