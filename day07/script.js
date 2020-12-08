@@ -1,6 +1,7 @@
 'use strict'
 
 const TreeModel = require('tree-model')
+const { parseTree } = require('../utils')
 
 // Setup
 const SHINY_GOLD_BAG = 'shiny_gold'
@@ -9,21 +10,6 @@ const parentBagRule = /^(\w+ \w+) bags contain .*$/
 const findChildren = /((\d+) (\w+ \w+) bags?)/g
 
 const tree = new TreeModel()
-
-const parseTree = (bagChildren, parentNode, nodeName, count) => {
-    let node
-    for(var i = 0; i < count; i++) {
-        node = tree.parse({name: nodeName, count: count, children: []})
-        const children = bagChildren[nodeName]
-        if (children) {
-            for (const child in children) {
-                parseTree(bagChildren, node, child, children[child])
-            }
-        }
-        parentNode.all(pn => pn.model.name === parentNode.model.name).forEach(pn => pn.addChild(node))
-    }
-    return node
-}
 
 /**
  * Create a TreeModel of all bags
