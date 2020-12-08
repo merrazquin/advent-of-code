@@ -8,20 +8,16 @@ const childBagRule = /^(\w+ \w+) bags contain no other bags\.$/
 const parentBagRule = /^(\w+ \w+) bags contain .*$/
 const findChildren = /((\d+) (\w+ \w+) bags?)/g
 
-const bagParents = {}
-const bagChildren = {}
-
 const tree = new TreeModel()
-let bagTree
 
-const parseTree = (parentNode, nodeName, count) => {
+const parseTree = (bagChildren, parentNode, nodeName, count) => {
   let node
   for(var i = 0; i < count; i++) {
     node = tree.parse({name: nodeName, count: count, children: []})
     const children = bagChildren[nodeName]
     if (children) {
       for (const child in children) {
-        parseTree(node, child, children[child])
+        parseTree(bagChildren, node, child, children[child])
       }
     }
     parentNode.all(pn => pn.model.name === parentNode.model.name).forEach(pn => pn.addChild(node))
@@ -30,7 +26,9 @@ const parseTree = (parentNode, nodeName, count) => {
     return node
   }
 }
-const processData = input => {
+
+const createBagTree = input => {
+  const bagChildren = {}
   input.split('\n')
     .forEach(rule => {
       let childMatch = rule.match(childBagRule)
@@ -46,6 +44,25 @@ const processData = input => {
           let childKey = child[3].replace(' ', '_')
           let bagCount = parseInt(child[2])
           bagChildren[key][childKey] = bagCount
+        }
+      }
+    })
+
+  // start with shiny gold
+  const bagTree = tree.parse({ name: 'root', count: 1, children: [] })
+  return parseTree(bagChildren, bagTree, 'shiny_gold', 1)
+}
+const getBagParents = input => {
+  const bagParents = {}
+  input.split('\n')
+    .forEach(rule => {
+      let childMatch = rule.match(childBagRule)
+      if (!childMatch) {
+        let [parentBag] = rule.match(parentBagRule).slice(1)
+        let key = parentBag.replace(' ', '_')
+        let children = rule.matchAll(findChildren)
+        for (let child of children) {
+          let childKey = child[3].replace(' ', '_')
           if (!bagParents[childKey]) {
             bagParents[childKey] = new Set()
           }
@@ -54,18 +71,15 @@ const processData = input => {
       }
     })
 
-  // start with shiny gold
-  bagTree = tree.parse({ name: 'root', count: 1, children: [] })
-  bagTree = parseTree(bagTree, 'shiny_gold', 1)
-  return bagTree
+  return bagParents
 }
 
-const findParents = bagType => {
+const findParents = (bagParents, bagType) => {
   let possibleParents = bagParents[bagType]
   if (possibleParents) {
     let otherParents = new Set([...possibleParents])
     possibleParents.forEach(parent => {
-      let op = findParents(parent)
+      let op = findParents(bagParents, parent)
       if (op) {
         otherParents = new Set([...otherParents, ...op])
       }
@@ -77,30 +91,33 @@ const findParents = bagType => {
   }
 }
 
-const findBagCount = (bagType) => {
+/**
+ * Find the total number of bags contained withtin the given bag
+ * @param {TreeModel.Node<T>} bagTree 
+ * @param {string} bagType 
+ */
+const findBagCount = (bagTree, bagType) => {
   let rootBag = bagTree.first(node => node.model.name == bagType)
   if (!rootBag.hasChildren()) {
     return 1
   }
-  return rootBag.all().length - 1
+  return rootBag.all(node => node != rootBag).length
 }
 
 // Part 1
 // ======
 const part1 = input => {
-  processData(input)
-  return findParents(bagInQuestion).size
+  return findParents(getBagParents(input), bagInQuestion).size
 }
 
 // Part 2
 // ======
 
 const part2 = input => {
-  processData(input)
-  return findBagCount('shiny_gold')
+  return findBagCount(createBagTree(input), 'shiny_gold')
 }
 
-module.exports = { part1, part2, processData, findBagCount }
+module.exports = { part1, part2, processData: getBagParents, createBagTree, findBagCount }
 
 // 7:15 AM start
 // 8:11 AM passing unit test for part 1
