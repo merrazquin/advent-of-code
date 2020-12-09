@@ -7,16 +7,16 @@ RRDDD
 LURDL
 UUUUD
 `
-describe.only('Day 2: Bathroom Security', () => {
+describe('Day 2: Bathroom Security', () => {
     describe('Part One', () => {
         it('should return the correct code', () => {
             assert.strictEqual(part1(instructions), '1985')
         })
     })
 
-    describe.skip('Part Two', () => {
-        it('', () => {
-            // assert.strictEqual(part2(instructions), )
+    describe('Part Two', () => {
+        it('shoudl return the correct code', () => {
+            assert.strictEqual(part2(instructions), '5DB3')
         })
     })
 })
