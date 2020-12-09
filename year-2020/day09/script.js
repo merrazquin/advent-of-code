@@ -34,6 +34,7 @@ const part2 = (input, preambleSize = 25) => {
     const xmas = input.split('\n').map(num => parseInt(num))
     for (let index = 0; index < xmas.length; index++) {
         const num = xmas[index]
+        // kudos to Matt for spotting my bug (this was an `if`)!
         while (tally > target) {
             tally -= nums.shift()
         }
