@@ -14,8 +14,8 @@ const part1 = input => {
 // Part 2
 // ======
 
-const part2 = input => {
+const part2 = () => 'NOT IMPLEMENTED' /*input => {
     
-}
+}*/
 
 module.exports = { part1, part2, validTriangle }
