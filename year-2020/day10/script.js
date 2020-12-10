@@ -32,20 +32,26 @@ const findPathsForAdapter = (adapter, paths) => {
         }
     }
     paths[adapter] = possiblePaths
-    // console.log('possible paths for', adapter, possiblePaths)
-    return paths
 }
 
 const part2 = input => {
     // start on the high end
     const adapters = input.split('\n').map(num => parseInt(num)).sort((a, b) => b - a)
+    
+    // add the start & end points (0) and (highest adapter + 3)
     adapters.unshift(adapters[0] + 3)
     adapters.push(0)
+
+    // prime the paths with 1 for highest adapter
     let paths = {}
     paths[adapters[0]] = 1
+
+    // calculate paths
     for (var i = 1; i < adapters.length; i++) {
-        paths = findPathsForAdapter(adapters[i], paths)
+        findPathsForAdapter(adapters[i], paths)
     }
+
+    // return possible paths for (0)
     return paths[adapters[adapters.length-1]]
 }
 
