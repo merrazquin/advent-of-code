@@ -1,6 +1,6 @@
 'use strict'
 
-const { rotatePointAroundAxisClockwise, rotatePointAroundAxisCounterClockwise } = require('../../utils')
+const { rotatePointAroundAxisClockwise, rotatePointAroundAxisCounterClockwise, cardinalRotateRight, cardinalRotateLeft, cardinalMove } = require('../../utils')
 
 // Setup
 const preprocessing = input => {
@@ -18,52 +18,20 @@ const preprocessing = input => {
 const part1 = input => {
     let x = 0, y = 0
     let currDirection = 'E'
-    const directions = ['E', 'S', 'W', 'N']
     preprocessing(input).forEach(instruction => {
         const { direction, paces } = instruction
-        if (direction == 'R') {
-            const curInd = directions.indexOf(currDirection)
-            const newInd = (curInd + (paces / 90)) % directions.length
-            currDirection = directions[newInd]
-            return
-        }
-        if (direction == 'L') {
-            const curInd = directions.indexOf(currDirection)
-            let newInd = (curInd - (paces / 90)) % directions.length
-            if (newInd < 0) newInd = directions.length + newInd
-            currDirection = directions[newInd]
-            return
-        }
-        if (direction == 'F') {
-            switch (currDirection) {
-            case 'E':
-                x += paces
-                break
-            case 'W':
-                x -= paces
-                break
-            case 'N':
-                y -= paces
-                break
-            case 'S':
-                y += paces
-                break
-            }
-            return
-        }
         switch (direction) {
-        case 'E':
-            x += paces
+        case 'R':
+            currDirection = cardinalRotateRight(currDirection, paces / 90)
             break
-        case 'W':
-            x -= paces
+        case 'L':
+            currDirection = cardinalRotateLeft(currDirection, paces / 90)
             break
-        case 'N':
-            y -= paces
+        case 'F':
+            ({ x, y } = cardinalMove({ x, y }, currDirection, paces))
             break
-        case 'S':
-            y += paces
-            break
+        default:
+            ({ x, y } = cardinalMove({ x, y }, direction, paces))
         }
     })
 
