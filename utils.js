@@ -24,8 +24,8 @@ const tree = new TreeModel()
  */
 const parseTree = (data, parentNode, name, count) => {
     let node
-    for(var i = 0; i < count; i++) {
-        node = tree.parse({name, count, children: []})
+    for (var i = 0; i < count; i++) {
+        node = tree.parse({ name, count, children: [] })
         const children = data[name]
         if (children) {
             for (const child in children) {
@@ -69,8 +69,8 @@ const rotatePointAroundAxisCounterClockwise = (point, axis, degrees) => {
     let rotated = offsets
     while (degrees > 0) {
         rotated = {
-            x: offsets.y ,
-            y: offsets.x* -1
+            x: offsets.y,
+            y: offsets.x * -1
         }
         offsets = rotated
         degrees -= 90
@@ -110,4 +110,72 @@ const rotatePointAroundAxisClockwise = (point, axis, degrees) => {
     }
     return newPoint
 }
-module.exports = { parseTree, rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise }
+
+const cardinalDirections = {
+    E: 0,
+    S: 1,
+    W: 2,
+    N: 3
+}
+
+const getCardinalDirection = direction => Object.keys(cardinalDirections).find(key => cardinalDirections[key] === direction)
+
+/**
+ * Rotate `direction` by `units` 
+ * @param {string} direction (N, S, E, W)
+ * @param {Number} units integer
+ */
+const cardinalRotate = (direction, units) => {
+    if (parseInt(units) !== units) {
+        throw new Error(`Expected integer for 'units', ${units} provided`)
+    }
+    const dirVal = cardinalDirections[direction]
+    if (dirVal == undefined) {
+        throw new Error(`Expected N, S, E, or W for 'direction', ${direction} provided`)
+    }
+
+    let newInd = (dirVal + units) % 4
+    if (newInd < 0) {
+        newInd += 4
+    }
+
+    return getCardinalDirection(newInd)
+}
+
+/**
+ * Rotate `direction` left by `units` (counter-clockwise)
+ * @param {string} direction (N, S, E, W)
+ * @param {Number} units integer
+ */
+const cardinalRotateLeft = (direction, units) => {
+    return cardinalRotate(direction, units * -1)
+}
+/**
+ * Rotate `direction` right by `units` (clockwise)
+ * @param {string} direction (N, S, E, W)
+ * @param {Number} units integer
+ */
+const cardinalRotateRight = (direction, units) => {
+    return cardinalRotate(direction, units)
+}
+
+const cardinalMove = (origin, direction, paces) => {
+    let { x, y } = origin
+    switch (direction) {
+    case 'E':
+        x += paces
+        break
+    case 'W':
+        x -= paces
+        break
+    case 'N':
+        y -= paces
+        break
+    case 'S':
+        y += paces
+        break
+    }
+    return { x, y }
+}
+
+module.exports = { parseTree, rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, cardinalMove }

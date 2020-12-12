@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise} = require('./utils')
+const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight} = require('./utils')
 
 const TreeModel = require('tree-model')
 const tree = new TreeModel()
@@ -84,6 +84,36 @@ describe('Utils', () => {
         })
         it('should rotate a point clockwise around a give axis (origin point)', () => {
             assert.deepStrictEqual(rotatePointAroundAxisClockwise({x: 5, y: -6}, {x: 2, y: -1}, 90), {x: 7, y: 2})
+        })
+    })
+
+    describe('cardinalRotateLeft', () => {
+        it('should throw an error if units are not given as an integer', () => {
+            assert.throws(() => {cardinalRotateLeft('E', 1.25)}, Error)
+        })
+        it('should throw an error if direction is unrecognized', () => {
+            assert.throws(() => {cardinalRotateLeft('P', 1)}, Error)
+        })
+        it('should give the new direction of a given direction rotated a specified number of times left (counter-clockwise)', () => {
+            assert.strictEqual(cardinalRotateLeft('N', 1), 'W')
+            assert.strictEqual(cardinalRotateLeft('E', 3), 'S')
+            assert.strictEqual(cardinalRotateLeft('S', 2), 'N')
+            assert.strictEqual(cardinalRotateLeft('S', -1), 'W')
+        })
+    })
+
+    describe('cardinalRotateRight', () => {
+        it('should throw an error if units are not given as an integer', () => {
+            assert.throws(() => {cardinalRotateRight('E', 1.25)}, Error)
+        })
+        it('should throw an error if direction is unrecognized', () => {
+            assert.throws(() => {cardinalRotateRight('P', 1)}, Error)
+        })
+        it('should give the new direction of a given direction rotate a specified number of times right (clockwise)', () => {
+            assert.strictEqual(cardinalRotateRight('N', 1), 'E')
+            assert.strictEqual(cardinalRotateRight('E', 3), 'N')
+            assert.strictEqual(cardinalRotateRight('S', 2), 'N')
+            assert.strictEqual(cardinalRotateRight('S', -1), 'E')
         })
     })
 })
