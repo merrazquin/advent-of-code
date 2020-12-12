@@ -19,8 +19,8 @@ const tree = new TreeModel()
  * into a tree
  * @param {*} data 
  * @param {*} parentNode - node's parent
- * @param {*} name - node label
- * @param {number} count - number of times this node should be added to parents
+ * @param {string} name - node label
+ * @param {Number} count - number of times this node should be added to parents
  */
 const parseTree = (data, parentNode, name, count) => {
     let node
@@ -39,4 +39,75 @@ const parseTree = (data, parentNode, name, count) => {
     }
     return node
 }
-module.exports = { parseTree }
+
+/**
+ * Vector difference
+ * @param {{x:Number, y:Number}} pointA 
+ * @param {{x:Number, y:Number}} pointB 
+ * @returns {{x:Number, y:Number}} pointB - pointA
+ */
+const vectorDifference = (pointA, pointB) => {
+    return {
+        x: pointB.x - pointA.x,
+        y: pointB.y - pointA.y
+    }
+}
+
+/**
+ * Rotates `point` around `axis` `degrees` counter-clockwise (in 90-degree increments)
+ * Assumes "north" is negative
+ * @param {{x: Number, y:Number}}  point 
+ * @param {{x: Number, y:Number}}  axis 
+ * @param {Number} degrees 
+ * @returns {{x: Number, y:Number}} rotated point
+ */
+const rotatePointAroundAxisCounterClockwise = (point, axis, degrees) => {
+    if (degrees % 90 != 0) {
+        throw new Error(`${degrees} must be a multiple of 90`)
+    }
+    let offsets = vectorDifference(axis, point)
+    let rotated = offsets
+    while (degrees > 0) {
+        rotated = {
+            x: offsets.y ,
+            y: offsets.x* -1
+        }
+        offsets = rotated
+        degrees -= 90
+    }
+    const newPoint = {
+        x: axis.x + rotated.x,
+        y: axis.y + rotated.y
+    }
+    return newPoint
+}
+
+/**
+ * Rotates `point` around `axis` `degrees` clockwise (in 90-degree increments)
+ * Assumes "north" is negative
+ * @param {{x: Number, y:Number}}  point 
+ * @param {{x: Number, y:Number}}  axis 
+ * @param {Number} degrees 
+ * @returns {{x: Number, y:Number}} rotated point
+ */
+const rotatePointAroundAxisClockwise = (point, axis, degrees) => {
+    if (degrees % 90 != 0) {
+        throw new Error(`${degrees} must be a multiple of 90`)
+    }
+    let offsets = vectorDifference(axis, point)
+    let rotated = offsets
+    while (degrees > 0) {
+        rotated = {
+            x: offsets.y * -1,
+            y: offsets.x
+        }
+        offsets = rotated
+        degrees -= 90
+    }
+    const newPoint = {
+        x: rotated.x + axis.x,
+        y: rotated.y + axis.y
+    }
+    return newPoint
+}
+module.exports = { parseTree, rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise }
