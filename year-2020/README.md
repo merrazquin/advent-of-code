@@ -23,7 +23,7 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 - [Day 9: Encoding Error](day09/)
 - [Day 10: Adapter Array](day10/)
 - [Day 11: Seating System](day11/)
-- [Day 12: TBD](day12/)
+- [Day 12: Rain Risk](day12/)
 - [Day 13: TBD](day13/)
 - [Day 14: TBD](day14/)
 - [Day 15: TBD](day15/)

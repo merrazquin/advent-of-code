@@ -24,30 +24,17 @@ W
 -1, -5
 */
 
-const input3 =
-`F10
-N3
-F7
-L90
-F11`
-
-const input4 =
-`R90
-R90
-R90
-R90`
-describe('Day 12: An Alliteration', () => {
-    describe.skip('Part One', () => {
-        it('should return the correct answer for part 1', () => {
+describe('Day 12: Rain Risk', () => {
+    describe('Part One', () => {
+        it('should return the Manhattan distance of the ship\'s current position to it\'s starting position', () => {
             assert.strictEqual(part1(input), 25)
             assert.strictEqual(part1(input2), 6)
         })
     })
 
     describe('Part Two', () => {
-        it('should return the correct answer for part 2', () => {
-            // assert.strictEqual(part2(input), 286)
-            assert.strictEqual(part2(input4), 11)
+        it('should return the Manhattan distance of the ship\'s current position to it\'s starting position when using a waypoint', () => {
+            assert.strictEqual(part2(input), 286)
         })
     })
 })
@@ -56,3 +43,6 @@ describe('Day 12: An Alliteration', () => {
 // 1:48am 409934 too high for p2
 // 1:50am 327542 too high
 // 2:20am 120846 too high
+// 6:50am start rotation refactor
+// 7:11am rotation util complete
+// 7:47am p2
