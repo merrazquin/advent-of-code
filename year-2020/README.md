@@ -24,7 +24,7 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 - [Day 10: Adapter Array](day10/)
 - [Day 11: Seating System](day11/)
 - [Day 12: Rain Risk](day12/)
-- [Day 13: TBD](day13/)
+- [Day 13: Shuttle Search](day13/)
 - [Day 14: TBD](day14/)
 - [Day 15: TBD](day15/)
 - [Day 16: TBD](day16/)
