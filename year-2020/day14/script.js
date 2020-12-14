@@ -93,7 +93,25 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-    return preprocessing(input)
+    const memory = {}
+    let mask = ''
+    preprocessing(input).forEach(instructionSet => {
+        const { instruction, position, value } = instructionSet
+
+        if (instruction === 'mask') {
+            mask = value
+        } else {
+            findAllAddresses(applyUpdatedMask(position, mask)).forEach(address => {
+                memory[parseInt(address, 2)] = parseInt(value)
+            });
+        }
+    })
+
+    let sum = 0
+    for (const position in memory) {
+        sum += memory[position]
+    }
+    return sum
 }
 
 module.exports = { part1, part2, applyMask, applyUpdatedMask, findAllAddresses, makePermutations }

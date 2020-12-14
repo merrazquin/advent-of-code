@@ -32,7 +32,7 @@ describe('Day 14: Docking Data', () => {
             assert.strictEqual(addresses.includes('000000000000000000000000000000011001'), true)
         })
     })
-    describe.skip('Part Two', () => {
+    describe('Part Two', () => {
         it('should return the sum of all values left in memory after the program completes', () => {
             assert.strictEqual(part2(initProgram2), 208)
         })
