@@ -49,28 +49,14 @@ const distances = (ship, waypoint) => {
 const part2 = input => {
     let shipX = 0, shipY = 0, waypointX = 10, waypointY = -1
     let currDirection = 'E'
-    const directions = ['E', 'S', 'W', 'N']
     input = preprocessing(input)
     input.forEach(instruction => {
         let { direction, paces } = instruction
-        if (direction == 'R' || direction == 'L') {
-            const curInd = directions.indexOf(currDirection)
-            let newInd
-            if (direction == 'R') {
-                newInd = (curInd + (paces / 90)) % directions.length
-            } else {
-                newInd = (curInd - (paces / 90)) % directions.length
-                if (newInd < 0) newInd = directions.length + newInd
-            }
-            currDirection = directions[newInd]
-            let newWaypoint
-            if (direction == 'R') {
-                newWaypoint = rotatePointAroundAxisClockwise({ x: waypointX, y: waypointY }, { x: shipX, y: shipY }, paces)
-            } else {
-                newWaypoint = rotatePointAroundAxisCounterClockwise({ x: waypointX, y: waypointY }, { x: shipX, y: shipY }, paces)
-            }
+        if (direction == 'R') {
+            const newWaypoint = rotatePointAroundAxisClockwise({x: waypointX, y:waypointY}, {x: shipX, y: shipY}, paces)
             waypointX = newWaypoint.x
             waypointY = newWaypoint.y
+            currDirection = cardinalRotateRight(currDirection, paces / 90)
             return
         }
 
@@ -84,20 +70,9 @@ const part2 = input => {
             return
         }
 
-        switch (direction) {
-        case 'E':
-            waypointX += paces
-            break
-        case 'W':
-            waypointX -= paces
-            break
-        case 'N':
-            waypointY -= paces
-            break
-        case 'S':
-            waypointY += paces
-            break
-        }
+        const newWaypoint = cardinalMove({x: waypointX, y: waypointY}, direction, paces)
+        waypointX = newWaypoint.x
+        waypointY = newWaypoint.y
     })
     return Math.abs(shipX) + Math.abs(shipY)
 }
