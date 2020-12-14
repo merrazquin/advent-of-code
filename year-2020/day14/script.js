@@ -103,7 +103,7 @@ const part2 = input => {
         } else {
             findAllAddresses(applyUpdatedMask(position, mask)).forEach(address => {
                 memory[parseInt(address, 2)] = parseInt(value)
-            });
+            })
         }
     })
 

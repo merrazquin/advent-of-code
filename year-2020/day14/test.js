@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { part1, part2, applyUpdatedMask, findAllAddresses, makePermutations } = require('./script')
+const { part1, part2, applyUpdatedMask, findAllAddresses } = require('./script')
 
 const initProgram = 
 `mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
