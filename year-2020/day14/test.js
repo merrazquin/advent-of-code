@@ -2,7 +2,10 @@ const assert = require('assert')
 const { part1, part2 } = require('./script')
 
 const initProgram = 
-``
+`mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
+mem[8] = 11
+mem[7] = 101
+mem[8] = 0`
 
 describe('Day 14: Docking Data', () => {
     describe('Part One', () => {
@@ -11,7 +14,7 @@ describe('Day 14: Docking Data', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe.skip('Part Two', () => {
         it('', () => {
             assert.strictEqual(part2(initProgram), 165)
         })
