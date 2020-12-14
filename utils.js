@@ -159,6 +159,12 @@ const cardinalRotateRight = (direction, units) => {
     return cardinalRotate(direction, units)
 }
 
+/**
+ * Move a point `paces` in `direction`
+ * @param {{x:Number, y:Number}} origin 
+ * @param {string} direction (N, S, E, W)
+ * @param {Number} paces 
+ */
 const cardinalMove = (origin, direction, paces) => {
     let { x, y } = origin
     switch (direction) {
@@ -178,4 +184,39 @@ const cardinalMove = (origin, direction, paces) => {
     return { x, y }
 }
 
-module.exports = { parseTree, rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, cardinalMove }
+/**
+ * Greatest common denominator
+ * https://www.w3resource.com/javascript-exercises/javascript-math-exercise-10.php
+ * @param {Number} x 
+ * @param {Number} y 
+ */
+const gcd = (x, y) => {
+    if ((typeof x !== 'number') || (typeof y !== 'number')) {
+        throw new Error(`Expected numbers, '${x}' and '${y}' provided`)
+    }
+
+    x = Math.abs(x)
+    y = Math.abs(y)
+    while (y) {
+        const tempSwap = y
+        y = x % y
+        x = tempSwap
+    }
+    return x
+}
+
+/**
+ * Least common multiple
+ * https://www.w3resource.com/javascript-exercises/javascript-math-exercise-10.php
+ * @param {Number} x 
+ * @param {Number} y 
+ */
+const lcm = (x, y) => {
+    if ((typeof x !== 'number') || (typeof y !== 'number')) {
+        throw new Error(`Expected numbers, '${x}' and '${y}' provided`)
+    }
+    return (x * y) / gcd(x, y)
+}
+
+
+module.exports = { parseTree, rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, cardinalMove, lcm, gcd }
