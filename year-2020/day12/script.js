@@ -60,6 +60,14 @@ const part2 = input => {
             return
         }
 
+        if (direction == 'L') {
+            const newWaypoint = rotatePointAroundAxisCounterClockwise({x: waypointX, y:waypointY}, {x: shipX, y: shipY}, paces)
+            waypointX = newWaypoint.x
+            waypointY = newWaypoint.y
+            currDirection = cardinalRotateLeft(currDirection, paces / 90)
+            return
+        }
+
         if (direction == 'F') {
             const waypointMultipliers = distances({ x: shipX, y: shipY }, { x: waypointX, y: waypointY })
             const wpDiffX = waypointX - shipX, wpDiffY = waypointY - shipY
