@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight} = require('./utils')
+const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm} = require('./utils')
 
 const TreeModel = require('tree-model')
 const tree = new TreeModel()
@@ -114,6 +114,26 @@ describe('Utils', () => {
             assert.strictEqual(cardinalRotateRight('E', 3), 'N')
             assert.strictEqual(cardinalRotateRight('S', 2), 'N')
             assert.strictEqual(cardinalRotateRight('S', -1), 'E')
+        })
+    })
+
+    describe('gcd', () => {
+        it('should throw an error if either argument is not a number', () => {
+            assert.throws(() => {gcd(15, 'y')}, Error)
+            assert.throws(() => {gcd('x', 3)}, Error)
+        })
+        it('should return the greatest common denominator of two numbers', () => {
+            assert.strictEqual(gcd(8, 12), 4)
+        })
+    })
+
+    describe('lcm', () => {
+        it('should throw an error if either argument is not a number', () => {
+            assert.throws(() => {lcm(15, 'y')}, Error)
+            assert.throws(() => {lcm('x', 3)}, Error)
+        })
+        it('should return the least common multiple of two numbers', () => {
+            assert.strictEqual(lcm(3, 5), 15)
         })
     })
 })

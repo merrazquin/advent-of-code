@@ -14,7 +14,9 @@ N15
 S10
 E5
 R90
-W6`
+W6
+F2`
+
 /*
 S
 0, -15
@@ -22,19 +24,21 @@ S
 5, -5
 W
 -1, -5
+-3, -5
 */
 
 describe('Day 12: Rain Risk', () => {
     describe('Part One', () => {
         it('should return the Manhattan distance of the ship\'s current position to it\'s starting position', () => {
             assert.strictEqual(part1(input), 25)
-            assert.strictEqual(part1(input2), 6)
+            assert.strictEqual(part1(input2), 8)
         })
     })
 
     describe('Part Two', () => {
         it('should return the Manhattan distance of the ship\'s current position to it\'s starting position when using a waypoint', () => {
             assert.strictEqual(part2(input), 286)
+            assert.strictEqual(part2(input2), 34)
         })
     })
 })
