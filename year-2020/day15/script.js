@@ -17,7 +17,7 @@ const part1 = (input, targetRound = 2020) => {
         numbersSpoken[num] = [round]
         lastNumberSpoken = num
         round++
-    });
+    })
     while (round <= targetRound) {
         if (!numbersSpoken[lastNumberSpoken] || numbersSpoken[lastNumberSpoken].length === 1) {
             lastNumberSpoken = 0
@@ -51,7 +51,7 @@ const part2 = (input, targetRound = 30000000) => {
         }
         lastNumberSpoken = num
         round++
-    });
+    })
     while (round <= targetRound) {
         // was last number spoken never once spoken before?
         let nextNum
