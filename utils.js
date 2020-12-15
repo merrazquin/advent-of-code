@@ -254,8 +254,25 @@ const getAllPermutations = (baseString, char, options) => {
     return addresses
 }
 
+const sumAll = collection => {
+    if (typeof collection !== 'object') {
+        throw new Error(`Expected object, ${typeof collection} provided`)
+    }
+    let array = collection
+    if (!Object.hasOwnProperty.call(collection, 'length')) {
+        // not an array, try to get the values
+        array = Object.values(collection)
+    }
+
+    if (array.some((val) => isNaN(val))) {
+        throw new Error('Expected numeric data')
+    }
+    return array.reduce((sum, val) => sum + val, 0)
+}
+
 
 module.exports = { 
+    sumAll,
     parseTree,
     rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise,
     cardinalRotateLeft, cardinalRotateRight, cardinalMove,

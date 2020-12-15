@@ -1,6 +1,6 @@
 'use strict'
 
-const { getAllPermutations } = require('../../utils')
+const { getAllPermutations, sumAll } = require('../../utils')
 
 // Setup
 // TODO write instruction parsing util
@@ -61,11 +61,7 @@ const part1 = input => {
         }
     })
 
-    let sum = 0
-    for (const position in memory) {
-        sum += memory[position]
-    }
-    return sum
+    return sumAll(memory)
 }
 
 // Part 2
@@ -86,11 +82,7 @@ const part2 = input => {
         }
     })
 
-    let sum = 0
-    for (const position in memory) {
-        sum += memory[position]
-    }
-    return sum
+    return sumAll(memory)
 }
 
 module.exports = { part1, part2, applyMask, applyUpdatedMask }
