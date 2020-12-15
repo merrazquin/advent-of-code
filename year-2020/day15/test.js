@@ -10,7 +10,7 @@ describe('Day 15: Rambunctious Recitation', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe.skip('Part Two', () => {
         it('', () => {
             assert.strictEqual(part2(input), true)
         })
