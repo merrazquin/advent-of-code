@@ -44,14 +44,17 @@ const part2 = (input, targetRound = 30000000) => {
     input = preprocessing(input)
     const ultimate = new Array(targetRound)
     const penultimate = new Array(targetRound)
-
+    for(var i = 0; i < targetRound; i++) {
+        ultimate[i] = -1
+        penultimate[i] = -1
+    }
     input.forEach((element, index) => {
         ultimate[element] = index + 1
     })
     let lastNumberSpoken = input[input.length - 1]
     let round = input.length + 1
     while (round <= targetRound) {
-        if (!penultimate[lastNumberSpoken]) {
+        if (penultimate[lastNumberSpoken] == -1) {
             lastNumberSpoken = 0
         } else {
             lastNumberSpoken = ultimate[lastNumberSpoken] - penultimate[lastNumberSpoken]
