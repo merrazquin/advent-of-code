@@ -16,11 +16,10 @@ describe('Day 15: Rambunctious Recitation', () => {
 
     describe('Part Two', () => {
         it('should provide what the 30000000th number spoken would be', () => {
-            assert.strictEqual(part2('0,3,6', 2020), 436)
             assert.strictEqual(part2('3,1,2', 2020), 1836)
+            assert.strictEqual(part2('0,3,6'), 175594)
             
-            // These would take wayyyyyy too long
-            // assert.strictEqual(part2('0,3,6'), 175594)
+            // these would take wayyyyyy too long
             // assert.strictEqual(part2('1,3,2'), 2578)
             // assert.strictEqual(part2('2,1,3'), 3544142)
             // assert.strictEqual(part2('1,2,3'), 261214)
