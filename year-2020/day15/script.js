@@ -13,7 +13,7 @@ const part1 = (input, targetRound = 2020) => {
     const numbersSpoken = {}
     let round = 1
     let lastNumberSpoken
-    preprocessing(input).forEach((num, index) => {
+    preprocessing(input).forEach(num => {
         numbersSpoken[num] = [round]
         lastNumberSpoken = num
         round++
@@ -40,8 +40,45 @@ const part1 = (input, targetRound = 2020) => {
 // Part 2
 // ======
 
-const part2 = input => {
-    return preprocessing(input)
+const part2 = (input, targetRound = 30000000) => {
+    const numbersSpoken = {}
+    let round = 1
+    let lastNumberSpoken
+    preprocessing(input).forEach(num => {
+        numbersSpoken[num] = {
+            ultimate: round,
+            penultimate: -1
+        }
+        lastNumberSpoken = num
+        round++
+    });
+    while (round <= targetRound) {
+        // was last number spoken never once spoken before?
+        let nextNum
+        if (!numbersSpoken[lastNumberSpoken]) {
+            nextNum = 0
+        } else {
+            const {ultimate, penultimate} = numbersSpoken[lastNumberSpoken]
+            if(penultimate != -1) {
+                nextNum = ultimate - penultimate
+            } else {
+                nextNum = 0
+            }
+        }
+
+        if (!numbersSpoken[nextNum]) {
+            numbersSpoken[nextNum] = {
+                ultimate: round,
+                penultimate: -1
+            }
+        } else {
+            numbersSpoken[nextNum].penultimate = numbersSpoken[nextNum].ultimate
+            numbersSpoken[nextNum].ultimate = round
+        }
+        lastNumberSpoken = nextNum
+        round++
+    }
+    return lastNumberSpoken
 }
 
 module.exports = { part1, part2 }
