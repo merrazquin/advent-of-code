@@ -26,7 +26,7 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 - [Day 12: Rain Risk](day12/)
 - [Day 13: Shuttle Search](day13/)
 - [Day 14: Docking Data](day14/)
-- [Day 15: TBD](day15/)
+- [Day 15: Rambunctious Recitation](day15/)
 - [Day 16: TBD](day16/)
 - [Day 17: TBD](day17/)
 - [Day 18: TBD](day18/)
