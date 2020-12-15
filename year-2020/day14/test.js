@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { part1, part2, applyUpdatedMask, findAllAddresses } = require('./script')
+const { part1, part2, applyUpdatedMask } = require('./script')
 
 const initProgram = 
 `mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
@@ -23,13 +23,6 @@ describe('Day 14: Docking Data', () => {
     describe('applyUpdatedMask', () => {
         it('should apply part2 rules to a memory address', () => {
             assert.strictEqual(applyUpdatedMask(42, '000000000000000000000000000000X1001X'), '000000000000000000000000000000X1101X')
-        })
-    })
-    describe('findAllAddresses', () => {
-        it('should find all addresses of a mask', () => {
-            const addresses = findAllAddresses('00000000000000000000000000000001X0XX') 
-            assert.strictEqual(addresses.length, 8)
-            assert.strictEqual(addresses.includes('000000000000000000000000000000011001'), true)
         })
     })
     describe('Part Two', () => {

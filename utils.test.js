@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm} = require('./utils')
+const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm, getAllPermutations, getPermutations} = require('./utils')
 
 const TreeModel = require('tree-model')
 const tree = new TreeModel()
@@ -134,6 +134,22 @@ describe('Utils', () => {
         })
         it('should return the least common multiple of two numbers', () => {
             assert.strictEqual(lcm(3, 5), 15)
+        })
+    })
+
+    describe('getPermutations', () => {
+        it('should find a set permutations of a string given a point of inflextion and replacement options', () => {
+            const permutations = getPermutations('cat', 0, ['b', 'c', 'e', 'be'])
+            assert.strictEqual(permutations.length, 4)
+            assert.strictEqual(permutations.includes('eat'), true)
+        })
+    })
+
+    describe('getAllPermutations', () => {
+        it('should find all permutations of a string given a replacement character and its replacement options', () => {
+            const permutations = getAllPermutations('00000000000000000000000000000001X0XX', 'X', [0, 1]) 
+            assert.strictEqual(permutations.length, 8)
+            assert.strictEqual(permutations.includes('000000000000000000000000000000011001'), true)
         })
     })
 })

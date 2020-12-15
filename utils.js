@@ -218,5 +218,47 @@ const lcm = (x, y) => {
     return (x * y) / gcd(x, y)
 }
 
+/**
+ * Get all permutations of a string if a single character were to change
+ * @param {string} baseString 
+ * @param {Number} position position at which to start permutations
+ * @param {[*]} options array of characters with which to fill character at position
+ */
+const getPermutations = (baseString, index, options) => {
+    const permutation = baseString.split('')
+    const permutations = []
+    options.forEach(option => {
+        permutation[index] = option.toString()
+        permutations.push(permutation.join(''))
+    })
+    return permutations
+}
 
-module.exports = { parseTree, rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, cardinalMove, lcm, gcd }
+/**
+ * Get all permutations of a string if each instance of `char` were to change
+ * @param {string} baseString 
+ * @param {string} char character in string which should be the point of permutations
+ * @param {[*]} options array of characters with which to fill character at position
+ */
+const getAllPermutations = (baseString, char, options) => {
+    let addresses = [baseString]
+    let currIndex = addresses.findIndex(mask => mask.indexOf(char) != -1)
+    while (currIndex != -1) {
+        let newPerms = getPermutations(addresses[currIndex], addresses[currIndex].indexOf(char), options)
+        addresses.splice(currIndex, 1)
+        if (newPerms.length) {
+            addresses.push(...newPerms)
+        }
+        currIndex = addresses.findIndex(mask => mask.indexOf(char) != -1)
+    }
+    return addresses
+}
+
+
+module.exports = { 
+    parseTree,
+    rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise,
+    cardinalRotateLeft, cardinalRotateRight, cardinalMove,
+    lcm, gcd,
+    getPermutations, getAllPermutations
+}

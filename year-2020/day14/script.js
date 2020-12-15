@@ -1,5 +1,7 @@
 'use strict'
 
+const { getAllPermutations } = require('../../utils')
+
 // Setup
 // TODO write instruction parsing util
 const preprocessing = input => {
@@ -46,29 +48,6 @@ const applyUpdatedMask = (value, mask) => {
     return maskedValue.join('')
 }
 
-
-const makePermutations = (mask) => {
-    const index = mask.indexOf('X')
-    const permutations = [
-        mask.split('').slice(0, index).join('') + '0' + mask.split('').slice(index + 1).join(''),
-        mask.split('').slice(0, index).join('') + '1' + mask.split('').slice(index + 1).join('')
-    ]
-    return permutations
-}
-
-const findAllAddresses = (originalMask) => {
-    let addresses = [originalMask]
-    let currIndex = addresses.findIndex(mask => mask.indexOf('X') != -1)
-    while (currIndex != -1) {
-        let newPerms = makePermutations(addresses[currIndex])
-        addresses.splice(currIndex, 1)
-        if (newPerms.length) {
-            addresses.push(...newPerms)
-        }
-        currIndex = addresses.findIndex(mask => mask.indexOf('X') != -1)
-    }
-    return addresses
-}
 const part1 = input => {
     const memory = {}
     let mask = ''
@@ -93,7 +72,7 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-    const memory = {}
+    const memory = {}, options = [0, 1]
     let mask = ''
     preprocessing(input).forEach(instructionSet => {
         const { instruction, position, value } = instructionSet
@@ -101,7 +80,7 @@ const part2 = input => {
         if (instruction === 'mask') {
             mask = value
         } else {
-            findAllAddresses(applyUpdatedMask(position, mask)).forEach(address => {
+            getAllPermutations(applyUpdatedMask(position, mask), 'X', options).forEach(address => {
                 memory[parseInt(address, 2)] = parseInt(value)
             })
         }
@@ -114,4 +93,4 @@ const part2 = input => {
     return sum
 }
 
-module.exports = { part1, part2, applyMask, applyUpdatedMask, findAllAddresses, makePermutations }
+module.exports = { part1, part2, applyMask, applyUpdatedMask }
