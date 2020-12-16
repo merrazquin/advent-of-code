@@ -66,4 +66,37 @@ const part2 = (input, targetRound = 30000000) => {
     return lastNumberSpoken
 }
 
-module.exports = { part1, part2 }
+const part2Matt = (input, targetRound = 30000000) => {
+    input = preprocessing(input)
+    let t = 0
+    let spoken = input[input.length - 1]
+    let prev_spoken
+    let map = new Array(targetRound)
+    for(var i = 0; i < targetRound; i++) {
+        map[i] = -1
+    }
+    for(i = 0; i < input.length; i++) {
+        if (i != input.length - 1) {
+            map[input[i]] = t
+        }
+        t++
+    }
+
+    while(t < targetRound) {
+        prev_spoken = spoken
+        if (map[spoken] != -1)
+        {
+            let speak = t - map[spoken] -1
+            spoken = speak
+        }
+        else
+        {
+            spoken = 0
+        }
+        map[prev_spoken] = t-1
+        t++
+    }
+    return spoken
+}
+
+module.exports = { part1, part2, part2Matt }
