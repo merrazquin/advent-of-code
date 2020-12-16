@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm, getAllPermutations, getPermutations, sumAll} = require('./utils')
+const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm, getAllPermutations, getPermutations, sumAll, multiplyAll} = require('./utils')
 
 const TreeModel = require('tree-model')
 const tree = new TreeModel()
@@ -166,6 +166,25 @@ describe('Utils', () => {
         })
         it('should sum all values in an object', () => {
             assert.strictEqual(sumAll({'x': 5, 'y': 6, 'z': 4}), 15)
+        })
+    })
+
+    describe('multiplyAll', () => {
+        it('should throw an error if the collection is not an object', () => {
+            assert.throws(() => {multiplyAll('a string')}, Error)
+        })
+        it('should throw an error if the collection contains a non-numeric value', () => {
+            assert.throws(() => {multiplyAll([1, 2, '3', '0xf', 'abc'])}, Error)
+            assert.throws(() => {multiplyAll({'x': 5, 'y': 6, 'z': 'zebra'})}, Error)
+        })
+        it('should return 0 if no items in collection', () => {
+            assert.strictEqual(multiplyAll([]), 1)
+        })
+        it('should sum all values in an array', () => {
+            assert.strictEqual(sumAll([1, 2, 3, 4, 5]), 120)
+        })
+        it('should sum all values in an object', () => {
+            assert.strictEqual(sumAll({'x': 5, 'y': 6, 'z': 4}), 120)
         })
     })
 })

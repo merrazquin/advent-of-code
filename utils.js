@@ -270,9 +270,30 @@ const sumAll = collection => {
     return array.reduce((sum, val) => sum + val, 0)
 }
 
+const multiplyAll = collection => {
+    if (typeof collection !== 'object') {
+        throw new Error(`Expected object, ${typeof collection} provided`)
+    }
+    let array = collection
+    if (!Object.hasOwnProperty.call(collection, 'length')) {
+        // not an array, try to get the values
+        array = Object.values(collection)
+    }
+
+    if (array.some((val) => isNaN(val))) {
+        throw new Error('Expected numeric data')
+    }
+
+    if (!array.length) {
+        return 0
+    }
+    
+    return array.reduce((sum, val) => sum * val, 1)
+}
+
 
 module.exports = { 
-    sumAll,
+    sumAll, multiplyAll,
     parseTree,
     rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise,
     cardinalRotateLeft, cardinalRotateRight, cardinalMove,
