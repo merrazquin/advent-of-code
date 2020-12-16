@@ -66,6 +66,7 @@ const part2 = (input, targetRound = 30000000) => {
     return lastNumberSpoken
 }
 
+/* istanbul ignore next */
 const part2Matt = (input, targetRound = 30000000) => {
     input = preprocessing(input)
     let t = 0
