@@ -27,7 +27,7 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 - [Day 13: Shuttle Search](day13/)
 - [Day 14: Docking Data](day14/)
 - [Day 15: Rambunctious Recitation](day15/)
-- [Day 16: TBD](day16/)
+- [Day 16: Ticket Translation](day16/)
 - [Day 17: TBD](day17/)
 - [Day 18: TBD](day18/)
 - [Day 19: TBD](day19/)
