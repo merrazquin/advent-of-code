@@ -13,9 +13,9 @@ describe('Day 17: Conway Cubes', () => {
         })
     })
 
-    describe.skip('Part Two', () => {
-        it('', () => {
-            assert.strictEqual(part2(initialState), 112)
+    describe('Part Two', () => {
+        it('should give how many cubes are left in the active state after a six-cycle boot process', () => {
+            assert.strictEqual(part2(initialState), 848)
         })
     })
 })

@@ -6,7 +6,14 @@ const ACTIVE = '#'
 const INACTIVE = '.'
 
 const preprocessing = input => {
-    return input.split('\n').map(row => row.split(''))
+    const init = input.split('\n').map(row => row.split(''))
+    let initWidth = init[0].length   
+    let initLayer = init.join(',').split(',')
+    return {
+        initWidth,
+        initLayer
+    }
+
 }
 
 const countActive = cells => {
@@ -158,9 +165,7 @@ const prepLayers = (layers, layerIndex, initWidth) => {
 }
 
 const part1 = input => {
-    const init = preprocessing(input)
-    let initWidth = init[0].length   
-    let initLayer = init.join(',').split(',')
+    let {initWidth, initLayer} = preprocessing(input)
     let layers = [initLayer]
 
     let rounds = 0
@@ -180,7 +185,7 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-    return preprocessing(input)
+    return false
 }
 
 module.exports = { part1, part2 }
