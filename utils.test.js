@@ -178,13 +178,13 @@ describe('Utils', () => {
             assert.throws(() => {multiplyAll({'x': 5, 'y': 6, 'z': 'zebra'})}, Error)
         })
         it('should return 0 if no items in collection', () => {
-            assert.strictEqual(multiplyAll([]), 1)
+            assert.strictEqual(multiplyAll([]), 0)
         })
         it('should sum all values in an array', () => {
-            assert.strictEqual(sumAll([1, 2, 3, 4, 5]), 120)
+            assert.strictEqual(multiplyAll([1, 2, 3, 4, 5]), 120)
         })
         it('should sum all values in an object', () => {
-            assert.strictEqual(sumAll({'x': 5, 'y': 6, 'z': 4}), 120)
+            assert.strictEqual(multiplyAll({'x': 5, 'y': 6, 'z': 4}), 120)
         })
     })
 })
