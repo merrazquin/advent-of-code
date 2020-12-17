@@ -83,8 +83,11 @@ const findNeighbors = (i, cells, width) => {
     return neighbors
 }
 const findNeighborsFromZDimension = (i, cells, width) => {
-    const neighbors = [cells[i]]
-    neighbors.push(...findNeighbors(i, cells, width))
+    const neighbors = []
+    if (cells) {
+        neighbors.push(cells[i])
+        neighbors.push(...findNeighbors(i, cells, width))
+    }
 
     return neighbors
 }
@@ -92,11 +95,11 @@ const findNeighborsFromZDimension = (i, cells, width) => {
 const nextGeneration = (layers, z, width) => {
     const currentGeneration = layers[z]
     const neighboringLayers = {}
-    if (neighboringLayers.length > z - 1) {
-        neighboringLayers[z-1] = neighboringLayers[z - 1]
+    if (layers.length > z - 1) {
+        neighboringLayers[z-1] = layers[z - 1]
     }
-    if (neighboringLayers.length > z + 1) {
-        neighboringLayers[z+1] = neighboringLayers[z + 1]
+    if (layers.length > z + 1) {
+        neighboringLayers[z+1] = layers[z + 1]
     }
     return currentGeneration.map((cell, index) => {
         const activeNeighbors = [countActive(findNeighbors(index, currentGeneration, width))]
@@ -105,7 +108,6 @@ const nextGeneration = (layers, z, width) => {
             activeNeighbors.push(countActive(findNeighborsFromZDimension(index, layer, width)))
         }
         const allActiveNeighbors = sumAll(activeNeighbors)
-        // console.log(z, index, 'allActiveNeighbors', allActiveNeighbors)
         if (cell == ACTIVE && (allActiveNeighbors < 2 || allActiveNeighbors > 3)) {
             return INACTIVE
         }
@@ -141,13 +143,9 @@ const padLayer = (layer, initWidth) => {
         newWidth--
     }
 }
-const part1 = input => {
-    const init = preprocessing(input)
-    const initWidth = init[0].length   
-    let initLayer = init.join(',').split(',')
-    let layers = [initLayer]
-    // width grows by 2 each generation
-    padLayer(initLayer, initWidth)
+
+const prepLayers = (layers, layerIndex, initWidth) => {
+    const initLayer = layers[layerIndex]
     let emptyLayer = new Array(initLayer.length)
     let i = initLayer.length
     while (i--) {
@@ -155,10 +153,27 @@ const part1 = input => {
     }
     layers.push(emptyLayer.slice())
     layers.unshift(emptyLayer.slice())
-    // let nextGen = 
-    layers = layers.map((layer, z) => nextGeneration(layers, z, initWidth + 2))
-    layers.forEach(layer => console.log('\n' + visualize(layer.join(''), initWidth + 2)))
-    return false
+
+    layers.forEach(layer => padLayer(layer, initWidth))
+}
+
+const part1 = input => {
+    const init = preprocessing(input)
+    let initWidth = init[0].length   
+    let initLayer = init.join(',').split(',')
+    let layers = [initLayer]
+
+    let rounds = 0
+    while (rounds < 6) {
+        prepLayers(layers, 0, initWidth)
+        layers = layers.map((layer, z) => nextGeneration(layers, z, initWidth + 2))
+        // layers.forEach(layer => console.log('\n' + visualize(layer.join(''), initWidth + 2)))
+        initWidth += 2
+        rounds++
+    }
+
+    let allCells = layers.map(layer => layer.join(',')).join(',').split(',')
+    return countActive(allCells)
 }
 
 // Part 2

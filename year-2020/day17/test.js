@@ -13,7 +13,7 @@ describe('Day 17: Conway Cubes', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe.skip('Part Two', () => {
         it('', () => {
             assert.strictEqual(part2(initialState), 112)
         })
