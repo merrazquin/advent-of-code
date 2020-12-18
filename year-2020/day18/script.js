@@ -5,6 +5,7 @@ const {sumAll} = require('../../utils')
 const preprocessing = input => {
     return input.split('\n')
 }
+
 const evaluateAdditionsFirst = expression => {
     const additionRegExp = /(\d+ \+{1} \d+)/
     let match = additionRegExp.exec(expression)
@@ -21,6 +22,7 @@ const evaluateAdditionsFirst = expression => {
 
     return eval(expression)
 }
+
 const evaluateExpressionLeftToRight = expression => {
     const exprRegExp = /(\d+ .{1} \d+)/
     let match = exprRegExp.exec(expression)
@@ -38,9 +40,7 @@ const evaluateExpressionLeftToRight = expression => {
 }
 
 const evaluateExpression = (expression, addFirst = false) => {
-    /* eslint-disable no-useless-escape */
-    const parenRegExp = /\([^\(\)]+\)/
-    /* eslint-enable no-useless-escape */
+    const parenRegExp = /\([^()]+\)/
     let match = parenRegExp.exec(expression)
     while(match) {
         expression = expression.split('')
@@ -52,8 +52,6 @@ const evaluateExpression = (expression, addFirst = false) => {
 
     return addFirst ? evaluateAdditionsFirst(expression) : evaluateExpressionLeftToRight(expression)
 }
-
-
 
 // Part 1
 // ======
