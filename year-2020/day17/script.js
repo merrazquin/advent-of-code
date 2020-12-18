@@ -1,13 +1,13 @@
 'use strict'
 
-const {sumAll} = require('../../utils')
+const { sumAll } = require('../../utils')
 // Setup
 const ACTIVE = '#'
 const INACTIVE = '.'
 
 const preprocessing = input => {
     const init = input.split('\n').map(row => row.split(''))
-    let initWidth = init[0].length   
+    let initWidth = init[0].length
     let initLayer = init.join(',').split(',')
     return {
         initWidth,
@@ -89,31 +89,49 @@ const findNeighbors = (i, cells, width) => {
 
     return neighbors
 }
-const findNeighborsFromZDimension = (i, cells, width) => {
-    const neighbors = []
-    if (cells) {
-        neighbors.push(cells[i])
-        neighbors.push(...findNeighbors(i, cells, width))
-    }
 
-    return neighbors
-}
-
-const nextGeneration = (layers, z, width) => {
+const nextGeneration = (layers, z, width, outerLayers = null, w = null) => {
     const currentGeneration = layers[z]
     const neighboringLayers = {}
     if (layers.length > z - 1) {
-        neighboringLayers[z-1] = layers[z - 1]
+        neighboringLayers[z - 1] = layers[z - 1]
     }
     if (layers.length > z + 1) {
-        neighboringLayers[z+1] = layers[z + 1]
+        neighboringLayers[z + 1] = layers[z + 1]
     }
+
+    // cover 4th dimension
+    if (outerLayers != null && w != null) {
+        if (w && outerLayers.length > w - 1) {
+            if (outerLayers[w - 1].length > z - 1) {
+                neighboringLayers['w_' + (w - 1) + '_z_' + (z - 1)] = outerLayers[w - 1][z - 1]
+            }
+            neighboringLayers['w_' + (w - 1) + '_z_' + z] = outerLayers[w - 1][z]
+            if (outerLayers[w - 1].length > z + 1) {
+                neighboringLayers['w_' + (w - 1) + '_z_' + (z + 1)] = outerLayers[w - 1][z + 1]
+            }
+        }
+        if (outerLayers.length > w + 1) {
+            if (outerLayers[w + 1].length > z - 1) {
+                neighboringLayers['w_' + (w + 1) + '_z_' + (z - 1)] = outerLayers[w + 1][z - 1]
+            }
+            neighboringLayers['w_' + (w + 1) + '_z_' + z] = outerLayers[w + 1][z]
+            if (outerLayers[w + 1].length > z + 1) {
+                neighboringLayers['w_' + (w + 1) + '_z_' + (z + 1)] = outerLayers[w + 1][z + 1]
+            }
+        }
+    }
+
     return currentGeneration.map((cell, index) => {
         const activeNeighbors = [countActive(findNeighbors(index, currentGeneration, width))]
         for (const layerIndex in neighboringLayers) {
-            const layer = neighboringLayers[layerIndex];
-            activeNeighbors.push(countActive(findNeighborsFromZDimension(index, layer, width)))
+            const layer = neighboringLayers[layerIndex]
+            if (layer != undefined) {
+                let currNeighbors = [layer[index], ...findNeighbors(index, layer, width)]
+                activeNeighbors.push(countActive(currNeighbors))
+            }
         }
+    
         const allActiveNeighbors = sumAll(activeNeighbors)
         if (cell == ACTIVE && (allActiveNeighbors < 2 || allActiveNeighbors > 3)) {
             return INACTIVE
@@ -124,11 +142,7 @@ const nextGeneration = (layers, z, width) => {
         return cell
     })
 }
-const visualize = (cells, width) => {
-    const r = new RegExp('.{' + width + '}', 'g')
-    const visualization = cells.match(r).join('\n')
-    return visualization
-}
+
 const padLayer = (layer, initWidth) => {
     let insertPoint = layer.length - initWidth
     // pad right side of last row
@@ -144,15 +158,15 @@ const padLayer = (layer, initWidth) => {
 
     // add rows to north and south
     let newWidth = initWidth + 2
-    while(newWidth) {
+    while (newWidth) {
         layer.push(INACTIVE)
         layer.unshift(INACTIVE)
         newWidth--
     }
 }
 
-const prepLayers = (layers, layerIndex, initWidth) => {
-    const initLayer = layers[layerIndex]
+const prepLayers = (layers, initWidth) => {
+    const initLayer = layers[0]
     let emptyLayer = new Array(initLayer.length)
     let i = initLayer.length
     while (i--) {
@@ -165,14 +179,13 @@ const prepLayers = (layers, layerIndex, initWidth) => {
 }
 
 const part1 = input => {
-    let {initWidth, initLayer} = preprocessing(input)
+    let { initWidth, initLayer } = preprocessing(input)
     let layers = [initLayer]
 
     let rounds = 0
     while (rounds < 6) {
-        prepLayers(layers, 0, initWidth)
+        prepLayers(layers, initWidth)
         layers = layers.map((layer, z) => nextGeneration(layers, z, initWidth + 2))
-        // layers.forEach(layer => console.log('\n' + visualize(layer.join(''), initWidth + 2)))
         initWidth += 2
         rounds++
     }
@@ -183,9 +196,41 @@ const part1 = input => {
 
 // Part 2
 // ======
-
 const part2 = input => {
-    return false
+    let { initWidth, initLayer } = preprocessing(input)
+    let layers = [initLayer]
+    /* eslint-disable-next-line */
+    let emptyLayer = initLayer.slice().map(num => INACTIVE)
+    let outerLayers = [[emptyLayer.slice()], layers, [emptyLayer.slice()]]
+    let rounds = 0
+    while (rounds < 6) {
+        outerLayers.forEach(
+            layers => prepLayers(layers, initWidth)
+        )
+        /* eslint-disable-next-line */
+        emptyLayer = outerLayers[0][0].slice().map(num => INACTIVE)
+        let emptyOuterLayer = []
+        while (emptyOuterLayer.length < outerLayers[0].length) {
+            emptyOuterLayer.push(emptyLayer.slice())
+        }
+        outerLayers.push(emptyOuterLayer.slice())
+        outerLayers.unshift(emptyOuterLayer.slice())
+
+        outerLayers = outerLayers.map(
+            (layers, w) => layers.map((layer, z) => nextGeneration(layers, z, initWidth + 2, outerLayers, w))
+        )
+        initWidth += 2
+        rounds++
+    }
+
+    let allCells = []
+    outerLayers.forEach (
+        layers => {
+            allCells.push(... layers.map(layer => layer.join(',')).join(',').split(','))
+        }
+    )
+    
+    return countActive(allCells)
 }
 
 module.exports = { part1, part2 }
