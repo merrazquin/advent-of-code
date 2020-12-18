@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { part1, part2, evaluateAdditionsFirst, evaluateParentheticals } = require('./script')
+const { part1, part2, evaluateExpression } = require('./script')
 
 const homework = 
 `1 + 2 * 3 + 4 * 5 + 6
@@ -12,9 +12,9 @@ const homework =
 describe('Day 18: Operation Order', () => {
     describe('evaluateExpressionLeftToRight', () => {
         it('should evaluate an expression from left to right', () => {
-            assert.strictEqual(evaluateParentheticals('1 + 2 * 3 + 4 * 5 + 6'), 71)
-            assert.strictEqual(evaluateParentheticals('5 + (8 * 3 + 9 + 3 * 4 * 3)'), 437)
-            assert.strictEqual(evaluateParentheticals('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2'), 13632)
+            assert.strictEqual(evaluateExpression('1 + 2 * 3 + 4 * 5 + 6'), 71)
+            assert.strictEqual(evaluateExpression('5 + (8 * 3 + 9 + 3 * 4 * 3)'), 437)
+            assert.strictEqual(evaluateExpression('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2'), 13632)
         })
     })
     describe('Part One', () => {
@@ -23,16 +23,16 @@ describe('Day 18: Operation Order', () => {
         })
     })
 
-    describe.only('evaluateAdditionsFirst', () => {
+    describe('evaluateAdditionsFirst', () => {
         it('should perform additions first', () => {
-            assert.strictEqual(evaluateParentheticals('1 + 2 * 3 + 4 * 5 + 6', true), 231)
-            assert.strictEqual(evaluateParentheticals('1 + (2 * 3) + (4 * (5 + 6))', true), 51)
-            assert.strictEqual(evaluateParentheticals('2 * 3 + (4 * 5)', true), 46)
+            assert.strictEqual(evaluateExpression('1 + 2 * 3 + 4 * 5 + 6', true), 231)
+            assert.strictEqual(evaluateExpression('1 + (2 * 3) + (4 * (5 + 6))', true), 51)
+            assert.strictEqual(evaluateExpression('2 * 3 + (4 * 5)', true), 46)
         })
     })
     describe('Part Two', () => {
         it('should evaluate the expression on each line of homework and provide the sum of the resulting values (addition taking precedence)', () => {
-            assert.strictEqual(part2(homework), 51)
+            assert.strictEqual(part2(homework), 694173)
         })
     })
 })

@@ -37,8 +37,10 @@ const evaluateExpressionLeftToRight = expression => {
     return eval(expression)
 }
 
-const evaluateParentheticals = (expression, addFirst = false) => {
+const evaluateExpression = (expression, addFirst = false) => {
+    /* eslint-disable no-useless-escape */
     const parenRegExp = /\([^\(\)]+\)/
+    /* eslint-enable no-useless-escape */
     let match = parenRegExp.exec(expression)
     while(match) {
         expression = expression.split('')
@@ -57,14 +59,14 @@ const evaluateParentheticals = (expression, addFirst = false) => {
 // ======
 
 const part1 = input => {
-    return sumAll(preprocessing(input).map(expression => evaluateParentheticals(expression)));
+    return sumAll(preprocessing(input).map(expression => evaluateExpression(expression)))
 }
 
 // Part 2
 // ======
 
 const part2 = input => {
-    return sumAll(preprocessing(input).map(expression => evaluateParentheticals(expression, true)));
+    return sumAll(preprocessing(input).map(expression => evaluateExpression(expression, true)))
 }
 
-module.exports = { part1, part2, evaluateParentheticals, evaluateAdditionsFirst }
+module.exports = { part1, part2, evaluateExpression, evaluateAdditionsFirst }
