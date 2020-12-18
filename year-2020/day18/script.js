@@ -5,7 +5,22 @@ const {sumAll} = require('../../utils')
 const preprocessing = input => {
     return input.split('\n')
 }
+const evaluateAdditionsFirst = expression => {
+    const additionRegExp = /(\d+ \+{1} \d+)/
+    let match = additionRegExp.exec(expression)
+    while (match) {
+        expression = expression.split('')
+        expression.splice(match.index, match[0].length, eval(match[0]))
+        expression = expression.join('')
+        if(/\(\d+\)/.exec(expression)) {
+            expression = eval(expression)
+        }
 
+        match = additionRegExp.exec(expression)
+    }
+
+    return eval(expression)
+}
 const evaluateExpressionLeftToRight = expression => {
     const exprRegExp = /(\d+ .{1} \d+)/
     let match = exprRegExp.exec(expression)
@@ -22,29 +37,21 @@ const evaluateExpressionLeftToRight = expression => {
     return eval(expression)
 }
 
-const evaluateParentheticals = expression => {
+const evaluateParentheticals = (expression, addFirst = false) => {
     const parenRegExp = /\([^\(\)]+\)/
     let match = parenRegExp.exec(expression)
     while(match) {
         expression = expression.split('')
-        expression.splice(match.index, match[0].length, evaluateExpressionLeftToRight(match[0]))
+        let replacement = addFirst ? evaluateAdditionsFirst(match[0]) : evaluateExpressionLeftToRight(match[0])
+        expression.splice(match.index, match[0].length, replacement)
         expression = expression.join('')
         match = parenRegExp.exec(expression)
     }
-    return evaluateExpressionLeftToRight(expression)
+
+    return addFirst ? evaluateAdditionsFirst(expression) : evaluateExpressionLeftToRight(expression)
 }
 
-const evaluateSimpleParentheticals = expression => {
-    const parenRegExp = /\(\d+ .{1} \d+\)/
-    let match = parenRegExp.exec(expression)
-    while (match) {
-        expression = expression.split('')
-        expression.splice(match.index, match[0].length, eval(match[0]))
-        expression = expression.join('')
-        match = parenRegExp.exec(expression)
-    }
-    return evaluateExpressionLeftToRight(expression)
-}
+
 
 // Part 1
 // ======
@@ -57,7 +64,7 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-    return preprocessing(input)
+    return sumAll(preprocessing(input).map(expression => evaluateParentheticals(expression, true)));
 }
 
-module.exports = { part1, part2, evaluateExpression: evaluateSimpleParentheticals, evaluateExpressionLeftToRight, evaluateParentheticals }
+module.exports = { part1, part2, evaluateParentheticals, evaluateAdditionsFirst }
