@@ -15,7 +15,6 @@ mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
 mem[8] = 11
 mem[7] = 101
 mem[8] = 0
-
 ```
 
 This program starts by specifying a bitmask (`mask = ....`). The mask it specifies will overwrite two bits in every written value: the `2`s bit is overwritten with `0`, and the `64`s bit is overwritten with `1`.
@@ -26,7 +25,6 @@ The program then attempts to write the value `11` to memory address `8`. By e
 value:  000000000000000000000000000000001011  (decimal 11)
 mask:   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
 result: 000000000000000000000000000001001001  (decimal 73)
-
 ```
 
 So, because of the mask, the value `73` is written to memory address `8` instead. Then, the program tries to write `101` to address `7`:
@@ -35,7 +33,6 @@ So, because of the mask, the value `73` is written to memory address `8` ins
 value:  000000000000000000000000000001100101  (decimal 101)
 mask:   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
 result: 000000000000000000000000000001100101  (decimal 101)
-
 ```
 
 This time, the mask has no effect, as the bits it overwrote were already the values the mask tried to set. Finally, the program tries to write `0` to address `8`:
@@ -44,7 +41,6 @@ This time, the mask has no effect, as the bits it overwrote were already the val
 value:  000000000000000000000000000000000000  (decimal 0)
 mask:   XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
 result: 000000000000000000000000000001000000  (decimal 64)
-
 ```
 
 `64` is written to address `8` instead, overwriting the value that was there previously.
