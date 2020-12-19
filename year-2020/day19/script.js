@@ -20,7 +20,6 @@ const preprocessing = input => {
     })
 
     let filtered = true
-    console.log(rulesMap)
     while (filtered) {
         filtered = false
         rulesMap.forEach((rule, index) => {
@@ -47,33 +46,27 @@ const preprocessing = input => {
                     }
                 });
             } else if (/^([\(\)a-z \|]+) \| ([\(\)a-z \|]+)$/.test(rule)) {
-                console.log(index)
+                // if the rule is only a combination of solidified rules i.e. `(solidified rule a) | (solidified rule b)`
+                // strip spaces and surround each side in parenthesis
                 let [sideA, sideB] = /^([\(\)a-z \|]+) \| ([\(\)a-z \|]+)$/.exec(rule).slice(1)
-                console.log('   ',sideA, sideB)
                 rulesMap[index] = `((${sideA.split(' ').join('')})|(${sideB.split(' ').join('')}))`
                 filtered = true
             }
         })
+
+        
     }
     
     // final pass?
     rulesMap.forEach((rule, index) => {
         rulesMap[index] = rule.split(' ').join('')
     })
-
-    // // find stuff with only letters left
-    // rulesMap.forEach((rule, index) => {
-    //     if (/^[a-z\ \|]+$/.test(rule)) {
-    //         console.log(rule)
-    //     }
-    // })
-
     console.log(rulesMap)
-    process.exit(0)
+
     messages = messages.split('\n')
 
     return {
-        rules,
+        rulesMap,
         messages
     }
 }
@@ -82,7 +75,11 @@ const preprocessing = input => {
 // ======
 
 const part1 = input => {
-    return preprocessing(input)
+    let {rulesMap, messages} = preprocessing(input)
+
+    const zeroRule = new RegExp('^' + rulesMap[0] + '$')
+    console.log(zeroRule)
+    return messages.filter(message => zeroRule.test(message)).length
 }
 
 // Part 2
