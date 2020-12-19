@@ -22,6 +22,7 @@ const countActive = cells => {
 
 // Part 1
 // ======
+// TODO: move all conway/moore's neighborhood related stuff to utils
 const getNeighboringCell = (i, direction, cells, width) => {
     // horizontal offset is 1, BUT
     // left edge modulo width = 0
