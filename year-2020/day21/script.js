@@ -155,7 +155,7 @@ const part1 = input => {
     const allIngredients = identifyAllIngredients(foodList)
     const allergicIngredients = Object.values(mapping)
     const nonAllergicIngredients = Object.keys(allIngredients).filter(ingredient => !allergicIngredients.includes(ingredient))
-
+    console.log(mapping)
     let tally = 0
     nonAllergicIngredients.forEach(ingredient => {
         tally += allIngredients[ingredient]
@@ -167,7 +167,34 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-    return preprocessing(input)
+    let foodList = preprocessing(input)
+    let mapping = {}
+    const allergenList = getFullAllergenList(foodList)
+    allergenList.forEach(allergen => {
+        mapping[allergen] = identifySingleAllergen(foodList, allergen)
+    })
+    let breakout = false
+    while (!breakout) {
+        breakout = true
+        for (let allergen in mapping) {
+            const possibleIngredients = mapping[allergen]
+            if ((typeof possibleIngredients == 'object') && possibleIngredients.length == 1) {
+                // strip position from all but fieldName
+                mapping = removePositionFromAllExcept(possibleIngredients[0], mapping, allergen)
+                mapping[allergen] = possibleIngredients[0]
+            } else if (typeof possibleIngredients == 'object') {
+                breakout = false
+            }
+        }
+    }
+
+    foodList = preprocessing(input)
+    const allIngredients = identifyAllIngredients(foodList)
+    const allergicIngredients = Object.values(mapping)
+    const nonAllergicIngredients = Object.keys(allIngredients).filter(ingredient => !allergicIngredients.includes(ingredient))
+    const sortedIngredients = Object.keys(mapping).sort((a, b) => a < b ? -1 : 1).map(allergen => mapping[allergen])
+
+    return sortedIngredients.join(',')
 }
 
 module.exports = { part1, part2 }

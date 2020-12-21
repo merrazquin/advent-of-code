@@ -14,9 +14,9 @@ describe('Day 21: Allergen Assessment', () => {
         })
     })
 
-    describe.skip('Part Two', () => {
-        it('', () => {
-            assert.strictEqual(part2(foods), 5)
+    describe('Part Two', () => {
+        it('should return the list of canonical dangerous ingredients sorted by allergen', () => {
+            assert.strictEqual(part2(foods), 'mxmxvkd,sqjhc,fvjkl')
         })
     })
 })
