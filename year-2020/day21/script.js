@@ -49,13 +49,13 @@ const identifySingleAllergen = (foodList,  allergen) => {
 
     return intersection
 }
-
-const removePositionFromAllExcept = (position, mapping, except) => {
+// TODO move logic puzzle solver into utils (look at Day 16)
+const removeIngredientFromAllExcept = (ingredient, mapping, except) => {
     const newMapping = {}
     for (let fieldName in mapping) {
         let positions = mapping[fieldName]
         if (fieldName != except) {
-            const index = positions.indexOf(position)
+            const index = positions.indexOf(ingredient)
             if (index != -1) {
                 positions.splice(index, 1)
             }
@@ -79,7 +79,7 @@ const part1 = input => {
             const possibleIngredients = mapping[allergen]
             if ((typeof possibleIngredients == 'object') && possibleIngredients.length == 1) {
                 // strip position from all but fieldName
-                mapping = removePositionFromAllExcept(possibleIngredients[0], mapping, allergen)
+                mapping = removeIngredientFromAllExcept(possibleIngredients[0], mapping, allergen)
                 mapping[allergen] = possibleIngredients[0]
             } else if (typeof possibleIngredients == 'object') {
                 breakout = false
@@ -91,7 +91,6 @@ const part1 = input => {
     const allIngredients = identifyAllIngredients(foodList)
     const allergicIngredients = Object.values(mapping)
     const nonAllergicIngredients = Object.keys(allIngredients).filter(ingredient => !allergicIngredients.includes(ingredient))
-    console.log(mapping)
     let tally = 0
     nonAllergicIngredients.forEach(ingredient => {
         tally += allIngredients[ingredient]
@@ -116,7 +115,7 @@ const part2 = input => {
             const possibleIngredients = mapping[allergen]
             if ((typeof possibleIngredients == 'object') && possibleIngredients.length == 1) {
                 // strip position from all but fieldName
-                mapping = removePositionFromAllExcept(possibleIngredients[0], mapping, allergen)
+                mapping = removeIngredientFromAllExcept(possibleIngredients[0], mapping, allergen)
                 mapping[allergen] = possibleIngredients[0]
             } else if (typeof possibleIngredients == 'object') {
                 breakout = false
