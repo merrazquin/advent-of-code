@@ -3,7 +3,15 @@
 // Setup
 
 const preprocessing = input => {
-    return input.split('\n')
+    return input.split('\n').map(food => {
+        let [ingredients, allergens] = food.split('(contains ')
+        ingredients = ingredients.trim().split(' ')
+        allergens = allergens.substring(0, allergens.length - 1).split(', ')
+        return {
+            ingredients,
+            allergens
+        }
+    })
 }
 
 // Part 1
