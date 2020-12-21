@@ -1,6 +1,28 @@
 'use strict'
 
 // Setup
+const referencesOverridenRule = (rulesMap, index, overrides) => {
+    // find out if a rule refrences 8 or 11 anywhere in its downstream
+    // if it does, skip it
+
+    const currentRule = rulesMap[index]
+    const overrideIndices = Object.keys(overrides).map(index => parseInt(index))
+    const regex = new RegExp(`\\b${overrideIndices.join('|')}\\b`)
+    if (/^[a-z]$/.test(currentRule)) {
+        return false
+    }
+    if (overrideIndices.includes(index) || regex.test(currentRule)) {
+        return true
+    }
+    const indices = [...currentRule.matchAll(/\b\d+\b/g)].map(match => match[0])
+    let isReferenced = false
+    indices.forEach(subIndex => {
+        if (subIndex != index) {
+            isReferenced = isReferenced || referencesOverridenRule(rulesMap, subIndex, overrides)
+        }
+    })
+    return isReferenced
+}
 const getConcreteRule = (rulesMap, index) => {
     let currentRule = rulesMap[index]
 
@@ -19,126 +41,58 @@ const getConcreteRule = (rulesMap, index) => {
     })
     return currentRule.split(' ').join('')
 }
-const preprocessing2 = (input, ruleIndex) => {
+const preprocessing = (input, ruleIndex, overrides = {}) => {
     let [rules, messages] = input.split('\n\n')
     rules = rules.split('\n')
     const concreteRuleRegExp = /^(\d+): "(\w)"$/
-    const referencedRuleRegExp = /^(\d+): ([\d\| ]+)$/
+    const referencedRuleRegExp = /^(\d+): ([\d| ]+)$/
     let rulesMap = new Array(rules.length)
     rules.forEach(rule => {
+        let ruleId, ruleInfo
         if (concreteRuleRegExp.test(rule)) {
-            let [ruleId, letter] = concreteRuleRegExp.exec(rule).slice(1)
-            rulesMap[ruleId] = letter
+            [ruleId, ruleInfo] = concreteRuleRegExp.exec(rule).slice(1)
+            rulesMap[ruleId] = ruleInfo
         } else if (referencedRuleRegExp.test(rule)) {
-            let [ruleId, ruleInfo] = referencedRuleRegExp.exec(rule).slice(1)
+            [ruleId, ruleInfo] = referencedRuleRegExp.exec(rule).slice(1)
             rulesMap[ruleId] = ruleInfo
         }
+
+        // if (overrides[ruleId]) {
+        //     rulesMap[ruleId] = overrides[ruleId]
+        // }
     })
 
-    const rule = getConcreteRule(rulesMap, ruleIndex)
-    messages = messages.split('\n')
+    let rule
+    if (Object.keys(overrides).length) {
+        // attempt to process non-overriden rules
+        rulesMap = rulesMap.map((rule, index) => {
+            if (referencesOverridenRule(rulesMap, index, overrides)) {
+                console.log(index, 'CIRCULAR')
+                return rule
+            }
+            if (index === 0 || index == 8 || index == 11) return rule
+            return getConcreteRule(rulesMap, index)
+        })
+        // for
+        rulesMap.forEach((rule, index) => console.log(index.toString().padStart(2, '0'), rule))
+        console.log(' ')
+        console.log(getConcreteRule(rulesMap, 0))
+        process.exit()
+    }  else {
+        rule = getConcreteRule(rulesMap, ruleIndex)
+        messages = messages.split('\n')
+    }
 
     return {
         rule,
         messages
     }
 }
-const preprocessing = input => {
-    let [rules, messages] = input.split('\n\n')
-    rules = rules.split('\n')
-    const referencedRuleRegExp = /^(\d+): ([\d\| ]+)$/
-    const concreteRuleRegExp = /^(\d+): "(\w)"$/
-    let rulesMap = new Array(rules.length)
-
-    rules.forEach(rule => {
-        if (concreteRuleRegExp.test(rule)) {
-            let [ruleId, letter] = concreteRuleRegExp.exec(rule).slice(1)
-            rulesMap[ruleId] = letter
-        } else if (referencedRuleRegExp.test(rule)) {
-            let [ruleId, ruleInfo] = referencedRuleRegExp.exec(rule).slice(1)
-            rulesMap[ruleId] = ruleInfo
-        }
-    })
-    // first pass
-    rules.forEach(rule => {
-        if (concreteRuleRegExp.test(rule)) {
-            let [ruleId, letter] = concreteRuleRegExp.exec(rule).slice(1)
-            rulesMap.forEach((refRule, refIndex) => {
-                const letterRegex = new RegExp(`\\b${ruleId}\\b`)
-                if (letterRegex.test(refRule)) {
-                    rulesMap[refIndex] = refRule.split(letterRegex).join(letter)
-                }
-            })
-        }
-    })
-
-
-    let numbersFound = rulesMap.some(rule => /\d/.test(rule))
-    let hash = rulesMap.toString()
-    while (numbersFound) {
-        numbersFound = false
-        rulesMap.forEach((rule, index) => {
-            /*if (/^[a-z]$/.test(rule)) {
-                // find all rules which reference index and replace index with single letter rule
-                rulesMap.forEach((refRule, refIndex) => {
-                    const letterRegex = new RegExp(`\\b${index}\\b`)
-                    if (letterRegex.test(refRule)) {
-                        rulesMap[refIndex] = refRule.split(letterRegex).join(rule)
-                    }
-                })
-            } else*/ if (/^[a-z\ \|]+$/.test(rule)) {
-                // if the rule contains only a mix of letters, spaces, and pipes
-                // solidify the rule by removing spaces and surrounding in parenthesis
-                rulesMap[index] = `(${rule.split(' ').join('')})`
-            } else if (/^[\(\)a-z\|]+$/.test(rule)) {
-                // if the rule has been solidified, find all rules which reference it, 
-                // and replace references with the rule
-                rulesMap.forEach((refRule, refIndex) => {
-                    rulesMap.forEach((refRule, refIndex) => {
-                        const chunkRegex = new RegExp(`\\b${index}\\b`)
-                        if (chunkRegex.test(refRule)) {
-                            rulesMap[refIndex] = refRule.split(chunkRegex).join(rule)
-                        }
-                    })
-                })
-            } else if (/^([\(\)a-z \|]+) \| ([\(\)a-z \|]+)$/.test(rule)) {
-                // if the rule is only a combination of solidified rules i.e. `(solidified rule a) | (solidified rule b)`
-                // strip spaces and surround each side in parenthesis
-                let [sideA, sideB] = /^([\(\)a-z \|]+) \| ([\(\)a-z \|]+)$/.exec(rule).slice(1)
-                rulesMap[index] = `((${sideA.split(' ').join('')})|(${sideB.split(' ').join('')}))`
-            }
-        })
-
-        // one last check for numbers
-        console.log(rulesMap)
-        numbersFound = rulesMap.some(rule => /\d/.test(rule))
-
-        if (hash == rulesMap.toString()) {
-            console.log('no change')
-            break
-        }
-        hash = rulesMap.toString()
-    }
-    console.log(rulesMap)
-    process.exit()
-
-    // final pass?
-    rulesMap.forEach((rule, index) => {
-        rulesMap[index] = rule.split(' ').join('')
-    })
-    messages = messages.split('\n')
-
-    return {
-        rulesMap,
-        messages
-    }
-}
-
 // Part 1
 // ======
 
 const part1 = input => {
-    let { rule, messages } = preprocessing2(input, 0)
+    let { rule, messages } = preprocessing(input, 0)
 
     console.log('rule', rule)
     rule = new RegExp(`^${rule}$`)
@@ -149,7 +103,12 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-    return preprocessing(input)
+    let { rule, messages } = preprocessing(input, 0, {8: '42 | 42 8', 11: '42 31 | 42 11 31'})
+
+    console.log('rule', rule)
+    console.log(' ')
+    rule = new RegExp(`^${rule}$`)
+    return messages.filter(message => rule.test(message)).length
 }
 
 module.exports = { part1, part2 }
