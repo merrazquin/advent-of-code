@@ -27,3 +27,17 @@ The first food in the list has four ingredients (written in a language you don't
 The first step is to determine which ingredients _can't possibly_ contain any of the allergens in any food in your list. In the above example, none of the ingredients `kfcds`, `nhms`, `sbzzf`, or `trh` can contain an allergen. Counting the number of times any of these ingredients appear in any ingredients list produces _`5`_: they all appear once each except `sbzzf`, which appears twice.
 
 Determine which ingredients cannot possibly contain any of the allergens in your list. _How many times do any of those ingredients appear?_
+
+### Part Two
+
+Now that you've isolated the inert ingredients, you should have enough information to figure out which ingredient contains which allergen.
+
+In the above example:
+
+*   `mxmxvkd` contains `dairy`.
+*   `sqjhc` contains `fish`.
+*   `fvjkl` contains `soy`.
+
+Arrange the ingredients _alphabetically by their allergen_ and separate them by commas to produce your _canonical dangerous ingredient list_. (There should _not be any spaces_ in your canonical dangerous ingredient list.) In the above example, this would be _`mxmxvkd,sqjhc,fvjkl`_.
+
+Time to stock your raft with supplies. _What is your canonical dangerous ingredient list?_
