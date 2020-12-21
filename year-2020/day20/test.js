@@ -112,18 +112,14 @@ Tile 3079:
 
 describe('Day 20: ', () => {
     describe('Part One', () => {
-        it('', () => {
+        it('should return the product of the IDs fo the four corner tiles', () => {
             assert.strictEqual(part1(input), 20899048083289)
         })
     })
 
     describe('Part Two', () => {
-        it('', () => {
+        it('should report how many `#` are not part of a sea monster', () => {
             assert.strictEqual(part2(input), 273)
         })
     })
 })
-
-// 2676 too high
-// 2646 too high
-// 2331 too high
