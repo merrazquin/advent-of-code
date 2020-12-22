@@ -1,5 +1,5 @@
 'use strict'
-
+const {sumAll} = require('../../utils')
 // Setup
 const playRound = (deck1, deck2) => {
     let card1 = deck1.shift()
@@ -24,7 +24,8 @@ const preprocessing = input => {
 // Part 1
 // ======
 const calculateWinningScore = winningDeck => {
-
+    const len = winningDeck.length
+    return sumAll(winningDeck.map((num, index) => num * (len - index)))
 }
 
 const part1 = input => {
@@ -35,8 +36,10 @@ const part1 = input => {
         round++
         playRound(deck1, deck2)
     }
-
     console.log('game won after', round, 'rounds')
+
+    return calculateWinningScore(deck1.length ? deck1 : deck2) 
+
 }
 
 // Part 2
