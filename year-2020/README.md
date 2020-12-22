@@ -33,7 +33,7 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 - [Day 19: Monster Messages](day19/)
 - [Day 20: Jurassic Jigsaw](day20/)
 - [Day 21: Allergen Assessment](day21/)
-- [Day 22: TBD](day22/)
+- [Day 22: Crab Combat](day22/)
 - [Day 23: TBD](day23/)
 - [Day 24: TBD](day24/)
 - [Day 25: TBD](day25/)
