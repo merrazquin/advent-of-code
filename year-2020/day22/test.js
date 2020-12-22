@@ -42,3 +42,8 @@ describe('Day 22: Crab Combat', () => {
         })
     })
 })
+// 122 too low
+// 34428 too high
+// 20346 too low
+// 34428 again when 
+// 35457 is higher than 34428
