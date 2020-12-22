@@ -254,6 +254,10 @@ const getAllPermutations = (baseString, char, options) => {
     return addresses
 }
 
+/**
+ * Add up all values of an array or object
+ * @param {*} collection 
+ */
 const sumAll = collection => {
     if (typeof collection !== 'object') {
         throw new Error(`Expected object, ${typeof collection} provided`)
@@ -270,6 +274,10 @@ const sumAll = collection => {
     return array.reduce((sum, val) => sum + val, 0)
 }
 
+/**
+ * Multiply all items in array or object
+ * @param {*} collection 
+ */
 const multiplyAll = collection => {
     if (typeof collection !== 'object') {
         throw new Error(`Expected object, ${typeof collection} provided`)
@@ -291,6 +299,52 @@ const multiplyAll = collection => {
     return array.reduce((sum, val) => sum * val, 1)
 }
 
+const removePossibilityFromAllKeysExcept = (possibility, possibilitiesMap, exceptKey) => {
+    const updatedPossibilitiesMap = {}
+    for (let key in possibilitiesMap) {
+        let possibilities = possibilitiesMap[key]
+        if (key != exceptKey && typeof possibilities == 'object') {
+            const index = possibilities.indexOf(possibility)
+            if (index != -1) {
+                possibilities.splice(index, 1)
+            }
+        }
+        updatedPossibilitiesMap[key] = possibilities
+    }
+    return updatedPossibilitiesMap
+}
+
+/**
+ * Pass in a mapping of keys with their possible values
+ * get back a mapping of keys/value pairs
+ * @param {{}} puzzle 
+ */
+const solveLogicPuzzle = puzzle => {
+    let breakout = false
+    let previousHash = JSON.stringify(puzzle)
+    console.log(previousHash)
+    while (!breakout) {
+        breakout = true
+        for (let key in puzzle) {
+            const possibleValues = puzzle[key]
+            if ((typeof possibleValues == 'object') && possibleValues.length == 1) {
+                puzzle = removePossibilityFromAllKeysExcept(possibleValues[0], puzzle, key)
+                puzzle[key] = possibleValues[0]
+            } else if (typeof possibleValues == 'object') {
+                breakout = false
+            }
+        }
+        let currentHash = JSON.stringify(puzzle)
+        console.log('   ',currentHash)
+        if (previousHash == currentHash) {
+            breakout = true
+        }
+        previousHash = currentHash
+    }
+
+    return puzzle
+}
+
 
 module.exports = { 
     sumAll, multiplyAll,
@@ -298,5 +352,6 @@ module.exports = {
     rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise,
     cardinalRotateLeft, cardinalRotateRight, cardinalMove,
     lcm, gcd,
-    getPermutations, getAllPermutations
+    getPermutations, getAllPermutations,
+    solveLogicPuzzle
 }
