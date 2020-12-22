@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "tree-model": "^1.0.7"
+    "tree-model": "^1.0.7",
+    "xregexp": "^4.4.1"
   },
   "devDependencies": {
     "advent-of-code": "^5.0.0",

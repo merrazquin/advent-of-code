@@ -1,4 +1,5 @@
 'use strict'
+const XRegExp = require('xregexp')
 
 // Setup
 const referencesOverridenRule = (rulesMap, index, overrides) => {
@@ -66,9 +67,9 @@ const preprocessing = (input, ruleIndex, overrides = {}) => {
     if (Object.keys(overrides).length) {
         // attempt to process non-overriden rules
         rulesMap = rulesMap.map((rule, index) => {
-            // if (referencesOverridenRule(rulesMap, index, overrides)) {
-            //     return rule
-            // }
+            if (referencesOverridenRule(rulesMap, index, overrides)) {
+                // return rule
+            }
             if (index === 0 || index == 8 || index == 11) return rule
             return getConcreteRule(rulesMap, index)
         })
@@ -91,8 +92,8 @@ const part1 = input => {
     let { rule, messages } = preprocessing(input, 0)
 
     rule = new RegExp(`^${rule}$`)
-    console.log(rule)
-    console.log('')
+    // console.log(rule)
+    // console.log('')
     return messages.filter(message => rule.test(message)).length
 }
 
@@ -102,14 +103,20 @@ const part1 = input => {
 const part2 = input => {
     let { rulesMap, rule, messages } = preprocessing(input, 0, {8: '42 | 42 8', 11: '42 31 | 42 11 31'})
     rulesMap[8] = `(${rulesMap[42]})+`
-    rulesMap[11] = `(${rulesMap[42]}${rulesMap[31]})*`
-    console.log('rule 31')
-    console.log(rulesMap[31])
-    console.log('')
-    rulesMap[0] = `${rulesMap[8]}${rulesMap[11]}`
+    rulesMap[11] = `${rulesMap[42]}${rulesMap[31]}`
+    rulesMap[0] = `${rulesMap[8]}(${rulesMap[11]})`
     rule = new RegExp(`^${rulesMap[0]}$`)
-    let matchedMessages = messages.filter(message => rule.test(message)).length
-
+    console.log(rulesMap[42])
+    console.log('')
+    console.log(rulesMap[31])
+    let matchedMessages = messages.filter(message => {
+        console.log(message)
+        let rule42 = new RegExp(`^${rulesMap[42]}`)
+        console.log(rule42.exec(message))
+        console.log(XRegExp.matchRecursive(message, `(${rulesMap[42]})`, `(${rulesMap[31]})`, 'giy'))
+        return rule.test(message)
+    }).length
+    process.exit()
     let n = 0
     while (n < 20) {
         if (matchedMessages > 0) {
@@ -117,8 +124,8 @@ const part2 = input => {
         }
         n++
         // a(a(ab)*b)*b
-        rulesMap[11] = `(${rulesMap[42]}${rulesMap[11]}${rulesMap[31]})*`
-        rulesMap[0] = `${rulesMap[8]}${rulesMap[11]}`
+        rulesMap[11] = `${rulesMap[42]}(${rulesMap[11]})*${rulesMap[31]}`
+        rulesMap[0] = `${rulesMap[8]}(${rulesMap[11]})`
         rule = new RegExp(`^${rulesMap[0]}$`)
         matchedMessages = messages.filter(message => rule.test(message)).length
     }
