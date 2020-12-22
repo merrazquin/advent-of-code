@@ -1,5 +1,5 @@
 'use strict'
-const {sumAll} = require('../../utils')
+const {sumAll, solveLogicPuzzle} = require('../../utils')
 
 // Setup
 
@@ -66,22 +66,7 @@ const part1 = (input) => {
 const isViablePosition = (positionValues, field) => {
     return positionValues.every(value => isValueValid(value, [field]))
 }
-
-const removePositionFromAllExcept = (position, mapping, except) => {
-    const newMapping = {}
-    for (let fieldName in mapping) {
-        let positions = mapping[fieldName]
-        if (fieldName != except) {
-            const index = positions.indexOf(position)
-            if (index != -1) {
-                positions.splice(index, 1)
-            }
-        }
-        newMapping[fieldName] = positions
-    }
-    return newMapping
-}
-
+// TODO move logic puzzle solver into utils (look at Day 21)
 const part2 = (input) => {
     const {fieldRules, myTicket, nearbyTickets} = preprocessing(input)
     const tickets = nearbyTickets.filter(ticket => isTicketValid(ticket, fieldRules))
@@ -96,21 +81,8 @@ const part2 = (input) => {
             }
         }
     })
+    mapping = solveLogicPuzzle(mapping)
 
-    let breakout = false
-    while (!breakout) {
-        breakout = true
-        for (let fieldName in mapping) {
-            const positions = mapping[fieldName]
-            if (positions.length == 1) {
-                // strip position from all but fieldName
-                mapping = removePositionFromAllExcept(positions[0], mapping, fieldName)
-            } else {
-                breakout = false
-            }
-        }
-    }
-    
     let product = 1
     for (let fieldName in mapping) {
         const position = mapping[fieldName]
@@ -118,6 +90,7 @@ const part2 = (input) => {
             product *= myTicket[position]
         }
     }
+
     return product
 }
 

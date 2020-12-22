@@ -1,5 +1,5 @@
 'use strict'
-
+const {solveLogicPuzzle} = require('../../utils')
 // Setup
 
 const preprocessing = input => {
@@ -49,21 +49,6 @@ const identifySingleAllergen = (foodList,  allergen) => {
 
     return intersection
 }
-// TODO move logic puzzle solver into utils (look at Day 16)
-const removeIngredientFromAllExcept = (ingredient, mapping, except) => {
-    const newMapping = {}
-    for (let fieldName in mapping) {
-        let positions = mapping[fieldName]
-        if (fieldName != except) {
-            const index = positions.indexOf(ingredient)
-            if (index != -1) {
-                positions.splice(index, 1)
-            }
-        }
-        newMapping[fieldName] = positions
-    }
-    return newMapping
-}
 
 const part1 = input => {
     let foodList = preprocessing(input)
@@ -72,22 +57,7 @@ const part1 = input => {
     allergenList.forEach(allergen => {
         mapping[allergen] = identifySingleAllergen(foodList, allergen)
     })
-    let breakout = false
-    while (!breakout) {
-        breakout = true
-        for (let allergen in mapping) {
-            const possibleIngredients = mapping[allergen]
-            if ((typeof possibleIngredients == 'object') && possibleIngredients.length == 1) {
-                // strip position from all but fieldName
-                mapping = removeIngredientFromAllExcept(possibleIngredients[0], mapping, allergen)
-                mapping[allergen] = possibleIngredients[0]
-            } else if (typeof possibleIngredients == 'object') {
-                breakout = false
-            }
-        }
-    }
-
-    foodList = preprocessing(input)
+    mapping = solveLogicPuzzle(mapping)
     const allIngredients = identifyAllIngredients(foodList)
     const allergicIngredients = Object.values(mapping)
     const nonAllergicIngredients = Object.keys(allIngredients).filter(ingredient => !allergicIngredients.includes(ingredient))
@@ -108,22 +78,8 @@ const part2 = input => {
     allergenList.forEach(allergen => {
         mapping[allergen] = identifySingleAllergen(foodList, allergen)
     })
-    let breakout = false
-    while (!breakout) {
-        breakout = true
-        for (let allergen in mapping) {
-            const possibleIngredients = mapping[allergen]
-            if ((typeof possibleIngredients == 'object') && possibleIngredients.length == 1) {
-                // strip position from all but fieldName
-                mapping = removeIngredientFromAllExcept(possibleIngredients[0], mapping, allergen)
-                mapping[allergen] = possibleIngredients[0]
-            } else if (typeof possibleIngredients == 'object') {
-                breakout = false
-            }
-        }
-    }
+    mapping = solveLogicPuzzle(mapping)
 
-    foodList = preprocessing(input)
     const sortedIngredients = Object.keys(mapping).sort((a, b) => a < b ? -1 : 1).map(allergen => mapping[allergen])
 
     return sortedIngredients.join(',')
