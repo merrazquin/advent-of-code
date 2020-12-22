@@ -66,9 +66,9 @@ const preprocessing = (input, ruleIndex, overrides = {}) => {
     if (Object.keys(overrides).length) {
         // attempt to process non-overriden rules
         rulesMap = rulesMap.map((rule, index) => {
-            // if (referencesOverridenRule(rulesMap, index, overrides)) {
+            if (referencesOverridenRule(rulesMap, index, overrides)) {
             //     return rule
-            // }
+            }
             if (index === 0 || index == 8 || index == 11) return rule
             return getConcreteRule(rulesMap, index)
         })
