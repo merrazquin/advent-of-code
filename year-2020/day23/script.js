@@ -28,8 +28,13 @@ function toString() {
 
 // Setup
 
-const preprocessing = input => {
+const preprocessing = (input, padTo = 0) => {
     let cups = input.split('').map(label => parseInt(label))
+    if (padTo) {
+        while (cups.length < padTo) {
+            cups.push(cups.length + 1)
+        }
+    }
     let cupNodes = new Array(cups.length)
     let cupList = new Cups()
 
@@ -54,17 +59,12 @@ const preprocessing = input => {
 
 // Part 1
 // ======
-
-const part1 = (input, moves = 100) => {
-    let {currentCup, cupList, cupNodes} = preprocessing(input)
-
-    // maintain an array of nodes to easily access them (cupNodes)
-    // create a circular linked list of cups (cups)
-    // record the "head/current" (first cup listed) (currentCup)
+const playGame = (currentCup, cupList, cupNodes, moves) => {
     while (moves) {
         // on a move, grab the 3 cups to the right of the "head"
         // detatch those 3 cups from the head, grab cup attached to "tail" of 3 cups, and attach it to the "head"
         let next3Cups = new Cups(currentCup.next, currentCup.next.next, currentCup.next.next.next)
+        
         // find a destination cup (cup equal to "head" - 1, wrapping around to highest if necessary)
         const currCupLabel = parseInt(currentCup.toString())
         let destinationLabel = currCupLabel - 1
@@ -72,7 +72,7 @@ const part1 = (input, moves = 100) => {
             destinationLabel = cupNodes.length - 1
         }
         let destinationCup = cupNodes[destinationLabel]
-        while (destinationCup.list != cupList) { // this could be a p2 gotcha
+        while (destinationCup.list != cupList) { 
             destinationLabel--
             if (destinationLabel < 1) {
                 destinationLabel = cupNodes.length - 1
@@ -87,8 +87,16 @@ const part1 = (input, moves = 100) => {
         currentCup = currentCup.next
         
         moves--
-    }
- 
+    } 
+}
+const part1 = (input, moves = 100) => {
+    // maintain an array of nodes to easily access them (cupNodes)
+    // create a circular linked list of cups (cups)
+    // record the "head/current" (first cup listed) (currentCup)
+    let {currentCup, cupList, cupNodes} = preprocessing(input)
+
+    playGame(currentCup, cupList, cupNodes, moves)
+    
     // after n moves, return a string of all cups in order except `1`
     let startingNode = cupNodes[1]
     let nextNode = startingNode.next
@@ -98,14 +106,20 @@ const part1 = (input, moves = 100) => {
         finalString.push(nextNode.toString())
     } while(nextNode.next != startingNode)
 
-    return finalString.join('')
+    return finalString.join('')   
 }
 
 // Part 2
 // ======
 
-const part2 = input => {
-    return preprocessing(input)
+const part2 = (input, padTo = 1000000, moves = 10000000) => {
+    let {currentCup, cupList, cupNodes} = preprocessing(input, padTo)
+
+    playGame(currentCup, cupList, cupNodes, moves)
+
+    let startingNode = cupNodes[1]
+    // Determine which two cups will end up immediately clockwise of cup 1. What do you get if you multiply their labels together?
+    return parseInt(startingNode.next.toString()) * parseInt(startingNode.next.next.toString())
 }
 
 module.exports = { part1, part2 }

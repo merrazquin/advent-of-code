@@ -11,9 +11,10 @@ describe('Day 23: Crab Cups', () => {
         })
     })
 
+    // skip because it could timeout
     describe.skip('Part Two', () => {
-        it('', () => {
-            assert.strictEqual(part2(cups), '67384529')
+        it('should return the product of the two cups immediately clockwise of cup 1 after ten million moves', () => {
+            assert.strictEqual(part2(cups), 149245887792)
         })
     })
 })
