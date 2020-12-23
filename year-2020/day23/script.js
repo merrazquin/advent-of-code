@@ -55,7 +55,7 @@ const preprocessing = input => {
 // Part 1
 // ======
 
-const part1 = (input, moves) => {
+const part1 = (input, moves = 100) => {
     let {currentCup, cupList, cupNodes} = preprocessing(input)
 
     // maintain an array of nodes to easily access them (cupNodes)
