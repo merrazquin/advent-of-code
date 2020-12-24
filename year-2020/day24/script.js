@@ -1,5 +1,5 @@
 'use strict'
-const { sumAll } = require('../../utils')
+
 // Setup
 const BLACK = -1
 const WHITE = 1
@@ -76,7 +76,7 @@ const getInitialTileMap = directions => {
 const part1 = input => {
     const directions = preprocessing(input)
     const tileMap = getInitialTileMap(directions)
-    return sumAll([...tileMap.values()].map(tile => tile === BLACK))
+    return [...tileMap.values()].filter(tile => tile === BLACK).length
 }
 
 // Part 2
@@ -89,9 +89,9 @@ const findNeighbors = (tileKey) => {
     })
 }
 const nextGenerationForTile = (tileMap, tileKey) => {
-    const tile = tileMap[tileKey] || WHITE
+    const tile = tileMap.get(tileKey) || WHITE
     const neighbors = findNeighbors(tileKey)
-    const blackTileCount = neighbors.map(tileKey => tileMap[tileKey] || WHITE).filter(tile => tile === BLACK).length
+    const blackTileCount = neighbors.map(tileKey => tileMap.get(tileKey) || WHITE).filter(tile => tile === BLACK).length
 
     if (tile === BLACK && (blackTileCount == 0 || blackTileCount > 2)) {
         return WHITE
@@ -104,28 +104,28 @@ const nextGenerationForTile = (tileMap, tileKey) => {
 
 const part2 = input => {
     const directions = preprocessing(input)
-    let tileMap = Object.fromEntries(getInitialTileMap(directions))
+    let tileMap = getInitialTileMap(directions)
 
     let days = 100
 
     while (days--) {
-        let maxX = Object.keys(tileMap).reduce((prevMax, key) => Math.max(prevMax, Math.abs(parseInt(key.split('|')[0]))), 0)
-        let maxY = Object.keys(tileMap).reduce((prevMax, key) => Math.max(prevMax, Math.abs(parseInt(key.split('|')[1]))), 0)
+        let maxX = [...tileMap.keys()].reduce((prevMax, key) => Math.max(prevMax, Math.abs(parseInt(key.split('|')[0]))), 0)
+        let maxY = [...tileMap.keys()].reduce((prevMax, key) => Math.max(prevMax, Math.abs(parseInt(key.split('|')[1]))), 0)
 
-        let nextTileMap = {}
+        let nextTileMap = new Map()
         let x = maxX * -1 - 1
         for (x; x <= maxX + 1; x++) {
             let y = maxY * -1 - 1
             for(y; y <= maxY + 1; y++) {
                 const tileKey = `${x}|${y}`
                 const nextTile = nextGenerationForTile(tileMap, tileKey)
-                nextTileMap[tileKey] = nextTile
+                nextTileMap.set(tileKey, nextTile)
             }
         }
     
         tileMap = nextTileMap
     }
-    return Object.values(tileMap).filter(tile => tile === BLACK).length
+    return [...tileMap.values()].filter(tile => tile === BLACK).length
 }
 
 module.exports = { part1, part2 }
