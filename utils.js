@@ -322,7 +322,6 @@ const removePossibilityFromAllKeysExcept = (possibility, possibilitiesMap, excep
 const solveLogicPuzzle = puzzle => {
     let breakout = false
     let previousHash = JSON.stringify(puzzle)
-    console.log(previousHash)
     while (!breakout) {
         breakout = true
         for (let key in puzzle) {
@@ -335,7 +334,6 @@ const solveLogicPuzzle = puzzle => {
             }
         }
         let currentHash = JSON.stringify(puzzle)
-        console.log('   ',currentHash)
         if (previousHash == currentHash) {
             breakout = true
         }

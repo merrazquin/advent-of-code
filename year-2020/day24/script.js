@@ -120,10 +120,8 @@ const part2 = input => {
             let y = maxY * -1 - 1
             for(y; y <= maxY + 1; y++) {
                 const tileKey = `${x}|${y}`
-                if (!nextTileMap[tileKey]) {
-                    const nextTile = nextGenerationForTile(tileMap, tileKey)
-                    nextTileMap[tileKey] = nextTile
-                }
+                const nextTile = nextGenerationForTile(tileMap, tileKey)
+                nextTileMap[tileKey] = nextTile
             }
         }
     
