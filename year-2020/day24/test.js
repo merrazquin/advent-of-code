@@ -30,7 +30,7 @@ describe('Day 24: Lobby Layout', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe.skip('Part Two', () => {
         it('', () => {
             assert.strictEqual(part2(tileList), 10)
         })
