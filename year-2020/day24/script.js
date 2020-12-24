@@ -3,7 +3,11 @@
 // Setup
 
 const preprocessing = input => {
-    return input.split('\n')
+    const regex = /(se)|(sw)|(nw)|(ne)|(e)|(w)/g
+    return input.split('\n').map(row => {
+        regex.lastIndex = -1
+        return [...row.matchAll(regex)].map(match => match[0])
+    })
 }
 
 // Part 1
