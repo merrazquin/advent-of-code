@@ -14,43 +14,49 @@ const preprocessing = input => {
 
 // Part 1
 // ======
+const getHexNeighborCoords = (x, y, direction) => {
+    switch (direction) {
+    case 'e':
+        x++
+        break
+    case 'w':
+        x--
+        break
+    case 'ne':
+        y--
+        if (y % 2 == 0) {
+            x++
+        }
+        break
+    case 'nw':
+        y--
+        if (y % 2 != 0) {
+            x--
+        }
+        break
+    case 'se':
+        y++
+        if (y % 2 == 0) {
+            x++
+        }
+        break
+    case 'sw':
+        y++
+        if (y % 2 != 0) {
+            x--
+        }
+        break
+    }
+    return {x, y}
+}
 const findTile = directions => {
     directions = directions.slice()
     let x = 0, y = 0
     while (directions.length) {
         const currDirection = directions.shift()
-        switch (currDirection) {
-        case 'e':
-            x++
-            break
-        case 'w':
-            x--
-            break
-        case 'ne':
-            y--
-            if (y % 2 == 0) {
-                x++
-            }
-            break
-        case 'nw':
-            y--
-            if (y % 2 != 0) {
-                x--
-            }
-            break
-        case 'se':
-            y++
-            if (y % 2 == 0) {
-                x++
-            }
-            break
-        case 'sw':
-            y++
-            if (y % 2 != 0) {
-                x--
-            }
-            break
-        }
+        let newCoords = getHexNeighborCoords(x, y, currDirection)
+        x = newCoords.x
+        y = newCoords.y
     }
 
     return { x, y }
@@ -80,39 +86,7 @@ const part1 = input => {
 const findNeighbors = (tileKey) => {
     let [origX, origY] = tileKey.split('|').map(val => parseInt(val))
     return ['ne', 'nw', 'se', 'sw', 'e', 'w'].map(direction => {
-        let x = origX, y = origY
-        switch (direction) {
-        case 'e':
-            x++
-            break
-        case 'w':
-            x--
-            break
-        case 'ne':
-            y--
-            if (y % 2 == 0) {
-                x++
-            }
-            break
-        case 'nw':
-            y--
-            if (y % 2 != 0) {
-                x--
-            }
-            break
-        case 'se':
-            y++
-            if (y % 2 == 0) {
-                x++
-            }
-            break
-        case 'sw':
-            y++
-            if (y % 2 != 0) {
-                x--
-            }
-            break
-        }
+        let {x, y} = getHexNeighborCoords(origX, origY, direction)
         return `${x}|${y}`
     })
 }
