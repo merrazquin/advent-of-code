@@ -30,9 +30,9 @@ describe('Day 24: Lobby Layout', () => {
         })
     })
 
-    describe.skip('Part Two', () => {
-        it('', () => {
-            assert.strictEqual(part2(tileList), 10)
-        })
+    describe('Part Two', () => {
+        it('should report how many tiles are left with black side up after 100 days', () => {
+            assert.strictEqual(part2(tileList), 2208)
+        }).timeout(10000)
     })
 })

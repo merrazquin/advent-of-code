@@ -1,8 +1,8 @@
 'use strict'
-const {sumAll} = require('../../utils')
+const { sumAll } = require('../../utils')
 // Setup
-const BLACK = '-1'
-const WHITE = '1'
+const BLACK = -1
+const WHITE = 1
 
 const preprocessing = input => {
     const regex = /(se)|(sw)|(nw)|(ne)|(e)|(w)/g
@@ -16,67 +16,146 @@ const preprocessing = input => {
 // ======
 const findTile = directions => {
     directions = directions.slice()
-    // start at 0,0 (center)
     let x = 0, y = 0
     while (directions.length) {
         const currDirection = directions.shift()
         switch (currDirection) {
-            case 'e':
+        case 'e':
+            x++
+            break
+        case 'w':
+            x--
+            break
+        case 'ne':
+            y--
+            if (y % 2 == 0) {
                 x++
-                break
-            case 'w':
+            }
+            break
+        case 'nw':
+            y--
+            if (y % 2 != 0) {
                 x--
-                break
-            case 'ne':
-                y--
-                if (y % 2 == 0) {
-                    x++
-                }
-                break
-            case 'nw':
-                y--
-                if (y % 2 != 0) {
-                    x--
-                }
-                break
-            case 'se':
-                y++
-                if (y % 2 == 0) {
-                    x++
-                }
-                break
-            case 'sw':
-                y++
-                if (y % 2 != 0) {
-                    x--
-                }
-                break
+            }
+            break
+        case 'se':
+            y++
+            if (y % 2 == 0) {
+                x++
+            }
+            break
+        case 'sw':
+            y++
+            if (y % 2 != 0) {
+                x--
+            }
+            break
         }
     }
 
-    return {x, y}
+    return { x, y }
 }
-const part1 = input => {
+const getInitialTileMap = directions => {
     const tileMap = {}
-    const directions = preprocessing(input)
 
     directions.forEach(seqence => {
-        const {x, y} = findTile(seqence)
+        const { x, y } = findTile(seqence)
         const tileKey = `${x}|${y}`
         if (!tileMap[tileKey]) {
             tileMap[tileKey] = WHITE
         }
         tileMap[tileKey] = tileMap[tileKey] * -1
-    });
+    })
+    return tileMap
+}
 
-    return sumAll(Object.values(tileMap).map(tile => tile == BLACK))
+const part1 = input => {
+    const directions = preprocessing(input)
+    const tileMap = getInitialTileMap(directions)
+    return sumAll(Object.values(tileMap).map(tile => tile === BLACK))
 }
 
 // Part 2
 // ======
+const findNeighbors = (tileKey) => {
+    let [origX, origY] = tileKey.split('|').map(val => parseInt(val))
+    return ['ne', 'nw', 'se', 'sw', 'e', 'w'].map(direction => {
+        let x = origX, y = origY
+        switch (direction) {
+        case 'e':
+            x++
+            break
+        case 'w':
+            x--
+            break
+        case 'ne':
+            y--
+            if (y % 2 == 0) {
+                x++
+            }
+            break
+        case 'nw':
+            y--
+            if (y % 2 != 0) {
+                x--
+            }
+            break
+        case 'se':
+            y++
+            if (y % 2 == 0) {
+                x++
+            }
+            break
+        case 'sw':
+            y++
+            if (y % 2 != 0) {
+                x--
+            }
+            break
+        }
+        return `${x}|${y}`
+    })
+}
+const nextGenerationForTile = (tileMap, tileKey) => {
+    const tile = tileMap[tileKey] || WHITE
+    const neighbors = findNeighbors(tileKey)
+    const blackTileCount = neighbors.map(tileKey => tileMap[tileKey] || WHITE).filter(tile => tile === BLACK).length
+
+    if (tile === BLACK && (blackTileCount == 0 || blackTileCount > 2)) {
+        return WHITE
+    } else if (tile === WHITE && blackTileCount === 2) {
+        return BLACK
+    } else {
+        return tile
+    }
+}
 
 const part2 = input => {
-    return preprocessing(input)
+    const directions = preprocessing(input)
+    let tileMap = getInitialTileMap(directions)
+
+    let days = 100
+
+    while (days--) {
+        let maxX = Object.keys(tileMap).reduce((prevMax, key) => Math.max(prevMax, Math.abs(parseInt(key.split('|')[0]))), 0)
+        let maxY = Object.keys(tileMap).reduce((prevMax, key) => Math.max(prevMax, Math.abs(parseInt(key.split('|')[1]))), 0)
+
+        let nextTileMap = {}
+        let x = maxX * -1 - 1
+        for (x; x <= maxX + 1; x++) {
+            let y = maxY * -1 - 1
+            for(y; y <= maxY + 1; y++) {
+                const tileKey = `${x}|${y}`
+                if (!nextTileMap[tileKey]) {
+                    const nextTile = nextGenerationForTile(tileMap, tileKey)
+                    nextTileMap[tileKey] = nextTile
+                }
+            }
+        }
+    
+        tileMap = nextTileMap
+    }
+    return Object.values(tileMap).filter(tile => tile === BLACK).length
 }
 
 module.exports = { part1, part2 }
