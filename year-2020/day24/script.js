@@ -62,15 +62,13 @@ const findTile = directions => {
     return { x, y }
 }
 const getInitialTileMap = directions => {
-    const tileMap = {}
+    const tileMap = new Map()
 
     directions.forEach(seqence => {
         const { x, y } = findTile(seqence)
         const tileKey = `${x}|${y}`
-        if (!tileMap[tileKey]) {
-            tileMap[tileKey] = WHITE
-        }
-        tileMap[tileKey] = tileMap[tileKey] * -1
+        const currentTile = tileMap.get(tileKey) || WHITE
+        tileMap.set(tileKey, currentTile * -1)
     })
     return tileMap
 }
@@ -78,7 +76,7 @@ const getInitialTileMap = directions => {
 const part1 = input => {
     const directions = preprocessing(input)
     const tileMap = getInitialTileMap(directions)
-    return sumAll(Object.values(tileMap).map(tile => tile === BLACK))
+    return sumAll([...tileMap.values()].map(tile => tile === BLACK))
 }
 
 // Part 2
@@ -106,7 +104,7 @@ const nextGenerationForTile = (tileMap, tileKey) => {
 
 const part2 = input => {
     const directions = preprocessing(input)
-    let tileMap = getInitialTileMap(directions)
+    let tileMap = Object.fromEntries(getInitialTileMap(directions))
 
     let days = 100
 
