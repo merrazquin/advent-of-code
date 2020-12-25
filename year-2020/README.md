@@ -36,7 +36,7 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 - [Day 22: Crab Combat](day22/)
 - [Day 23: Crab Cups](day23/)
 - [Day 24: Lobby Layout](day24/)
-- [Day 25: TBD](day25/)
+- [Day 25: Combo Breaker](day25/)
 
 ## Visit
 - http://adventofcode.com/2020

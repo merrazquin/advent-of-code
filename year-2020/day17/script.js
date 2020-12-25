@@ -22,8 +22,6 @@ const countActive = cells => {
 
 // Part 1
 // ======
-// TODO: move all conway/moore's neighborhood related stuff to utils
-
 
 const nextGeneration = (layers, z, width, outerLayers = null, w = null) => {
     const currentGeneration = layers[z]
