@@ -343,6 +343,72 @@ const solveLogicPuzzle = puzzle => {
     return puzzle
 }
 
+const getNeighboringCell = (i, direction, cells, width) => {
+    // horizontal offset is 1, BUT
+    // left edge modulo width = 0
+    // right edge modulo width = width - 1
+    // declining diagonal offset is width + 1
+    // inclinng diagonal offset is width - 1
+    // vertical offset is width
+    let cell = -1
+    switch (direction) {
+    case 'NW':
+        if (i % width > 0 && i > width - 1) {
+            cell = i - (width + 1)
+        }
+        break
+    case 'N':
+        if (i > width - 1) {
+            cell = i - width
+        }
+        break
+    case 'NE':
+        if (i > width - 1 && i % width < width - 1) {
+            cell = i - (width - 1)
+        }
+        break
+    case 'E':
+        if (i % width < width - 1) {
+            cell = i + 1
+        }
+        break
+    case 'SE':
+        if (i % width < width - 1 && i < cells.length - width) {
+            cell = i + (width + 1)
+        }
+        break
+    case 'S':
+        if (i < cells.length - width) {
+            cell = i + width
+        }
+        break
+    case 'SW':
+        if (i % width > 0 && i <= cells.length - width) {
+            cell = i + (width - 1)
+        }
+        break
+    case 'W':
+        if (i % width > 0) {
+            cell = i - 1
+        }
+        break
+    }
+    return cell
+}
+const findNeighbors = (i, cells, width) => {
+    const neighbors = []
+    let neighbor
+    ['NW', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W'].forEach(direction => {
+        neighbor = ''
+        let cell = getNeighboringCell(i, direction, cells, width)
+        if (cell != -1) {
+            neighbor = cells[cell]
+        }
+        neighbors.push(neighbor)
+    })
+
+    return neighbors
+}
 
 module.exports = { 
     sumAll, multiplyAll,
@@ -351,5 +417,6 @@ module.exports = {
     cardinalRotateLeft, cardinalRotateRight, cardinalMove,
     lcm, gcd,
     getPermutations, getAllPermutations,
-    solveLogicPuzzle
+    solveLogicPuzzle,
+    getNeighboringCell, findNeighbors
 }

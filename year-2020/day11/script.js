@@ -1,5 +1,5 @@
 'use strict'
-
+const { findNeighbors, getNeighboringCell } = require('../../utils')
 // Setup
 const OCCUPIED = '#'
 const EMPTY = 'L'
@@ -9,59 +9,6 @@ const FLOOR = '.'
 // ======
 const countOccupied = seats => {
     return seats.filter(seat => seat == OCCUPIED).length
-}
-const getNeighboringCell = (i, direction, seating, width) => {
-    // horizontal offset is 1, BUT
-    // left edge modulo width = 0
-    // right edge modulo width = width - 1
-    // declining diagonal offset is width + 1
-    // inclinng diagonal offset is width - 1
-    // right diagonal offset is 
-    // vertical offset is width
-    let cell = -1
-    switch (direction) {
-    case 'NW':
-        if (i % width > 0 && i > width - 1) {
-            cell = i - (width + 1)
-        }
-        break
-    case 'N':
-        if (i > width - 1) {
-            cell = i - width
-        }
-        break
-    case 'NE':
-        if (i > width - 1 && i % width < width - 1) {
-            cell = i - (width - 1)
-        }
-        break
-    case 'E':
-        if (i % width < width - 1) {
-            cell = i + 1
-        }
-        break
-    case 'SE':
-        if (i % width < width - 1 && i < seating.length - width) {
-            cell = i + (width + 1)
-        }
-        break
-    case 'S':
-        if (i < seating.length - width) {
-            cell = i + width
-        }
-        break
-    case 'SW':
-        if (i % width > 0 && i <= seating.length - width) {
-            cell = i + (width - 1)
-        }
-        break
-    case 'W':
-        if (i % width > 0) {
-            cell = i - 1
-        }
-        break
-    }
-    return cell
 }
 const findVisibleNeighborsInDirection = (i, seating, width, direction) => {
     const lineOfSightNeighbors = []
@@ -86,22 +33,6 @@ const findVisibleNeighbors = (i, seating, width) => {
     })
 
     return lineOfSightNeighbors
-}
-const findNeighbors = (i, seating, width) => {
-    const neighbors = []
-    let neighbor
-    ['NW', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W'].forEach(direction => {
-        neighbor = ''
-        let cell = getNeighboringCell(i, direction, seating, width)
-        if (cell != -1) {
-            neighbor = seating[cell]
-        }
-        if (neighbor.length) {
-            neighbors.push(neighbor)
-        }
-    })
-
-    return neighbors
 }
 
 const nextGeneration = (currentGeneration, width, threshold) => {

@@ -66,7 +66,7 @@ const part1 = (input) => {
 const isViablePosition = (positionValues, field) => {
     return positionValues.every(value => isValueValid(value, [field]))
 }
-// TODO move logic puzzle solver into utils (look at Day 21)
+
 const part2 = (input) => {
     const {fieldRules, myTicket, nearbyTickets} = preprocessing(input)
     const tickets = nearbyTickets.filter(ticket => isTicketValid(ticket, fieldRules))
