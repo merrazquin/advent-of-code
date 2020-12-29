@@ -1,6 +1,6 @@
 'use strict'
 
-const { getAllPermutations, sumAll } = require('../../utils')
+const { getAllTokenizedPermutations, sumAll } = require('../../utils')
 
 // Setup
 // TODO write instruction parsing util
@@ -76,7 +76,7 @@ const part2 = input => {
         if (instruction === 'mask') {
             mask = value
         } else {
-            getAllPermutations(applyUpdatedMask(position, mask), 'X', options).forEach(address => {
+            getAllTokenizedPermutations(applyUpdatedMask(position, mask), 'X', options).forEach(address => {
                 memory[parseInt(address, 2)] = parseInt(value)
             })
         }

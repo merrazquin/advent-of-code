@@ -39,7 +39,7 @@ describe('Day 4: Passport Processing', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe('Part Two', () => {
         it('it should return the total number of stringently-validated passports', () => {
             assert.strictEqual(part2(passports), 2)
             assert.strictEqual(part2(validHeightInInches), 1)

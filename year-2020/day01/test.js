@@ -24,7 +24,7 @@ describe('Day 1: Report Repair', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe('Part Two', () => {
         it('should return the product of 3 numbers which sum to 2020', () => {
             assert.strictEqual(part2(numbers), 241861950)
         })

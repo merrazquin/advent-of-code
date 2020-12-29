@@ -218,13 +218,32 @@ const lcm = (x, y) => {
     return (x * y) / gcd(x, y)
 }
 
+const getAllPermutations = (options, l, r, permutations) => {
+    if (l == r) {
+        permutations.push(options.join('_'))
+    } else {
+        for (var i = 1; i <= r; i++) {
+            let temp = options[i]
+            options[i] = options[l]
+            options[l] = temp
+
+            getAllPermutations(options, l + 1, r, permutations)
+
+            temp = options[i]
+            options[i] = options[l]
+            options[l] = temp
+        }
+    }
+
+}
+
 /**
  * Get all permutations of a string if a single character were to change
  * @param {string} baseString 
  * @param {Number} position position at which to start permutations
- * @param {[*]} options array of characters with which to fill character at position
+ * @param {[*]} options array of strings with which to fill character at position
  */
-const getPermutations = (baseString, index, options) => {
+const getTokenizedPermutations = (baseString, index, options) => {
     const permutation = baseString.split('')
     const permutations = []
     options.forEach(option => {
@@ -237,21 +256,21 @@ const getPermutations = (baseString, index, options) => {
 /**
  * Get all permutations of a string if each instance of `char` were to change
  * @param {string} baseString 
- * @param {string} char character in string which should be the point of permutations
+ * @param {string} token character in string which should be the point of permutations
  * @param {[*]} options array of characters with which to fill character at position
  */
-const getAllPermutations = (baseString, char, options) => {
-    let addresses = [baseString]
-    let currIndex = addresses.findIndex(mask => mask.indexOf(char) != -1)
+const getAllTokenizedPermutations = (baseString, token, options) => {
+    let permutations = [baseString]
+    let currIndex = permutations.findIndex(mask => mask.indexOf(token) != -1)
     while (currIndex != -1) {
-        let newPerms = getPermutations(addresses[currIndex], addresses[currIndex].indexOf(char), options)
-        addresses.splice(currIndex, 1)
+        let newPerms = getTokenizedPermutations(permutations[currIndex], permutations[currIndex].indexOf(token), options)
+        permutations.splice(currIndex, 1)
         if (newPerms.length) {
-            addresses.push(...newPerms)
+            permutations.push(...newPerms)
         }
-        currIndex = addresses.findIndex(mask => mask.indexOf(char) != -1)
+        currIndex = permutations.findIndex(mask => mask.indexOf(token) != -1)
     }
-    return addresses
+    return permutations
 }
 
 /**
@@ -272,6 +291,31 @@ const sumAll = collection => {
         throw new Error('Expected numeric data')
     }
     return array.reduce((sum, val) => sum + val, 0)
+}
+
+/**
+ * Populates combinations array with diffent subsets which sum to target
+ * @param {[]} numbers 
+ * @param {Number} target 
+ * @param {[]} combinations 
+ * @param {[]} partial 
+ */
+const subsetSum = (numbers, target, combinations, partial = []) => {
+    let currentSum = sumAll(partial)
+
+    if (currentSum === target) {
+        combinations.push(partial)
+    }
+    
+    if (currentSum >= target) {
+        return
+    }
+
+    for (let i = 0; i < numbers.length; i++) {
+        const n = numbers[i]
+        const remaining = numbers.slice(i + 1)
+        subsetSum(remaining, target, combinations, partial.concat(n))
+    }
 }
 
 /**
@@ -297,6 +341,31 @@ const multiplyAll = collection => {
     }
     
     return array.reduce((sum, val) => sum * val, 1)
+}
+
+/**
+ * Populates combinations array with diffent subsets which multiply to target
+ * @param {[]} numbers 
+ * @param {Number} target 
+ * @param {[]} combinations 
+ * @param {[]} partial 
+ */
+const subsetProduct = (numbers, target, combinations, partial = []) => {
+    let currentProduct = multiplyAll(partial)
+
+    if (currentProduct === target) {
+        combinations.push(partial)
+    }
+    
+    if (currentProduct >= target) {
+        return
+    }
+
+    for (let i = 0; i < numbers.length; i++) {
+        const n = numbers[i]
+        const remaining = numbers.slice(i + 1)
+        subsetSum(remaining, target, combinations, partial.concat(n))
+    }
 }
 
 const removePossibilityFromAllKeysExcept = (possibility, possibilitiesMap, exceptKey) => {
@@ -411,12 +480,13 @@ const findNeighbors = (i, cells, width) => {
 }
 
 module.exports = { 
-    sumAll, multiplyAll,
+    sumAll, multiplyAll, subsetSum, subsetProduct,
     parseTree,
     rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise,
     cardinalRotateLeft, cardinalRotateRight, cardinalMove,
     lcm, gcd,
-    getPermutations, getAllPermutations,
+    getAllPermutations,
+    getTokenizedPermutations, getAllTokenizedPermutations,
     solveLogicPuzzle,
     getNeighboringCell, findNeighbors
 }

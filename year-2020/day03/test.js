@@ -21,7 +21,7 @@ describe('Day 3: Toboggan Trajectory', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe('Part Two', () => {
         it('should find the product of trees across multiple slopes', () => {
             assert.strictEqual(part2(geology), 336)
         })

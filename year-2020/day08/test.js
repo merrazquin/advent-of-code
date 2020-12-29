@@ -19,7 +19,7 @@ describe('Day 8: Handheld Halting', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe('Part Two', () => {
         it('should repair the instruction set and return the value of the accumulator', () => {
             assert.strictEqual(part2(instructions), 8)
         })
