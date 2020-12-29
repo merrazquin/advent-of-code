@@ -218,6 +218,23 @@ const lcm = (x, y) => {
     return (x * y) / gcd(x, y)
 }
 
+/**
+ * Finds all divisors of n
+ * @param {Number} n 
+ */
+const findAllDivisors = n => {
+    const divisors = new Set()
+    for (let i = 1; i <= Math.floor(Math.sqrt(n)); i++) {
+        if (n % i == 0) {
+            divisors.add(i)
+            if (n / i != i) {
+                divisors.add(n / i)
+            }
+        }
+    }
+    return [...divisors].sort((a, b) => a - b)
+}
+
 const getAllPermutations = (options, l, r, permutations) => {
     if (l == r) {
         permutations.push(options.join('_'))
@@ -484,7 +501,7 @@ module.exports = {
     parseTree,
     rotatePointAroundAxisCounterClockwise, rotatePointAroundAxisClockwise,
     cardinalRotateLeft, cardinalRotateRight, cardinalMove,
-    lcm, gcd,
+    lcm, gcd, findAllDivisors,
     getAllPermutations,
     getTokenizedPermutations, getAllTokenizedPermutations,
     solveLogicPuzzle,
