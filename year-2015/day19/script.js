@@ -78,7 +78,7 @@ const part2 = input => {
         if (tmp == target) {
             target = medicine
             steps = 0
-            keys = keys.sort((a, b) => Math.random() > .5 ? -1 : 1)
+            keys = keys.sort(() => Math.random() > .5 ? -1 : 1)
         }
     }
     return steps

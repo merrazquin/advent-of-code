@@ -1,6 +1,6 @@
 'use strict'
 
-const { findAllDivisors, sumAll } = require("../../utils")
+const { findAllDivisors, sumAll } = require('../../utils')
 
 // Setup
 
