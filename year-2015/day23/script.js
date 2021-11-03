@@ -14,48 +14,50 @@ const computer = (instructions, currentOffset = 0, a = 0, b = 0) => {
         const instruction = instructions[currentOffset]
         let [operation, ...operands] = instruction.replace(',', '').split(' ')
         switch(operation) {
-            case 'inc':
-                register = operands.shift()
-                if (register === 'a') {
-                    a++
-                } else {
-                    b++
-                }
-                currentOffset++
-                break
-            case 'hlf':
-                register = operands.shift()
-                if (register === 'a') {
-                    a = Math.floor(a / 2)
-                } else {
-                    b = Math.floor(b / 2)
-                }
-                currentOffset++
-                break
-            case 'tpl':
-                register = operands.shift()
-                if (register === 'a') {
-                    a *= 3
-                } else {
-                    b *= 3
-                }
-                currentOffset++
-                break
-            case 'jmp':
-                currentOffset += parseInt(operands.shift());
-                break
-            case 'jie':
-                let [regE, offsetE] = operands
-                register = regE === 'a' ? a : b
-                if (register % 2 == 0) currentOffset += parseInt(offsetE)
-                else currentOffset++
-                break
-            case 'jio':
-                let [regO, offsetO] = operands
-                register = regO === 'a' ? a : b
-                if (register == 1) currentOffset += parseInt(offsetO)
-                else currentOffset++
-                break
+        case 'inc':
+            register = operands.shift()
+            if (register === 'a') {
+                a++
+            } else {
+                b++
+            }
+            currentOffset++
+            break
+        case 'hlf':
+            register = operands.shift()
+            if (register === 'a') {
+                a = Math.floor(a / 2)
+            } else {
+                b = Math.floor(b / 2)
+            }
+            currentOffset++
+            break
+        case 'tpl':
+            register = operands.shift()
+            if (register === 'a') {
+                a *= 3
+            } else {
+                b *= 3
+            }
+            currentOffset++
+            break
+        case 'jmp':
+            currentOffset += parseInt(operands.shift())
+            break
+        case 'jie': {
+            let [regE, offsetE] = operands
+            register = regE === 'a' ? a : b
+            if (register % 2 == 0) currentOffset += parseInt(offsetE)
+            else currentOffset++
+            break
+        }
+        case 'jio': {
+            let [regO, offsetO] = operands
+            register = regO === 'a' ? a : b
+            if (register == 1) currentOffset += parseInt(offsetO)
+            else currentOffset++
+            break
+        }
         }
     }
     return {a, b}    

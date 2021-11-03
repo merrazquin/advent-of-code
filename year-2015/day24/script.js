@@ -1,6 +1,6 @@
 'use strict'
 
-const { sumAll, subsetProduct, multiplyAll } = require("../../utils")
+const { sumAll, subsetProduct, multiplyAll } = require('../../utils')
 
 // Setup
 
