@@ -22,7 +22,7 @@ describe('Day 24: It Hangs in the Balance', () => {
 
     describe('Part Two', () => {
         it('should return the quantum entanglement of the first group of packages in the ideal configuration (4 compartments)', () => {
-            assert.strictEqual(part2(packages), 99)
+            assert.strictEqual(part2(packages), 44)
         })
     })
 })
