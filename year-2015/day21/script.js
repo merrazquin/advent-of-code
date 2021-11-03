@@ -12,7 +12,8 @@ const preprocessing = input => {
     }
 }
 const attack = (attacker, victim) => {
-    victim.hitPoints -= (attacker.damage - victim.armor)
+    const attackValue = (attacker.damage - victim.armor)
+    victim.hitPoints -= attackValue > 0 ? attackValue : 1
 }
 const weaponOptions = {
     dagger: {
