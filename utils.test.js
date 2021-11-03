@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm, getAllPermutations, getPermutations, sumAll, multiplyAll} = require('./utils')
+const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm, getAllTokenizedPermutations, getTokenizedPermutations, sumAll, multiplyAll} = require('./utils')
 
 const TreeModel = require('tree-model')
 const tree = new TreeModel()
@@ -137,17 +137,17 @@ describe('Utils', () => {
         })
     })
 
-    describe('getPermutations', () => {
+    describe('getTokenizedPermutations', () => {
         it('should find a set permutations of a string given a point of inflextion and replacement options', () => {
-            const permutations = getPermutations('cat', 0, ['b', 'c', 'e', 'be'])
+            const permutations = getTokenizedPermutations('cat', 0, ['b', 'c', 'e', 'be'])
             assert.strictEqual(permutations.length, 4)
             assert.strictEqual(permutations.includes('eat'), true)
         })
     })
 
-    describe('getAllPermutations', () => {
+    describe('getAllTokenizedPermutations', () => {
         it('should find all permutations of a string given a replacement character and its replacement options', () => {
-            const permutations = getAllPermutations('00000000000000000000000000000001X0XX', 'X', [0, 1]) 
+            const permutations = getAllTokenizedPermutations('00000000000000000000000000000001X0XX', 'X', [0, 1]) 
             assert.strictEqual(permutations.length, 8)
             assert.strictEqual(permutations.includes('000000000000000000000000000000011001'), true)
         })

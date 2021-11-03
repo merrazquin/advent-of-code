@@ -12,7 +12,7 @@ describe('Day [dayNumber]: [dayDescription]', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe('Part Two', () => {
         it('', () => {
             assert.strictEqual(part2([testInput]), [assertionValue])
         })

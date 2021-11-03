@@ -13,7 +13,7 @@ describe('Day 2: Password Philosophy', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe('Part Two', () => {
         it('should provide the total number of valid passwords (new policy)', () => {
             assert.strictEqual(part2(passwords), 1)
         })

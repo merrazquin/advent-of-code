@@ -41,7 +41,7 @@ describe('Day 7: Handy Haversacks', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe('Part Two', () => {
         it('should find how many individual bags are required inside a particular bag type', () => {
             assert.strictEqual(part2(baggageRules), 32)
             assert.strictEqual(part2(moreBaggageRules), 126)

@@ -25,7 +25,7 @@ describe('Day 6: Custom Customs', () => {
         })
     })
 
-    describe ('Part Two', () => {
+    describe('Part Two', () => {
         it('should return the sum of questions to which all parties in group answered yes', () => {
             assert.strictEqual(part2(answers), 6)
         })
