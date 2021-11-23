@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "linked-list": "^2.1.0",
+    "sinon": "^12.0.1",
     "tree-model": "^1.0.7"
   },
   "devDependencies": {
@@ -38,7 +39,7 @@
   "homepage": "https://github.com/merrazquin/advent-of-code#readme",
   "adventConfig": {
     "year": "2020",
-    "nameTemplate": "year-2020/day{{num}}/script.js",
+    "nameTemplate": "year-2016/day{{num}}/script.js",
     "templateFile": "templates/day.js"
   }
 }
