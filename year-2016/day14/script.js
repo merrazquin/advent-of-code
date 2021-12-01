@@ -239,7 +239,7 @@ const part1 = input => {
         }
         index++
     }
-    console.log(keys)
+    // console.log(keys)
     return index-1
 }
 
