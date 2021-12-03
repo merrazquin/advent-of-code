@@ -1,6 +1,6 @@
 'use strict'
 
-const { cardinalMove } = require("../../utils")
+const { cardinalMove } = require('../../utils')
 
 // Setup
 
@@ -34,16 +34,16 @@ const part2 = input => {
         paces = parseInt(paces)
 
         switch (direction) {
-            case 'forward':
-                position = cardinalMove(position, 'E', paces)
-                position = cardinalMove(position, 'S', aim * paces)
-                break
-            case 'up':
-                aim -= paces
-                break
-            case 'down':
-                aim += paces
-                break
+        case 'forward':
+            position = cardinalMove(position, 'E', paces)
+            position = cardinalMove(position, 'S', aim * paces)
+            break
+        case 'up':
+            aim -= paces
+            break
+        case 'down':
+            aim += paces
+            break
         }
 
     })

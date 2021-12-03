@@ -1,6 +1,6 @@
 'use strict'
 
-const { convertRowsToCols } = require("../../utils")
+const { convertRowsToCols } = require('../../utils')
 
 // Setup
 const mode = (myArray) => {
@@ -19,7 +19,7 @@ const findOxygenGeneratorRating = numbers => {
     let cols = convertRowsToCols(numbers)
     const positions = cols.length
     for (let i = 0; i < positions; i++) {
-        const col = cols[i];
+        const col = cols[i]
         const mostCommon = mode(col)
         numbers = numbers.filter(number => number[i] == mostCommon)
         if (numbers.length == 1) {
@@ -33,7 +33,7 @@ const findCO2ScrubberRating = numbers => {
     let cols = convertRowsToCols(numbers)
     const positions = cols.length
     for (let i = 0; i < positions; i++) {
-        const col = cols[i];
+        const col = cols[i]
         const leastCommon = rarest(col)
         numbers = numbers.filter(number => number[i] == leastCommon)
         if (numbers.length == 1) {
