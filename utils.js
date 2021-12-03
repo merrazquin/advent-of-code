@@ -496,6 +496,23 @@ const findNeighbors = (i, cells, width) => {
     return neighbors
 }
 
+/**
+ * Transposes an array such that ['abc', 'def', 'ghi']
+ * becomes [['a', 'd', 'g'], ['b', 'e', 'h'], ['c', 'f', 'i']]
+ * @param {[]} rows 
+ * @returns an array of columns
+ */
+const convertRowsToCols = rows => {
+    const len = rows[0].length
+    const cols = new Array(len).fill('').map(() => [])
+    rows.forEach(row => {
+        row.split('').forEach((col, index) => {
+            cols[index].push(col)
+        })
+    })
+    return cols
+}
+
 module.exports = { 
     sumAll, multiplyAll, subsetSum, subsetProduct,
     parseTree,
@@ -505,5 +522,6 @@ module.exports = {
     getAllPermutations,
     getTokenizedPermutations, getAllTokenizedPermutations,
     solveLogicPuzzle,
-    getNeighboringCell, findNeighbors
+    getNeighboringCell, findNeighbors,
+    convertRowsToCols
 }
