@@ -506,7 +506,10 @@ const convertRowsToCols = rows => {
     const len = rows[0].length
     const cols = new Array(len).fill('').map(() => [])
     rows.forEach(row => {
-        row.split('').forEach((col, index) => {
+        if (typeof row  == 'string') {
+            row = row.split('')
+        }
+        row.forEach((col, index) => {
             cols[index].push(col)
         })
     })
