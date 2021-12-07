@@ -516,6 +516,17 @@ const convertRowsToCols = rows => {
     return cols
 }
 
+/**
+ * @see https://www.cuemath.com/sum-of-integers-formula/
+ * @param {Number} first 
+ * @param {Number} last 
+ * @returns sum of all integers betweeen first & last, inclusive
+ */
+const sumOfIntegers = (first, last) => {
+    const n = last - first + 1
+    return n * (first + last) / 2
+}
+
 module.exports = { 
     sumAll, multiplyAll, subsetSum, subsetProduct,
     parseTree,
@@ -526,5 +537,6 @@ module.exports = {
     getTokenizedPermutations, getAllTokenizedPermutations,
     solveLogicPuzzle,
     getNeighboringCell, findNeighbors,
-    convertRowsToCols
+    convertRowsToCols,
+    sumOfIntegers
 }
