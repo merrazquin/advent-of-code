@@ -27,16 +27,16 @@ gbdfcae bgc cg cgb
 gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc |
 fgae cfgab fg bagce`
 
-describe('Day : ', () => {
+describe('Day 8: Seven Segment Search', () => {
     describe('Part One', () => {
-        it('should ', () => {
+        it('should return the number of times 1, 4, 7, and 8 appear', () => {
             const moddedInput = input.split('|\n').join('| ')
             assert.strictEqual(part1(moddedInput), 26)
         })
     })
 
     describe('Part Two', () => {
-        it('should ', () => {
+        it('should return the sum of the decoded values', () => {
             const moddedSimpleInput = simpleInput.split('|\n').join('| ')
             const moddedInput = input.split('|\n').join('| ')
             assert.strictEqual(part2(moddedSimpleInput), 5353)
