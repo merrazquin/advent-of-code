@@ -52,19 +52,16 @@ const part2 = input => {
     let graph = new Graph(grid)
 
     const basins = []
+    let nodes = graph.nodes.filter(node => !node.isWall() && !lowPoints.find(point => point.x == node.x && point.y == node.y))
     lowPoints.map(lowPoint => {
         let end = graph.nodes.find(node => node.x == lowPoint.x && node.y == lowPoint.y)
-
-        let basinSize = 0
-        for (let index = 0; index < graph.nodes.length; index++) {
-            let start = graph.nodes[index]
-            if (start.isWall()) continue
-            if (start == end) {
-                basinSize++
-                continue
-            }
+        let basinSize = 1
+        for (let index = 0; index < nodes.length; index++) {
+            let start = nodes[index]
             let result = astar.search(graph, start, end)
             if (result.length) {
+                nodes.splice(index, 1)
+                index--
                 basinSize++
             }
         }
