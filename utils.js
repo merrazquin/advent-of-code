@@ -481,7 +481,7 @@ const getNeighboringCell = (i, direction, cells, width) => {
     }
     return cell
 }
-const findNeighbors = (index, cells, width, includeDiagonal = true) => {
+const findNeighbors = (index, cells, width, includeDiagonal = true, useIndex = false) => {
     const neighbors = []
     let neighbor
     const possibleNeighbors = includeDiagonal ? ['NW', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W'] : ['N', 'E', 'S', 'W']
@@ -489,7 +489,7 @@ const findNeighbors = (index, cells, width, includeDiagonal = true) => {
         neighbor = ''
         let cell = getNeighboringCell(index, direction, cells, width)
         if (cell != -1) {
-            neighbor = cells[cell]
+            neighbor = useIndex ? cell : cells[cell]
         }
         neighbors.push(neighbor)
     })
@@ -931,6 +931,22 @@ const chunk = (collection, length) => {
     return collection.match(new RegExp('.{1,' + length + '}', 'g'))
 }
 
+/**
+ * Takes a flat array of grid nodes and prints it out as rows of given width 
+ * @param {[]} gridNodes 
+ * @param {number} width 
+ * @param {number} padding 
+ * @param {string} label 
+ */
+const debugGrid = (gridNodes, width, padding = 1, label = '') => {
+    if (label) console.log(label)
+    let gridOutput = gridNodes.slice()
+    while (gridOutput.length) {
+        console.log(gridOutput.splice(0, width).map(num => num.toString().padStart(padding, ' ')).join(''))
+    }
+    console.log('\n')
+}
+
 module.exports = { 
     sumAll, multiplyAll, subsetSum, subsetProduct,
     parseTree,
@@ -944,5 +960,6 @@ module.exports = {
     convertRowsToCols,
     sumOfIntegers,
     Graph, astar, GridNode,
-    chunk
+    chunk,
+    debugGrid
 }
