@@ -102,5 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+
 inputTest.txt
 /test.js
+debug.txt
