@@ -10,6 +10,9 @@ class Packet {
         this.subPacketCount = 0
         this.subPacketLength = 0
     }
+    getTotalVersion() {
+        return this.version + sumAll(this.subPackets.map(packet => packet.getTotalVersion()))
+    }
     getValue() {
         let subPacketVals = []
         if (this.subPackets.length) {
@@ -52,7 +55,7 @@ const getLiteralValue = segment => {
     }
 }
 
-const parseSegment = (segment, depth = 0, debug = false) => {
+const parseSegment = (segment) => {
     const parsed = new Packet(parseInt(segment.slice(0, 3), 2), parseInt(segment.slice(3, 6), 2))
     let literalVal
     switch(parsed.typeID) {
@@ -60,28 +63,25 @@ const parseSegment = (segment, depth = 0, debug = false) => {
         literalVal = getLiteralValue(segment.slice(6))
         parsed.value = literalVal.value
         parsed.remainder = literalVal.remainder
-        if (debug) console.log(' '.repeat(depth), depth, parsed.toString())
         break
     default:
         parsed.lengthType = parseInt(segment.slice(6, 7))
         if(parsed.lengthType === 0) {
             parsed.subPacketLength = parseInt(segment.slice(7, 22), 2)
-            if (debug) console.log(' '.repeat(depth), depth, parsed.toString())
-            let subPacket = parseSegment(segment.slice(22, 22 + parsed.subPacketLength), depth + 1)
+            let subPacket = parseSegment(segment.slice(22, 22 + parsed.subPacketLength))
             parsed.subPackets.push(subPacket)
             while (subPacket.remainder) {
-                subPacket = parseSegment(subPacket.remainder, depth + 1)
+                subPacket = parseSegment(subPacket.remainder)
                 parsed.subPackets.push(subPacket)
             }
             parsed.remainder = segment.slice(22 + parsed.subPacketLength)
         } else {
             parsed.subPacketCount = parseInt(segment.slice(7, 18), 2)
-            if (debug) console.log(' '.repeat(depth), depth, parsed.toString())
             if (parsed.subPacketCount) {
-                let subPacket = parseSegment(segment.slice(18), depth + 1)
+                let subPacket = parseSegment(segment.slice(18))
                 parsed.subPackets.push(subPacket)
                 while (parsed.subPackets.length < parsed.subPacketCount) {
-                    subPacket = parseSegment(subPacket.remainder, depth + 1)
+                    subPacket = parseSegment(subPacket.remainder)
                     parsed.subPackets.push(subPacket)
                 }
                 parsed.remainder = parsed.subPackets[parsed.subPacketCount - 1].remainder
@@ -94,15 +94,10 @@ const parseSegment = (segment, depth = 0, debug = false) => {
 
 // Part 1
 // ======
-const sum = values => values.reduce((a, b) => a + b, 0)
-
-const totalProp = (prop) => (ob) => ob[prop] + sum (ob.subPackets.map (totalProp (prop) ))
-
-
 const part1 = input => {
     const bin = getBinaryRepresentation(input)
     const packets = parseSegment(bin)
-    return totalProp('version')(packets)
+    return packets.getTotalVersion()
 }
 
 // Part 2
