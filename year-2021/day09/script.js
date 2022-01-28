@@ -49,6 +49,7 @@ const part2 = input => {
         return {x, y}
     })
 
+    console.log(grid)
     let graph = new Graph(grid)
 
     const basins = []

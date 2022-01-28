@@ -481,17 +481,21 @@ const getNeighboringCell = (i, direction, cells, width) => {
     }
     return cell
 }
-const findNeighbors = (index, cells, width, includeDiagonal = true, useIndex = false) => {
+const findNeighbors = (index, cells, width, includeDiagonal = true, useIndex = false, includeSelf = false, defaultChar = '') => {
     const neighbors = []
     let neighbor
-    const possibleNeighbors = includeDiagonal ? ['NW', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W'] : ['N', 'E', 'S', 'W']
-    possibleNeighbors.forEach(direction => {
-        neighbor = ''
+    const possibleNeighbors = includeDiagonal ? ['NW', 'N', 'NE', 'W', 'E', 'SW', 'S', 'SE'] : ['N', 'E', 'S', 'W']
+    possibleNeighbors.forEach((direction, n) => {
+        neighbor = defaultChar
         let cell = getNeighboringCell(index, direction, cells, width)
         if (cell != -1) {
             neighbor = useIndex ? cell : cells[cell]
         }
         neighbors.push(neighbor)
+
+        if (includeSelf && n == (possibleNeighbors.length / 2) - 1) {
+            neighbors.push(cells[index])
+        }
     })
 
     return neighbors
@@ -939,6 +943,9 @@ const chunk = (collection, length) => {
  * @param {string} label 
  */
 const debugGrid = (gridNodes, width, padding = 1, label = '') => {
+    if (!width) {
+        throw new Error('Width is required')
+    }
     if (label) console.log(label)
     let gridOutput = gridNodes.slice()
     while (gridOutput.length) {
