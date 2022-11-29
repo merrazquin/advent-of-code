@@ -91,8 +91,8 @@ const part1 = input => {
     let { rule, messages } = preprocessing(input, 0)
 
     rule = new RegExp(`^${rule}$`)
-    console.log(rule)
-    console.log('')
+    // console.log(rule)
+    // console.log('')
     return messages.filter(message => rule.test(message)).length
 }
 
@@ -103,9 +103,9 @@ const part2 = input => {
     let { rulesMap, rule, messages } = preprocessing(input, 0, {8: '42 | 42 8', 11: '42 31 | 42 11 31'})
     rulesMap[8] = `(${rulesMap[42]})+`
     rulesMap[11] = `(${rulesMap[42]}${rulesMap[31]})*`
-    console.log('rule 31')
-    console.log(rulesMap[31])
-    console.log('')
+    // console.log('rule 31')
+    // console.log(rulesMap[31])
+    // console.log('')
     rulesMap[0] = `${rulesMap[8]}${rulesMap[11]}`
     rule = new RegExp(`^${rulesMap[0]}$`)
     let matchedMessages = messages.filter(message => rule.test(message)).length
@@ -113,7 +113,7 @@ const part2 = input => {
     let n = 0
     while (n < 20) {
         if (matchedMessages > 0) {
-            console.log(n, 'matchedMessages', matchedMessages)
+            // console.log(n, 'matchedMessages', matchedMessages)
         }
         n++
         // a(a(ab)*b)*b
@@ -123,8 +123,8 @@ const part2 = input => {
         matchedMessages = messages.filter(message => rule.test(message)).length
     }
 
-    console.log('final regex', n)
-    console.log(rule)
+    // console.log('final regex', n)
+    // console.log(rule)
     return messages.filter(message => rule.test(message)).length
 }
 

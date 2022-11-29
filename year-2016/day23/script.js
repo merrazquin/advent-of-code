@@ -44,12 +44,12 @@ const processInstructions = (input, registers = {}) => {
             }
             const targetRuleIndex = index + steps
             if (targetRuleIndex >= 0 && targetRuleIndex < instructions.length) {
-                console.log('toggling instruction', index + steps)
-                console.log('before', instructions)
+                // console.log('toggling instruction', index + steps)
+                // console.log('before', instructions)
                 instructions.splice(targetRuleIndex, 1, toggleInstruction(instructions[targetRuleIndex]))                
-                console.log('after', instructions)
+                // console.log('after', instructions)
             } else {
-                console.log('no instruction to toggle at', targetRuleIndex)
+                // console.log('no instruction to toggle at', targetRuleIndex)
             }
             index++
             break

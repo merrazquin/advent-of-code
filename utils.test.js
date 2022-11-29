@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm, getAllTokenizedPermutations, getTokenizedPermutations, sumAll, multiplyAll} = require('./utils')
+const { parseTree, rotatePointAroundAxisCounterClockwise,  rotatePointAroundAxisClockwise, cardinalRotateLeft, cardinalRotateRight, gcd, lcm, getAllTokenizedPermutations, getTokenizedPermutations, sumAll, multiplyAll, convertRowsToCols, sumOfIntegers} = require('./utils')
 
 const TreeModel = require('tree-model')
 const tree = new TreeModel()
@@ -185,6 +185,19 @@ describe('Utils', () => {
         })
         it('should sum all values in an object', () => {
             assert.strictEqual(multiplyAll({'x': 5, 'y': 6, 'z': 4}), 120)
+        })
+    })
+
+    describe('convertRowsToCols', () => {
+        it('should return an array of columns', () => {
+            assert.deepStrictEqual(convertRowsToCols(['abc', 'def', 'ghi']), [['a', 'd', 'g'], ['b', 'e', 'h'], ['c', 'f', 'i']])
+        })
+    })
+
+    describe('sumOfIntegers', () => {
+        it('should return the sum of all integers between 2 integers, inclusive', () => {
+            assert.strictEqual(sumOfIntegers(1, 1000), 500500)
+            assert.strictEqual(sumOfIntegers(-3, 4), 4)
         })
     })
 })
