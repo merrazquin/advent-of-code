@@ -20,17 +20,30 @@ pub fn parse_input(buf :&str) -> InputType
 #[aoc(day1, part1)]
 pub fn part1(_input : &InputType) -> usize
 {
-    let mut vec = _input.clone();
-    vec.sort_by(|a, b| b.cmp(a));
-    *vec.first().unwrap()
+    *_input.iter().max().unwrap()
 }
 
 #[aoc(day1, part2)]
 pub fn part2(_input : &InputType) -> usize
 {
+    // honestly, this looks ridiculous, but it's way faster than reverse sorting, taking 3, and summing...
     let mut vec = _input.clone();
-    vec.sort_by(|a, b| b.cmp(a));
-    vec.iter().take(3).sum()
+    let mut total = 0;
+    
+    let mut curr = *_input.iter().max().unwrap();
+    total += curr;
+    let mut index = vec.iter().position(|x| *x == curr).unwrap();
+    vec.remove(index);
+
+    curr = *vec.iter().max().unwrap();
+    total += curr;
+    index = vec.iter().position(|x| *x == curr).unwrap();
+    vec.remove(index);
+
+    curr = *vec.iter().max().unwrap();
+    total += curr;
+
+    total
 }
 
 #[cfg(test)]
