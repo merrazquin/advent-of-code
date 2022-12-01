@@ -1,7 +1,4 @@
-// Generator function is run on the input to put it in a shared form, then passed to both parts
-// You could ignore this and do the parsing within the parts themselves
-// I use this inputtype to quickly change types across all functions, part of my attempts to leaderboard
-type InputType = Vec<Vec<usize>>;
+type InputType = Vec<usize>;
 
 #[aoc_generator(day1)]
 pub fn parse_input(buf :&str) -> InputType
@@ -13,36 +10,27 @@ pub fn parse_input(buf :&str) -> InputType
                 .map(|item| item.parse().expect("Unable to parse number"))
                 .collect()
         })
-        .collect()
+        .map(|items: Vec<usize>| items
+            .iter()
+            .sum()
+        )
+        .collect::<Vec<usize>>()
 }
 
 #[aoc(day1, part1)]
 pub fn part1(_input : &InputType) -> usize
 {
-    let mut vec = _input
-        .iter()
-        .map(|items| items
-            .iter()
-            .sum()
-        )
-        .collect::<Vec<usize>>();
-    vec.sort(); 
-
-    vec.pop().unwrap()
+    let mut vec = _input.clone();
+    vec.sort_by(|a, b| b.cmp(a));
+    *vec.first().unwrap()
 }
 
 #[aoc(day1, part2)]
 pub fn part2(_input : &InputType) -> usize
 {
-    let mut vec = _input
-        .iter()
-        .map(|items| items
-            .iter()
-            .sum()
-        )
-        .collect::<Vec<usize>>();
-    vec.sort();
-    vec.iter().rev().take(3).sum()
+    let mut vec = _input.clone();
+    vec.sort_by(|a, b| b.cmp(a));
+    vec.iter().take(3).sum()
 }
 
 #[cfg(test)]
