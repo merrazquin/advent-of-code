@@ -38,8 +38,8 @@
   },
   "homepage": "https://github.com/merrazquin/advent-of-code#readme",
   "adventConfig": {
-    "year": "2021",
-    "nameTemplate": "year-2021/day{{num}}/script.js",
+    "year": "2022",
+    "nameTemplate": "year-2022/day{{num}}/script.js",
     "templateFile": "templates/day.js"
   }
 }
