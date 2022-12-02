@@ -29,19 +29,19 @@ const mapping = {
 
 // Setup
 const preprocessing = (input, p2 = false) => input.trim().split('\n').map(round => {
-    let [opponent, me] = round.split(' ');
+    let [opponent, me] = round.split(' ')
     if (p2) {
-        me = mapping[`${opponent}_${me}`];
+        me = mapping[`${opponent}_${me}`]
     }
-    opponent = mapping[opponent];
-    me = mapping[me];
-    let score = me;
+    opponent = mapping[opponent]
+    me = mapping[me]
+    let score = me
     let result = me - opponent
     
     if (opponent == me) {
-        score += 3; 
+        score += 3 
     } else if (result == 1 || result == -2) {
-        score += 6;
+        score += 6
     }
     return {opponent, me, score}
 })
