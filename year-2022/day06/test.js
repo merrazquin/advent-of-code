@@ -1,11 +1,11 @@
 const assert = require('assert')
 const { part1, part2 } = require('./script')
 
-const data1 = `mjqjpqmgbljsphdztnvjfqwrcgsmlb`
-const data2 = `bvwbjplbgvbhsrlpgdmjqwftvncz`
-const data3 = `nppdvjthqldpwncqszvftbrmjlhg`
-const data4 = `nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg`
-const data5 = `zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw`
+const data1 = 'mjqjpqmgbljsphdztnvjfqwrcgsmlb'
+const data2 = 'bvwbjplbgvbhsrlpgdmjqwftvncz'
+const data3 = 'nppdvjthqldpwncqszvftbrmjlhg'
+const data4 = 'nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg'
+const data5 = 'zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw'
 
 describe('Day 6: Scratch', () => {
     describe('Part One', () => {
@@ -34,7 +34,7 @@ describe('Day 6: Scratch', () => {
             ]
             data.forEach(testItem => {
                 assert.strictEqual(part1(testItem.data), testItem.result)
-            });
+            })
         })
     })
 
@@ -64,7 +64,7 @@ describe('Day 6: Scratch', () => {
             ]
             data.forEach(testItem => {
                 assert.strictEqual(part2(testItem.data), testItem.result)
-            });
+            })
         })
     })
 })

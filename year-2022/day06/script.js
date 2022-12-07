@@ -6,7 +6,7 @@
 
 const part1 = input => {
     let index = 0
-    let charsFound = 1;
+    let charsFound = 1
     while (index < input.length) {
         const currChar = input.charAt(index++)
         const restOfPacket = input.substr(index, 4 - charsFound)
@@ -27,7 +27,7 @@ const part1 = input => {
 
 const part2 = (input) => {
     let index = 0
-    let charsFound = 1;
+    let charsFound = 1
     while (index < input.length) {
         const currChar = input.charAt(index++)
         const restOfPacket = input.substr(index, 14 - charsFound)
