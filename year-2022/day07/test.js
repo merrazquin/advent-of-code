@@ -26,7 +26,7 @@ $ ls
 5626152 d.ext
 7214296 k`
 
-describe.only('Day 6: Scratch', () => {
+describe('Day 6: Scratch', () => {
     describe('Part One', () => {
         it('Get score with p1 rules', () => {
             assert.strictEqual(part1(data), 95437)
@@ -35,7 +35,7 @@ describe.only('Day 6: Scratch', () => {
 
     describe('Part Two', () => {
         it('Get score with p2 rules', () => {
-            assert.strictEqual(part2(data), 0)
+            assert.strictEqual(part2(data), 24933642)
         })
     })
 
