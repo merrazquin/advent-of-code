@@ -6,7 +6,7 @@ const guide =
 B X
 C Z`
 
-describe('Day 2: Scratch', () => {
+describe('Day 2: Rock Paper Scissors', () => {
     describe('Part One', () => {
         it('Get score with p1 rules', () => {
             assert.strictEqual(part1(guide), 15)

@@ -26,7 +26,7 @@ $ ls
 5626152 d.ext
 7214296 k`
 
-describe('Day 6: Scratch', () => {
+describe('Day 7: Scratch', () => {
     describe('Part One', () => {
         it('Get score with p1 rules', () => {
             assert.strictEqual(part1(data), 95437)

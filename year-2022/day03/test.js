@@ -9,15 +9,15 @@ wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
 ttgJtRGJQctTZtZT
 CrZsJsPPZsGzwwsLwLmpwMDw`
 
-describe('Day 3: Scratch', () => {
+describe('Day 3: Rucksack Reorganization', () => {
     describe('Part One', () => {
-        it('Get score with p1 rules', () => {
+        it('Find the priority sum of the item types which appear in both compartments of a rucksack', () => {
             assert.strictEqual(part1(data), 157)
         })
     })
 
     describe('Part Two', () => {
-        it('Get score with p2 rules', () => {
+        it('Find the priority sum of the item type that corresponds to the badges of each three-Elf group', () => {
             assert.strictEqual(part2(data), 70)
         })
     })

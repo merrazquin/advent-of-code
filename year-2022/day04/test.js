@@ -9,15 +9,15 @@ const data =
 6-6,4-6
 2-6,4-8`
 
-describe('Day 4: Scratch', () => {
+describe('Day 4: Camp Cleanup', () => {
     describe('Part One', () => {
-        it('Get score with p1 rules', () => {
+        it('Find the number of assignment pairs in which one range fully contains the other', () => {
             assert.strictEqual(part1(data), 2)
         })
     })
 
     describe('Part Two', () => {
-        it('Get score with p2 rules', () => {
+        it('Find the number of assignment pairs in which one range partially overlaps the other', () => {
             assert.strictEqual(part2(data), 4)
         })
     })

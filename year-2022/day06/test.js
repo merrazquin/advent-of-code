@@ -7,9 +7,9 @@ const data3 = 'nppdvjthqldpwncqszvftbrmjlhg'
 const data4 = 'nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg'
 const data5 = 'zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw'
 
-describe('Day 6: Scratch', () => {
+describe('Day 6: Tuning Trouble', () => {
     describe('Part One', () => {
-        it('Get score with p1 rules', () => {
+        it('Find how many characters need to be processed before the first 4-char start-of-packet marker is detected', () => {
             const data = [
                 {
                     data: data1,
@@ -39,7 +39,7 @@ describe('Day 6: Scratch', () => {
     })
 
     describe('Part Two', () => {
-        it('Get score with p2 rules', () => {
+        it('Find how many characters need to be processed before the first 14-char start-of-packet marker is detected', () => {
             const data = [
                 {
                     data: data1,

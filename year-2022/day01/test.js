@@ -17,7 +17,7 @@ const data =
 
 10000`
 
-describe.only('Day 1: Calorie Counting', () => {
+describe('Day 1: Calorie Counting', () => {
     describe('Part One', () => {
         it('Find the total Calories being carried by that Elf carrying the most calories', () => {
             assert.strictEqual(part1(data), 24000)

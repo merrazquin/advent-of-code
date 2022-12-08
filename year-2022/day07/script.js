@@ -22,26 +22,15 @@ const preprocessing = (input) => {
             ([, command, dir] = line.split(' '))
     
             if (command == 'cd') {
-                switch (dir) {
-                case '/':
-                    currDirString = '/'
-                    break
-                case '..':
-                    currDirString = collectedDirs[currDirString].parent
-                    break
-                default:
-                    currDirString = `${currDirString}_${dir}`
-                }
+                currDirString = dir === '..' ? collectedDirs[currDirString].parent : `${currDirString}_${dir}`
             }
             break
         case 'd':
             ([, dir] = line.split(' '))
-            if (collectedDirs[`${currDirString}_${dir}`] === undefined) {
-                collectedDirs[`${currDirString}_${dir}`] = {
-                    name: `${currDirString}_${dir}`,
-                    parent: currDirString,
-                    total: 0
-                }
+            collectedDirs[`${currDirString}_${dir}`] = {
+                name: `${currDirString}_${dir}`,
+                parent: currDirString,
+                total: 0
             }
             break
         default:
