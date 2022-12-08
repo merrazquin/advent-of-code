@@ -17,6 +17,7 @@
   },
   "scripts": {
     "test": "nyc --reporter=lcov --reporter=text --reporter=text-summary mocha **/day*/**/*test.js utils.test.js",
+    "testYear": "nyc --reporter=lcov --reporter=text --reporter=text-summary mocha year-$YEAR/day*/**/*test.js utils.test.js",
     "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +",
     "lint": "eslint ./utils*.js year**/day*/**/*.js"
   },
