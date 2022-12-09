@@ -14,13 +14,12 @@ const preprocessingPart1 = (input) => {
     for (let row = 1; row < numRows - 1; row++) {
         for (let col = 1; col < numCols - 1; col++) {
             const tree = rows[row][col]
-            if (rows[row].slice(0, col).every((rowNeighbor, index) => index === col || rowNeighbor < tree)) {
-                visibleTreesFound.add(`${row}_${col}`)
-            } else if (rows[row].slice(col + 1).every((rowNeighbor, index) => index === col || rowNeighbor < tree)) {
-                visibleTreesFound.add(`${row}_${col}`)
-            } else if (cols[col].slice(0, row).every((colNeighbor, index) => index === row || colNeighbor < tree)) {
-                visibleTreesFound.add(`${row}_${col}`)
-            } else if (cols[col].slice(row + 1).every((colNeighbor, index) => index === row || colNeighbor < tree)) {
+            if (
+                rows[row].slice(0, col).every((rowNeighbor) => rowNeighbor < tree) ||
+                rows[row].slice(col + 1).every((rowNeighbor) => rowNeighbor < tree) || 
+                cols[col].slice(0, row).every((colNeighbor) => colNeighbor < tree) ||
+                cols[col].slice(row + 1).every((colNeighbor) => colNeighbor < tree)
+            ) {
                 visibleTreesFound.add(`${row}_${col}`)
             }
         }
@@ -49,6 +48,7 @@ const preprocessingPart2 = (input) => {
             }
             if (!score) continue
             scenicScore *= score
+
             // check left
             score = 0
             for (rowNeighbor = col - 1; rowNeighbor >= 0; rowNeighbor--) {
