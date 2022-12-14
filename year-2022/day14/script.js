@@ -65,7 +65,6 @@ const buildGrid = (rockPaths, maxWidth, maxDepth, sandSource) => {
     return grid
 }
 
-/* eslint-disable-next-line no-unused-vars */
 const printGrid = (title, grid) => {
     console.log(title)
     grid.forEach(row => {
@@ -75,11 +74,12 @@ const printGrid = (title, grid) => {
 }
 
 const dropSand = (grid, sandSource, p2 = false) => {
+    // start at source
     const currPos = JSON.parse(JSON.stringify(sandSource))
-    // condition for p2 would be y == 0, and y+1,x-1 & y+1,x+1 are both sand (o)
     if (p2 && currPos.y == 0 && grid[currPos.y + 1][currPos.x - 1] == 'o' && grid[currPos.y + 1][currPos.x + 1] == 'o') {
         return false
     }
+
     // attempt to move down
     if (grid[currPos.y + 1][currPos.x] == '.') {
         if (currPos.y + 1 >= grid.length) {
@@ -120,8 +120,13 @@ const part1 = input => {
     } = preprocessing(input, { x: 500, y: 0 })
     const grid = buildGrid(rockPaths, maxWidth, maxDepth, sandSource)
     let units = 0
-    while (dropSand(grid, sandSource)) {
-        units++
+    try {
+        while (dropSand(grid, sandSource)) {
+            units++
+        }
+    } catch (error) {
+        console.log(`errored out after ${units} units`, error)
+        printGrid('Errored State', grid)
     }
     
     return units
@@ -155,8 +160,13 @@ const part2 = input => {
     grid.push(padding, floor)
     
     let units = 0
-    while (dropSand(grid, sandSource, true)) {
-        units++
+    try {
+        while (dropSand(grid, sandSource, true)) {
+            units++
+        }
+    } catch (error) {
+        console.log(`errored out after ${units} units`)
+        printGrid('Errored State', grid)
     }
     
     return units + 1
