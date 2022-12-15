@@ -5,7 +5,7 @@ const guide =
 `498,4 -> 498,6 -> 496,6
 503,4 -> 502,4 -> 502,9 -> 494,9`
 
-describe.only('Day 14: Regolith Reservoir', () => {
+describe('Day 14: Regolith Reservoir', () => {
     describe('Part One', () => {
         it('Find the number of sand units which come to rest before stand starts flowing into the abyss', () => {
             assert.strictEqual(part1(guide), 24)

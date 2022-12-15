@@ -80,11 +80,12 @@ const dropSand = (grid, sandSource, p2 = false) => {
         return false
     }
 
+    if (currPos.y + 1 >= grid.length) {
+        return false
+    }
+
     // attempt to move down
     if (grid[currPos.y + 1][currPos.x] == '.') {
-        if (currPos.y + 1 >= grid.length) {
-            return false
-        }
         currPos.y++
         return dropSand(grid, currPos)
     } 
@@ -120,13 +121,8 @@ const part1 = input => {
     } = preprocessing(input, { x: 500, y: 0 })
     const grid = buildGrid(rockPaths, maxWidth, maxDepth, sandSource)
     let units = 0
-    try {
-        while (dropSand(grid, sandSource)) {
-            units++
-        }
-    } catch (error) {
-        console.log(`errored out after ${units} units`, error)
-        printGrid('Errored State', grid)
+    while (dropSand(grid, sandSource)) {
+        units++
     }
     
     return units
@@ -160,17 +156,12 @@ const part2 = input => {
     grid.push(padding, floor)
     
     let units = 0
-    try {
-        while (dropSand(grid, sandSource, true)) {
-            units++
-        }
-    } catch (error) {
-        console.log(`errored out after ${units} units`)
-        printGrid('Errored State', grid)
+    while (dropSand(grid, sandSource, true)) {
+        units++
     }
     
     return units + 1
 
 }
 
-module.exports = { part1, part2 }
+module.exports = { part1, part2, printGrid }
