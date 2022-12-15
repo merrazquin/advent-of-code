@@ -1,6 +1,6 @@
 'use strict'
 
-const { multiplyAll } = require("../../utils")
+const { multiplyAll } = require('../../utils')
 
 // Setup
 const preprocessing = (input) => {
