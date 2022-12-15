@@ -26,12 +26,10 @@ const preprocessing = (input) => {
 // Part 1
 // ======
 const doRound = monkeys => {
-    monkeys.forEach((monkey, monkeyIndex) => {
+    monkeys.forEach(monkey => {
         let {startingItems, operation, testDivisor, trueMonkey, falseMonkey} = monkey
         startingItems = startingItems.map(worryLevel => Math.floor(eval(operation.replace(/old/g, worryLevel)) / 3))
 
-        if (startingItems.length) {
-        }
         // test your worry level & throw to new monkey
         while (startingItems.length) {
             monkey.inspections++
@@ -43,7 +41,7 @@ const doRound = monkeys => {
     })
 }
 const doRoundP2Round = (monkeys, lcm) => {
-    monkeys.forEach((monkey, monkeyIndex) => {
+    monkeys.forEach(monkey => {
         let {startingItems, operation, testDivisor, trueMonkey, falseMonkey} = monkey
         operation = operation + ' '
         startingItems = startingItems.map(worryLevel => eval(operation.replace(/old/g, worryLevel)) % lcm)

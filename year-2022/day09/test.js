@@ -21,15 +21,16 @@ D 10
 L 25
 U 20`
 
-describe.only('Day 9: ', () => {
+describe('Day 9: ', () => {
     describe('Part One', () => {
-        it('', () => {
+        it('Find the number of positions the tail of the rope visits at least once', () => {
             assert.strictEqual(part1(data), 13)
         })
     })
 
-    describe('Part Two', () => {
-        it('', () => {
+    describe.skip('Part Two', () => {
+        it('Find the number of positions the tail of the rope visits at least once', () => {
+            assert.strictEqual(part2(data), 1)
             assert.strictEqual(part2(p2Data), 36)
         })
     })
