@@ -33,7 +33,7 @@ const demo2 =
 0
 `
 
-describe.only('Day 20: Grove Positioning System', () => {
+describe('Day 20: Grove Positioning System', () => {
     describe('Part One', () => {
         it('Find sum of grove coordinates', () => {
             assert.strictEqual(part1(data), 3)
