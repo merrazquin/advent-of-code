@@ -18,7 +18,9 @@
   "scripts": {
     "test": "nyc --reporter=lcov --reporter=text --reporter=text-summary mocha **/day*/**/*test.js utils.test.js",
     "testYear": "nyc --reporter=lcov --reporter=text --reporter=text-summary mocha year-$YEAR/day*/**/*test.js utils.test.js",
+    "testDay": "mocha year-$YEAR/day$DAY/**/*test.js",
     "day": "DEBUG=* advent run $DAY 1 + && DEBUG=* advent run $DAY 2 +",
+    "init": "advent init $DAY && cp test.js.template year-2023/day$DAY/test.js",
     "lint": "eslint ./utils*.js year**/day*/**/*.js"
   },
   "pre-push": [
@@ -39,8 +41,8 @@
   },
   "homepage": "https://github.com/merrazquin/advent-of-code#readme",
   "adventConfig": {
-    "year": "2022",
-    "nameTemplate": "year-2022/day{{num}}/script.js",
+    "year": "2023",
+    "nameTemplate": "year-2023/day{{num}}/script.js",
     "templateFile": "templates/day.js"
   }
 }
