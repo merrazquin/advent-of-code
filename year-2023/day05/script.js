@@ -1,14 +1,13 @@
 'use strict'
 
 // Setup
-const reqs = ['seed', 'soil', 'fertilizer', 'water', 'light', 'temperature', 'humidity', 'location']
 const preProcessing = input => {
     const inputArr = input.trim().split('\n\n')
 
     const seeds = inputArr.shift().split(': ').pop().split(' ').map(seed => parseInt(seed))
     const maps = inputArr.map(map =>  {
         let mapArr = map.split('\n')
-        let [source, _, destination] = mapArr.shift().split(' ').shift().split('-')
+        let [source, , destination] = mapArr.shift().split(' ').shift().split('-')
 
         let ranges = mapArr.map(range => {
             const [destination, source, rangeLength] = range.split(' ').map(num => parseInt(num))
@@ -34,20 +33,6 @@ const findDestinationNumber = (maps, sourceType, destinationType, sourceNumber) 
     return sourceNumber
 }
 
-const findSourceNumber = (maps, sourceType, destinationType, destinationNumber) => {
-    const map = maps.find(map => map.source == sourceType && map.destination == destinationType)
-    if (!map) {
-        throw new Error(`findSourceNumber: Unable to find ${sourceType}-to-${destinationType} mapping`)
-    }
-    const range = map.ranges.find(range => range.source <= sourceNumber && sourceNumber < (range.source + range.rangeLength))
-
-    if (range) {
-        return range.source + (destinationNumber - range.destination)
-    }
-
-    return destinationNumber
-}
-
 const findSeedRanges = (seeds) => {
     const ranges = []
     for (let i = 0; i < seeds.length - 1; i += 2) {
@@ -58,7 +43,6 @@ const findSeedRanges = (seeds) => {
     }
     return ranges.sort((rangeA, rangeB) => rangeA.start - rangeB.start)
 }
-const findLowestSeed = (seeds) => Math.min(...seeds.filter((seed, index) => !(index % 2)))
 
 // Part 1
 // ======
@@ -79,6 +63,7 @@ const part1 = input => {
 }
 
 // Part 2 - this takes upwards of 20 minutes on the prod input. Do not recommend.
+// maybe try a combo of range-finding and reverse-mapping
 // ======
 
 const part2 = input => {

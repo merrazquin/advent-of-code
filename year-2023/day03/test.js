@@ -13,7 +13,7 @@ const data =
 ...$.*....
 .664.598..`
 
-describe.only('Day 3: Gear Ratios', () => {
+describe('Day 3: Gear Ratios', () => {
     describe('Part One', () => {
         it('Should find the sum of all of the part numbers in the engine schematic', () => {
             assert.strictEqual(part1(data), 4361)

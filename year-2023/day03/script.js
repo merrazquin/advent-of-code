@@ -1,6 +1,7 @@
 'use strict'
 const { sumAll, multiplyAll } = require('../../utils')
 const numRe = new RegExp(/[0-9]+/g)
+/* eslint-disable-next-line no-useless-escape */
 const symbolCheck = new RegExp(/[^0-9\.]/)
 const asterisks = {}
 

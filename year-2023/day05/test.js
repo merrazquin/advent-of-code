@@ -39,7 +39,7 @@ humidity-to-location map:
 describe('Day 5: If You Give A Seed A Fertilizer', () => {
     describe('findDestinationNumber', () => {
         it('Should find the destination number of a source number', () => {
-            const {seeds, maps} = preProcessing(data)
+            const {maps} = preProcessing(data)
             assert.strictEqual(findDestinationNumber(maps, 'seed', 'soil', 79), 81)
             assert.strictEqual(findDestinationNumber(maps, 'soil', 'fertilizer', 81), 81)
             assert.strictEqual(findDestinationNumber(maps, 'fertilizer', 'water', 81), 81)

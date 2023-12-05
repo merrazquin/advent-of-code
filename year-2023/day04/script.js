@@ -3,7 +3,7 @@ const { sumAll } = require('../../utils')
 
 // Setup
 const preProcessing = input => input.trim().split('\n').map(card => {
-    const [_card, numbers] = card.split(': ')
+    const numbers = card.split(': ').pop()
     const [winners, candidates] = numbers.trim().split(' | ').map(set => set.trim().split(/\s+/).map(num => parseInt(num)))
     return { winners, candidates, copies: 1 }
 })
@@ -11,7 +11,7 @@ const preProcessing = input => input.trim().split('\n').map(card => {
 const winCount = card => {
     const {winners, candidates} = card
 
-    const won = winners.filter(value => candidates.includes(value));
+    const won = winners.filter(value => candidates.includes(value))
     return won.length
 }
 

@@ -50,7 +50,7 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-   return sumAll(preProcessing(input).map(game => getPower(gameRequirements(game.sets))))
+    return sumAll(preProcessing(input).map(game => getPower(gameRequirements(game.sets))))
 }
 
 module.exports = { part1, part2 }
