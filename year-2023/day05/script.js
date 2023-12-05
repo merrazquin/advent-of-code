@@ -79,8 +79,7 @@ const part1 = input => {
 
 }
 
-// Part 2 - this takes upwards of 20 minutes on the prod input. Do not recommend.
-// maybe try a combo of range-finding and reverse-mapping
+// Part 2
 // ======
 
 const part2 = input => {
