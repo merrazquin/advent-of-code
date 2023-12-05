@@ -1,5 +1,5 @@
 const assert = require('assert')
-const { part1, part2, preProcessing, findDestinationNumber } = require('./script')
+const { part1, part2, preProcessing, findDestinationNumber, findSourceNumber, findSeedRanges, seedExists } = require('./script')
 
 const data = 
 `seeds: 79 14 55 13
@@ -47,6 +47,32 @@ describe('Day 5: If You Give A Seed A Fertilizer', () => {
             assert.strictEqual(findDestinationNumber(maps, 'light', 'temperature', 74), 78)
             assert.strictEqual(findDestinationNumber(maps, 'temperature', 'humidity', 78), 78)
             assert.strictEqual(findDestinationNumber(maps, 'humidity', 'location', 78), 82)
+        })
+    })
+
+    describe('findSourceNumber', () => {
+        it('Should find the source number of a destination number', () => {
+            const {maps} = preProcessing(data)
+            assert.strictEqual(findSourceNumber(maps, 'humidity', 'location', 82), 78)
+            assert.strictEqual(findSourceNumber(maps, 'temperature', 'humidity', 78), 78)
+            assert.strictEqual(findSourceNumber(maps, 'light', 'temperature', 78), 74)
+            assert.strictEqual(findSourceNumber(maps, 'water', 'light', 74), 81)
+            assert.strictEqual(findSourceNumber(maps, 'fertilizer', 'water', 81), 81)
+            assert.strictEqual(findSourceNumber(maps, 'soil', 'fertilizer', 81), 81)
+            assert.strictEqual(findSourceNumber(maps, 'seed', 'soil', 81), 79)
+        })
+    })
+
+    describe('seedExists', () => {
+        const {seeds} = preProcessing(data)
+        const seedRanges = findSeedRanges(seeds)
+
+        it('Should return true if seed is within one of the ranges provided', () => {
+            assert.equal(seedExists(seedRanges, 82), true)
+        })
+
+        it('Should return false if seed is outside of ranges provided', () => {
+            assert.equal(seedExists(seedRanges, 1), false)
         })
     })
 

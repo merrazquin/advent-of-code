@@ -33,6 +33,21 @@ const findDestinationNumber = (maps, sourceType, destinationType, sourceNumber) 
     return sourceNumber
 }
 
+const findSourceNumber = (maps, sourceType, destinationType, destinationNumber) => {
+    const map = maps.find(map => map.source == sourceType && map.destination == destinationType)
+    if (!map) {
+        throw new Error(`findDestinationNumber: Unable to find ${sourceType}-to-${destinationType} mapping`)
+    }
+
+    const range = map.ranges.find(range => range.destination <= destinationNumber && destinationNumber < (range.destination + range.rangeLength))
+
+    if (range) {
+        return range.source + (destinationNumber - range.destination)
+    }
+
+    return destinationNumber
+}
+
 const findSeedRanges = (seeds) => {
     const ranges = []
     for (let i = 0; i < seeds.length - 1; i += 2) {
@@ -43,6 +58,8 @@ const findSeedRanges = (seeds) => {
     }
     return ranges.sort((rangeA, rangeB) => rangeA.start - rangeB.start)
 }
+
+const seedExists = (seedRanges, seedNumber) => !!seedRanges.find(seedRange => seedRange.start <= seedNumber && seedNumber <= seedRange.end)
 
 // Part 1
 // ======
@@ -69,22 +86,19 @@ const part1 = input => {
 const part2 = input => {
     const {seeds, maps} = preProcessing(input)
     const seedRanges = findSeedRanges(seeds)
-    let lowestLocation = NaN
-    for (const range of seedRanges) {
-        let lowestLocationForRange = NaN
-        for (let seed = range.start; seed <= range.end; seed++) {
-            const soil = findDestinationNumber(maps, 'seed', 'soil', seed)
-            const fertilizer = findDestinationNumber(maps, 'soil', 'fertilizer', soil)
-            const water = findDestinationNumber(maps, 'fertilizer', 'water', fertilizer)
-            const light = findDestinationNumber(maps, 'water', 'light', water)
-            const temperature = findDestinationNumber(maps, 'light', 'temperature', light)
-            const humidity = findDestinationNumber(maps, 'temperature', 'humidity', temperature)
-            const location = findDestinationNumber(maps, 'humidity', 'location', humidity)
-            lowestLocationForRange = Math.min(lowestLocationForRange || location, location)            
+    let location = 1
+    do {
+        const humidity = findSourceNumber(maps, 'humidity', 'location', location)
+        const temperature = findSourceNumber(maps, 'temperature', 'humidity', humidity)
+        const light = findSourceNumber(maps, 'light', 'temperature', temperature)
+        const water = findSourceNumber(maps, 'water', 'light', light)
+        const fertilizer = findSourceNumber(maps, 'fertilizer', 'water', water)
+        const soil = findSourceNumber(maps, 'soil', 'fertilizer', fertilizer)
+        const seed = findSourceNumber(maps, 'seed', 'soil', soil)
+        if (seedExists(seedRanges, seed)) {
+            return location
         }
-        lowestLocation = Math.min(lowestLocation || lowestLocationForRange, lowestLocationForRange )
-    }
-    return lowestLocation    
+    } while (location++) 
 }
 
-module.exports = { part1, part2, findDestinationNumber, preProcessing }
+module.exports = { part1, part2, findDestinationNumber, findSourceNumber, preProcessing, findSeedRanges, seedExists }
