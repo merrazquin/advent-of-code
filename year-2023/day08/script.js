@@ -1,16 +1,16 @@
 'use strict'
 
-const { lcm } = require("../../utils")
+const { lcm } = require('../../utils')
 
 // Setup
 const preProcessing = input => {
-   const [instructions, nodes] = input.replace(/[(),=]/g, '').split('\n\n')
-   const nodeGraph = nodes.split('\n').reduce((nodeGraph, nodeInfo) => {
+    const [instructions, nodes] = input.replace(/[(),=]/g, '').split('\n\n')
+    const nodeGraph = nodes.split('\n').reduce((nodeGraph, nodeInfo) => {
         const [nodeName, L, R] = nodeInfo.split(/\s+/)
         nodeGraph[nodeName] = {nodeName, L, R}
         return nodeGraph
-   }, {})
-   return {instructions: instructions.split(''), nodes: nodeGraph}
+    }, {})
+    return {instructions: instructions.split(''), nodes: nodeGraph}
 }
 
 // Part 1
@@ -22,7 +22,7 @@ const part1 = input => {
     let currentNode = nodes.AAA
     const targetNode = nodes.ZZZ
 
-    let turns = 0;
+    let turns = 0
     while (currentNode != targetNode) {
         turns++
         const instruction = instructions.shift()

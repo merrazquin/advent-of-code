@@ -1,5 +1,5 @@
 'use strict'
-const { sumAll } = require("../../utils")
+const { sumAll } = require('../../utils')
 
 /**
 Five of a kind, where all five cards have the same label: AAAAA

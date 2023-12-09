@@ -1,6 +1,6 @@
 'use strict'
 
-const { sumAll } = require("../../utils")
+const { sumAll } = require('../../utils')
 
 // Setup
 const preProcessing = input => input.split('\n').map(history => history.split(/\s+/).map(num => parseInt(num)))
