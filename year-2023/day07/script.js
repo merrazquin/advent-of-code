@@ -15,7 +15,7 @@ High card, where all cards' labels are distinct: 23456
 const preProcessing = (input, faces) => input.split('\n').map(hand => {
     const [cards, bid] = hand.split(/\s+/).map((val, index) => index === 1 ? parseInt(val) : val.split('').map(val => !isNaN(val) ? parseInt(val) : faces[val]))
     const sortedCards = sortCards(cards)
-    return {cards, bid, sortedCards}
+    return {cards, bid, sortedCards, originalHand: hand}
 })
 const sortCards = hand => hand.reduce((cards, card) => {
     if (!cards[card]) cards[card] = 0
@@ -30,22 +30,18 @@ const isFiveOfAKind = (hand, jacksWild = false) => {
     if (keys.length === 1) {
         return true
     }
-    if (jacksWild) {
-        return Object.keys(hand.sortedCards).length === 2 && keys.includes('1')
-    }
-    return false
+    return jacksWild && hand.cards.includes(1) && keys.length === 2
 }
 const isFourOfAKind = (hand, jacksWild = false) => {
     const handObj = hand.sortedCards
-    const values = Object.values(handObj)
-    if (values.filter(val => val === 4).length === 1) {
-        return true
+    const values = Object.values(handObj).sort((a , b) => b - a)
+    if (jacksWild && hand.cards.includes(1))
+    {
+    // JJ488
+        const {'1':jacks, ...newObj} = handObj
+        return (jacks + Object.values(newObj).sort((a, b) => b - a)[0]) === 4
     }
-    if (jacksWild) {
-        return  (values.filter(val => val === 3).length === 1 && handObj['1'] === 1)
-            || (Object.keys(handObj).length == 3 && handObj['1'] == 2)
-    }
-    return false
+    return values.filter(val => val === 4).length === 1
 }
 const isFullHouse = (hand, jacksWild = false) => {
     const handObj = hand.sortedCards
@@ -61,25 +57,22 @@ const isFullHouse = (hand, jacksWild = false) => {
 }
 const isThreeOfAKind = (hand, jacksWild = false) => {
     const handObj = hand.sortedCards
-    const keys = Object.keys(handObj)
-    const values = Object.values(handObj)
-    if (values.filter(val => val === 3).length === 1) {
-        return true
+    const values = Object.values(handObj).sort((a , b) => b - a)
+    if (jacksWild && hand.cards.includes(1))
+    {
+        const {'1':jacks, ...newObj} = handObj
+        return (jacks + Object.values(newObj).sort((a, b) => b - a)[0]) === 3
     }
-    if (jacksWild) {
-        return keys.length === 4 && hand.cards.includes(1)
-    }
-    return false
+    return values.filter(val => val === 3).length === 1
 }
 const isTwoPair = (hand, jacksWild = false) => {
     const handObj = hand.sortedCards
-    if (Object.values(handObj).filter(val => val === 2).length === 2) {
-        return true
+
+    if (jacksWild && hand.cards.includes(1)) {
+        return false
     }
-    if (jacksWild) {
-        return hand.cards.includes(1) && Object.keys(handObj).length === 4
-    }
-    return false
+
+    return Object.values(handObj).filter(val => val === 2).length === 2
 }
 const isOnePair = (hand, jacksWild = false) => {
     if (Object.values(hand.sortedCards).filter(val => val === 2).length === 1) {
@@ -132,7 +125,8 @@ const part1 = input => {
         'K': 13,
         'A': 14
     }
-    return sumAll(preProcessing(input, faces).sort(rankHands).map((hand, index) => (index + 1) * hand.bid))
+    const rankedHands = preProcessing(input, faces).sort(rankHands)
+    return sumAll(rankedHands.map((hand, index) => (index + 1) * hand.bid))
 }
 
 // Part 2
@@ -149,7 +143,5 @@ const part2 = input => {
     const rankedHands = preProcessing(input, faces).sort((handA, handB) => rankHands(handA, handB, true))
     return sumAll(rankedHands.map((hand, index) => (index + 1) * hand.bid))
 }
-// too low: 249338395
-// too low: 249308993
-// too high: 249672057
+
 module.exports = { part1, part2, isFiveOfAKind, isFourOfAKind, isFullHouse, isThreeOfAKind, isTwoPair, isOnePair, isHighCard, sortCards }
