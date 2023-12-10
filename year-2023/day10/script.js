@@ -1,6 +1,6 @@
 'use strict'
 
-const { findNeighbors, getNeighboringCell } = require("../../utils")
+const { findNeighbors, getNeighboringCell } = require('../../utils')
 
 // Setup
 const tiles = {
@@ -83,7 +83,7 @@ const part2 = input => {
                 count += diff
             }
         }
-    });
+    })
     return insideCount
 }
 

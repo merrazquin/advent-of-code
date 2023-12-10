@@ -101,7 +101,7 @@ describe('Day 7: Camel Cards', () => {
         const rankings = [isFiveOfAKind, isFourOfAKind, isFullHouse, isThreeOfAKind, isTwoPair, isOnePair, isHighCard]
         const scoreHand = (hand, jacksWild = true) => {
             let index = 0
-            for (ranking of rankings) {
+            for (let ranking of rankings) {
                 index++
                 if (ranking({cards: hand, sortedCards: sortCards(hand)}, jacksWild)) return index
             }
