@@ -1,6 +1,6 @@
 'use strict'
 
-const { findNeighbors } = require("../../utils")
+const { findNeighbors, getNeighboringCell } = require("../../utils")
 
 // Setup
 const tiles = {
@@ -39,11 +39,10 @@ const findNextTile = (position, flatGrid, width, prev = undefined) => {
 }
 // Part 1
 // ======
-const part1 = input => {
+const part1 = (input, prepP2 = false) => {
     const {width, flatGrid} = preProcessing(input)
     const startPosition = flatGrid.indexOf('S')
     const path = [startPosition]
-    
     let nextTile = findNextTile(startPosition, flatGrid, width)
     while (flatGrid[nextTile] !== 'S') {
         const prevTile = path[path.length - 1]
@@ -51,15 +50,41 @@ const part1 = input => {
 
         nextTile = findNextTile(nextTile, flatGrid, width, prevTile)
     }
-
-    return path.length / 2
+    return prepP2 ? {width, flatGrid, path} : path.length / 2
 }
 
 // Part 2
+// credit where it's due: https://www.reddit.com/r/adventofcode/comments/18eza5g/2023_day_10_animated_visualization/
+// full disclosure: this only passes one of the 3 test cases... but it works for my input ¯\_(ツ)_/¯ 
 // ======
 
 const part2 = input => {
-    return 0
+    const {width, flatGrid, path} = part1(input, true)
+
+    let count = 0
+    let insideCount = 0
+
+    flatGrid.forEach((_, tile) => {
+        const inPath = path.indexOf(tile)
+        const southernTile = getNeighboringCell(tile, 'S', flatGrid, width)
+
+        if (southernTile === -1) {
+            return
+        }
+
+        const southernTileInPath = path.indexOf(southernTile)
+        if (inPath === -1 && count !== 0) {
+            insideCount++
+        }
+
+        if (inPath !== -1 && southernTileInPath !== -1) {
+            const diff = inPath - southernTileInPath
+            if (Math.abs(diff) === 1) {
+                count += diff
+            }
+        }
+    });
+    return insideCount
 }
 
 module.exports = { part1, part2 }
