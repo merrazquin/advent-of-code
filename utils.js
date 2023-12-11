@@ -550,6 +550,12 @@ const getHeap = () => {
     return new BinaryHeap(node => node.f)
 }
 
+const manhattan = (pos0, pos1) => {
+    const d1 = Math.abs(pos1.x - pos0.x)
+    const d2 = Math.abs(pos1.y - pos0.y)
+    return d1 + d2
+}
+
 const astar = {
     /**
     * Perform an A* Search on a graph given a start and end node.
@@ -642,11 +648,7 @@ const astar = {
     },
     // See list of heuristics: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
     heuristics: {
-        manhattan: function(pos0, pos1) {
-            const d1 = Math.abs(pos1.x - pos0.x)
-            const d2 = Math.abs(pos1.y - pos0.y)
-            return d1 + d2
-        },
+        manhattan,
         diagonal: function(pos0, pos1) {
             const D = 1
             const D2 = Math.sqrt(2)
@@ -959,7 +961,7 @@ module.exports = {
     getNeighboringCell, findNeighbors,
     convertRowsToCols,
     sumOfIntegers,
-    Graph, astar, GridNode,
+    Graph, astar, GridNode, manhattan,
     chunk,
     debugGrid
 }
