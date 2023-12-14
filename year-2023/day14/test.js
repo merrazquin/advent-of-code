@@ -20,9 +20,9 @@ describe('Day 14: Parabolic Reflector Dish', () => {
         })
     })
 
-    describe.skip('Part Two', () => {
-        it('', () => {
-            assert.strictEqual(part2(data), 0)
+    describe('Part Two', () => {
+        it('Should find the total load on the north support beams after 1,000,000,000 cycles', () => {
+            assert.strictEqual(part2(data), 64)
         })
     })
 })
