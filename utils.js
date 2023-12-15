@@ -949,6 +949,28 @@ const debugGrid = (gridNodes, width, padding = 1, label = '') => {
     console.log('\n')
 }
 
+/**
+ * Memoize a function (store previous results of a function call in cache)
+ * @param {} func - function to be memoized
+ * @returns a memoized function
+ */
+const memoize = (func) => {
+    const cache = new Map()
+    return function(...args) {
+        const key = JSON.stringify(args)
+
+        if (cache.has(key)) {
+            return cache.get(key)
+        }
+
+        const result = func.apply(this, args)
+        cache.set(key, result)
+
+        return result
+    }
+
+}
+
 module.exports = { 
     sumAll, multiplyAll, subsetSum, subsetProduct,
     parseTree,
@@ -963,5 +985,6 @@ module.exports = {
     sumOfIntegers,
     Graph, astar, GridNode, manhattan,
     chunk,
-    debugGrid
+    debugGrid,
+    memoize
 }
