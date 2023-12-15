@@ -16,9 +16,9 @@ describe('Day :', () => {
         })
     })
 
-    describe.skip('Part Two', () => {
-        it('', () => {
-            assert.strictEqual(part2(data), 0)
+    describe('Part Two', () => {
+        it('Should find the total focusing power of all lenses', () => {
+            assert.strictEqual(part2(data), 145)
         })
     })
 })
