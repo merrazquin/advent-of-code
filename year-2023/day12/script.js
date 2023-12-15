@@ -1,6 +1,6 @@
 'use strict'
 
-const { sumAll } = require('../../utils')
+const { sumAll, memoize } = require('../../utils')
 
 // Setup
 const preProcessing = input => input.split('\n').map(row => {
@@ -19,7 +19,7 @@ const findPermutations = (spring, sizes) => {
     const currSize = sizes[0]
 
     if (firstChar === '.') {
-        return findPermutations(spring.slice(1), sizes)
+        return memoizePerm(spring.slice(1), sizes)
     }
 
     if (firstChar === '#') {
@@ -31,7 +31,7 @@ const findPermutations = (spring, sizes) => {
             if (newSpring[0] === '?') {
                 newSpring[0] = '.'
             }
-            return findPermutations(newSpring, sizes.slice(1))
+            return memoizePerm(newSpring, sizes.slice(1))
         } else {
             return 0
         }
@@ -43,20 +43,31 @@ const findPermutations = (spring, sizes) => {
         const springB = spring.slice()
         springB[0] = '#'
 
-        return findPermutations(springA, sizes) + findPermutations(springB, sizes)
+        return memoizePerm(springA, sizes) + memoizePerm(springB, sizes)
     }
 }
+const memoizePerm = memoize(findPermutations)
 
 const part1 = input => {
     const instructions = preProcessing(input)
-    return sumAll(instructions.map(instrucion => findPermutations(instrucion.springs, instrucion.sizes)))
+    return sumAll(instructions.map(instrucion => memoizePerm(instrucion.springs, instrucion.sizes)))
 }
 
 // Part 2
 // ======
-
+const expand = instruction => {
+    let springs = instruction.springs.join('') + '?'
+    springs = springs.repeat(5)
+    springs = springs.split('')
+    springs.pop()
+    return {
+        springs,
+        sizes: Array.apply(null, Array(5)).map(() => instruction.sizes).flat()
+    }
+}
 const part2 = input => {
-    return 0 // preProcessing(input)
+    const instructions = preProcessing(input).map(instruction => expand(instruction))
+    return sumAll(instructions.map(instrucion => memoizePerm(instrucion.springs, instrucion.sizes)))
 }
 
-module.exports = { part1, part2, findPermutations }
+module.exports = { part1, part2, findPermutations, expand }
