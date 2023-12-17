@@ -62,17 +62,15 @@ const findPath = (startPos, currDirection, flatGrid, width, paths, energizedCell
         return
     }
 
-    if (nextTileIndex) {
-        const nextTile = flatGrid[nextTileIndex]
-        const instruction = mirrorsAndSplitters[nextTile][currDirection]
-        if (Array.isArray(instruction)) {
-            // split
-            for (const direction of instruction) {
-                findPath(nextTileIndex, direction, flatGrid, width, paths, energizedCells)
-            }
-        } else {
-            return findPath(nextTileIndex, instruction, flatGrid, width, paths, energizedCells)
+    const nextTile = flatGrid[nextTileIndex]
+    const instruction = mirrorsAndSplitters[nextTile][currDirection]
+    if (Array.isArray(instruction)) {
+        // split
+        for (const direction of instruction) {
+            findPath(nextTileIndex, direction, flatGrid, width, paths, energizedCells)
         }
+    } else {
+        return findPath(nextTileIndex, instruction, flatGrid, width, paths, energizedCells)
     }
 }
 const getEnergizedCells = (startPos, initialDirection, flatGrid, width) => {
