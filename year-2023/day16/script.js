@@ -52,8 +52,8 @@ const findPath = (startPos, currDirection, flatGrid, width, paths, energizedCell
         return
     }
     paths.set(key, true)
-
     energizedCells.add(startPos)
+
     const [N, E, S, W] = findNeighbors(startPos, flatGrid, width, false, true)
     const neighbors = {N, E, S, W}
     const nextTileIndex = neighbors[currDirection]
@@ -80,10 +80,6 @@ const getEnergizedCells = (startPos, initialDirection, flatGrid, width) => {
     if (Array.isArray(currDirection)) {
         // split
         for (const direction of currDirection) {
-            const splitKey = `${startPos}_${direction}`
-            if (paths.has(splitKey)) {
-                return
-            }
             findPath(startPos, direction, flatGrid, width, paths, energized)
         }
     } else {
