@@ -46,45 +46,39 @@ const mirrorsAndSplitters = {
 }
 // Part 1
 // ======
-const findPath = (startPos, currDirection, flatGrid, width, paths, energizedCells) => {
-    const key = `${startPos}_${currDirection}`
+const findPath = (currentPos, currentDirection, flatGrid, width, paths, energizedCells) => {
+    if (currentPos === '') {
+        return
+    }
+
+    const key = `${currentPos}_${currentDirection}`
     if (paths.has(key)) {
         return
     }
     paths.set(key, true)
-    energizedCells.add(startPos)
+    energizedCells.add(currentPos)
 
-    const [N, E, S, W] = findNeighbors(startPos, flatGrid, width, false, true)
+    const [N, E, S, W] = findNeighbors(currentPos, flatGrid, width, false, true)
     const neighbors = {N, E, S, W}
-    const nextTileIndex = neighbors[currDirection]
+    const nextDirection = mirrorsAndSplitters[flatGrid[currentPos]][currentDirection]
 
-    if (!nextTileIndex) {
-        return
-    }
-
-    const nextTile = flatGrid[nextTileIndex]
-    const instruction = mirrorsAndSplitters[nextTile][currDirection]
-    if (Array.isArray(instruction)) {
+    if (Array.isArray(nextDirection)) {
         // split
-        for (const direction of instruction) {
-            findPath(nextTileIndex, direction, flatGrid, width, paths, energizedCells)
+        for (const direction of nextDirection) {
+            const nextPos = neighbors[direction]
+            findPath(nextPos, direction, flatGrid, width, paths, energizedCells)
         }
     } else {
-        return findPath(nextTileIndex, instruction, flatGrid, width, paths, energizedCells)
+        const nextPos = neighbors[nextDirection]
+        findPath(nextPos, nextDirection, flatGrid, width, paths, energizedCells)
     }
 }
+
 const getEnergizedCells = (startPos, initialDirection, flatGrid, width) => {
     const paths = new Map()
-    let currDirection = mirrorsAndSplitters[flatGrid[startPos]][initialDirection]
     const energized = new Set()
-    if (Array.isArray(currDirection)) {
-        // split
-        for (const direction of currDirection) {
-            findPath(startPos, direction, flatGrid, width, paths, energized)
-        }
-    } else {
-        findPath(startPos, currDirection, flatGrid, width, paths, energized)
-    }
+
+    findPath(startPos, initialDirection, flatGrid, width, paths, energized)
 
     return energized.size
 }
