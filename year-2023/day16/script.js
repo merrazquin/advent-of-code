@@ -46,59 +46,50 @@ const mirrorsAndSplitters = {
 }
 // Part 1
 // ======
-const findPath = (startPos, currDirection, flatGrid, width, currPath, paths, energizedCells) => {
+const findPath = (startPos, currDirection, flatGrid, width, paths, energizedCells) => {
+    const key = `${startPos}_${currDirection}`
+    if (paths.has(key)) {
+        return
+    }
+    paths.set(key, true)
+
     energizedCells.add(startPos)
-    currPath.add(startPos)
     const [N, E, S, W] = findNeighbors(startPos, flatGrid, width, false, true)
     const neighbors = {N, E, S, W}
     const nextTileIndex = neighbors[currDirection]
 
     if (!nextTileIndex) {
-        return currPath
+        return
     }
 
     if (nextTileIndex) {
-        currPath.add(nextTileIndex)
         const nextTile = flatGrid[nextTileIndex]
         const instruction = mirrorsAndSplitters[nextTile][currDirection]
         if (Array.isArray(instruction)) {
             // split
             for (const direction of instruction) {
-                let splitKey = `${nextTileIndex}_${direction}`
-                if (paths.has(splitKey)) {
-                    return
-                }
-                const splitPath = new Set()
-                paths.set(splitKey, splitPath)
-                findPath(nextTileIndex, direction, flatGrid, width, splitPath, paths, energizedCells)
+                findPath(nextTileIndex, direction, flatGrid, width, paths, energizedCells)
             }
         } else {
-            return findPath(nextTileIndex, instruction, flatGrid, width, currPath, paths, energizedCells)
+            return findPath(nextTileIndex, instruction, flatGrid, width, paths, energizedCells)
         }
     }
-
-    return currPath
 }
 const getEnergizedCells = (startPos, initialDirection, flatGrid, width) => {
     const paths = new Map()
-    const currPath = new Set()
-    paths.set(startPos, currPath)
-    
     let currDirection = mirrorsAndSplitters[flatGrid[startPos]][initialDirection]
     const energized = new Set()
     if (Array.isArray(currDirection)) {
         // split
         for (const direction of currDirection) {
-            let splitKey = `${startPos}_${direction}`
+            const splitKey = `${startPos}_${direction}`
             if (paths.has(splitKey)) {
                 return
             }
-            const splitPath = new Set()
-            paths.set(splitKey, splitPath)
-            findPath(startPos, direction, flatGrid, width, splitPath, paths, energized)
+            findPath(startPos, direction, flatGrid, width, paths, energized)
         }
     } else {
-        findPath(startPos, currDirection, flatGrid, width, currPath, paths, energized)
+        findPath(startPos, currDirection, flatGrid, width, paths, energized)
     }
 
     return energized.size
