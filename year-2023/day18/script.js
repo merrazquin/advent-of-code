@@ -31,18 +31,18 @@ const collectVertices = instructions => {
         let stepCount = instruction.stepCount
         pathCount += stepCount
         switch (instruction.direction) {
-            case 'L':
-                x -= stepCount
-                break
-            case 'R':
-               x += stepCount
-                break
-            case 'U':
-                y -= stepCount
-                break
-            case 'D':
-                y += stepCount
-                break
+        case 'L':
+            x -= stepCount
+            break
+        case 'R':
+            x += stepCount
+            break
+        case 'U':
+            y -= stepCount
+            break
+        case 'D':
+            y += stepCount
+            break
         }
         vertices.push({x, y})
     })
