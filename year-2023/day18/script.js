@@ -68,8 +68,8 @@ const shoelace = vertices => {
 // Part 1
 // ======
 
-const part1 = input => {
-    const instructions = preProcessing(input)
+const part1 = (input, p2 = false) => {
+    const instructions = preProcessing(input, p2)
     const {pathCount, vertices} = collectVertices(instructions)
     const inside = shoelace(vertices)
     return picksTheorem(inside, pathCount)
@@ -79,10 +79,7 @@ const part1 = input => {
 // ======
 
 const part2 = input => {
-    const instructions = preProcessing(input, true)
-    const {pathCount, vertices} = collectVertices(instructions)
-    const inside = shoelace(vertices)
-    return picksTheorem(inside, pathCount)
+    return part1(input, true)
 }
 
 module.exports = { part1, part2 }
