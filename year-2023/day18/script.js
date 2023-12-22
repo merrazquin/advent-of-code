@@ -1,5 +1,7 @@
 'use strict'
 
+const { shoelace } = require('../../utils')
+
 // Setup
 const preProcessing = (input, p2 = false) => input.split('\n').map(instruction => {
     const [direction, val, color] = instruction.replace(/[()#]/g, '').split(/\s+/)
@@ -50,19 +52,6 @@ const collectVertices = instructions => {
 }
 const picksTheorem = (inside, border) => {
     return inside + (border * .5) + 1
-}
-const shoelace = vertices => {
-    const verticesArray = Array.from(vertices)
-    let sum = 0
-    for (let i = 0; i < verticesArray.length; i++) {
-        const vertex = verticesArray[i]
-        const nextVert = verticesArray[i + 1]
-        const {x: x1, y: y1} = vertex
-        const {x: x2, y: y2} = nextVert ? nextVert : verticesArray[0]
-
-        sum += (x1 * y2) - (x2 * y1)
-    }
-    return Math.abs(sum) * 0.5
 }
 // Part 1
 // ======

@@ -970,6 +970,25 @@ const memoize = (func) => {
     }
 
 }
+/**
+ * Calculates the interior area of a polygon given an array of 
+ * vertices arranged in either clockwise or counterclockwise order
+ * @param {{x,y}[]} vertices 
+ * @returns 
+ */
+const shoelace = vertices => {
+    const verticesArray = Array.from(vertices)
+    let sum = 0
+    for (let i = 0; i < verticesArray.length; i++) {
+        const vertex = verticesArray[i]
+        const nextVert = verticesArray[i + 1]
+        const {x: x1, y: y1} = vertex
+        const {x: x2, y: y2} = nextVert ? nextVert : verticesArray[0]
+
+        sum += (x1 * y2) - (x2 * y1)
+    }
+    return Math.abs(sum) * 0.5
+}
 
 module.exports = { 
     sumAll, multiplyAll, subsetSum, subsetProduct,
@@ -986,5 +1005,6 @@ module.exports = {
     Graph, astar, GridNode, manhattan,
     chunk,
     debugGrid,
-    memoize
+    memoize,
+    shoelace
 }
