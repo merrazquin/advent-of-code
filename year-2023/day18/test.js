@@ -45,6 +45,12 @@ D 2
 L 2
 U 2`
 
+const dataE =
+`U 3
+R 4
+D 3
+L 4`
+
 describe('Day 18: Lavaduct Lagoon', () => {
     describe('Part One', () => {
         it('Should find how many cubic meters of lava the lagoon can hold', () => {
@@ -52,6 +58,7 @@ describe('Day 18: Lavaduct Lagoon', () => {
             assert.strictEqual(part1(dataB), 62)
             assert.strictEqual(part1(dataC), 42)
             assert.strictEqual(part1(dataD), 9)
+            assert.strictEqual(part1(dataE), 20)
         })
     })
 

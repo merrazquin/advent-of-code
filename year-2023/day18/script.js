@@ -53,17 +53,16 @@ const picksTheorem = (inside, border) => {
 }
 const shoelace = vertices => {
     const verticesArray = Array.from(vertices)
-    const laces = verticesArray.reduce((acc, vertex, index) => {
-        const nextVert = verticesArray[index + 1]
+    let sum = 0
+    for (let i = 0; i < verticesArray.length; i++) {
+        const vertex = verticesArray[i]
+        const nextVert = verticesArray[i + 1]
         const {x: x1, y: y1} = vertex
         const {x: x2, y: y2} = nextVert ? nextVert : verticesArray[0]
 
-        acc.x += x1 * y2
-        acc.y += x2 * y1
-        
-        return acc
-    }, {x: 0, y:0})
-    return 0.5 * Math.abs(laces.x - laces.y)
+        sum += (x1 * y2) - (x2 * y1)
+    }
+    return Math.abs(sum) * 0.5
 }
 // Part 1
 // ======
