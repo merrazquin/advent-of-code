@@ -39,8 +39,8 @@ const preprocessingP2 = (input) => {
     return visitedLocations
 }
 const printGrid = (headPos, knots, prefix = '') => {
-    const top_left = {x: 0, y: 0};
-    const bottom_right = {x: 0, y: 0};
+    const top_left = {x: 0, y: 0}
+    const bottom_right = {x: 0, y: 0}
     let allKnots  = [headPos, ...knots]
     allKnots.forEach(knot => {
         top_left.x = Math.min(knot.x, top_left.x)
@@ -53,7 +53,7 @@ const printGrid = (headPos, knots, prefix = '') => {
     for (var y = top_left.y; y <= bottom_right.y; y++) {
         let rowStr = prefix
         for (var x = top_left.x; x <= bottom_right.x; x++) {
-            const firstKnotAtPos = allKnots.indexOf(`${x}_${y}`);
+            const firstKnotAtPos = allKnots.indexOf(`${x}_${y}`)
             rowStr += firstKnotAtPos !== -1 ? allKnots.indexOf(`${x}_${y}`) : '.'
         }
         console.log(rowStr)
@@ -88,28 +88,28 @@ const moveAndFollow = (direction, steps, headPos, tailPos, visitedLocations, add
     let adjuster
     
     switch (direction) {
-        case 'R':
-        case 'L':
-            adjuster = direction == 'R' ? 1 : -1
-            for (let i = 0; i < steps; i++) {
-                headPos.x += adjuster
-                if (tailPos.x !== undefined) {
-                    moveKnotHorizontally(headPos, tailPos, adjuster)
-                    visitedLocations.add(`${tailPos.x}_${tailPos.y}`)
-                }
+    case 'R':
+    case 'L':
+        adjuster = direction == 'R' ? 1 : -1
+        for (let i = 0; i < steps; i++) {
+            headPos.x += adjuster
+            if (tailPos.x !== undefined) {
+                moveKnotHorizontally(headPos, tailPos, adjuster)
+                visitedLocations.add(`${tailPos.x}_${tailPos.y}`)
             }
-            break;
-        case 'U':
-        case 'D':
-            adjuster = direction == 'D' ? 1 : -1
-            for (let i = 0; i < steps; i++) {
-                headPos.y += adjuster
-                if (tailPos.y !== undefined) {
-                    moveKnotVertically(headPos, tailPos, adjuster)
-                    visitedLocations.add(`${tailPos.x}_${tailPos.y}`)
-                }
+        }
+        break
+    case 'U':
+    case 'D':
+        adjuster = direction == 'D' ? 1 : -1
+        for (let i = 0; i < steps; i++) {
+            headPos.y += adjuster
+            if (tailPos.y !== undefined) {
+                moveKnotVertically(headPos, tailPos, adjuster)
+                visitedLocations.add(`${tailPos.x}_${tailPos.y}`)
             }
-            break;
+        }
+        break
     }
 }
 
