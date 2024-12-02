@@ -21,13 +21,13 @@ hdj{m>838:A,pv}
 {x=2127,m=1623,a=2188,s=1013}`
 
 describe('Day :', () => {
-    describe('Part One', () => {
+    describe.skip('Part One', () => {
         it('', () => {
             assert.strictEqual(part1(data), 19114)
         })
     })
 
-    describe.skip('Part Two', () => {
+    describe('Part Two', () => {
         it('', () => {
             assert.strictEqual(part2(data), 167409079868000)
         })

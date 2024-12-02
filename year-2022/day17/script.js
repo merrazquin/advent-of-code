@@ -121,7 +121,7 @@ const processRocks = (input, rockCount) => {
         currentHeight = Math.max(dropRock(rock, chamber, chamberWidth, moves, x, y), currentHeight)
     }
 
-    return currentHeight
+    return {currentHeight, chamber}
 }
 
 const getHeight = chamber => {
@@ -137,14 +137,16 @@ const getHeight = chamber => {
 // ======
 
 const part1 = input => {
-    return processRocks(input, 2022)
+    return processRocks(input, 2022).currentHeight
 }
 
 // Part 2
 // ======
 
 const part2 = input => {
-    return processRocks(input, 1000000000000)
+    // return processRocks(input, 1000000000000)
+    const {currentHeight, chamber} = processRocks(input, 240)
+    chamber.forEach(row => console.log(row.join('')))
 }
 
 module.exports = { part1, part2, printChamber }

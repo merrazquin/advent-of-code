@@ -28,7 +28,7 @@ describe('Day 9: ', () => {
         })
     })
 
-    describe.skip('Part Two', () => {
+    describe('Part Two', () => {
         it('Find the number of positions the tail of the rope visits at least once', () => {
             assert.strictEqual(part2(data), 1)
             assert.strictEqual(part2(p2Data), 36)
