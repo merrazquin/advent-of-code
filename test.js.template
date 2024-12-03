@@ -11,9 +11,9 @@ describe('Day :', () => {
         })
     })
 
-    describe.skip('Part Two', () => {
+    describe('Part Two', () => {
         it('', () => {
-            assert.strictEqual(part2(data), 0)
+            assert.strictEqual(part2(data), data)
         })
     })
 })
