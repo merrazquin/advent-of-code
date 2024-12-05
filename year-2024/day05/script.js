@@ -42,11 +42,11 @@ const part2 = input => {
     })
 
     const sortAlgo = (pageA, pageB) => {
-        if (rawRules.find(rawRule => rawRule === `${pageA}|${pageB}`)) {
+        if (rawRules.includes(`${pageA}|${pageB}`)) {
             return -1
         }
 
-        if (rawRules.find(rawRule => rawRule === `${pageB}|${pageA}`)) {
+        if (rawRules.includes(`${pageB}|${pageA}`)) {
             return 1
         }
 
