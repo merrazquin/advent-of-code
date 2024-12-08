@@ -28,7 +28,7 @@ const part1 = (input, getPositions = false) => {
         } else {
             const position = `${currentRow}_${currentCol}`
             visited.add(position)
-                currentRow += movement.row
+            currentRow += movement.row
             currentCol += movement.col
         }
     }

@@ -3,7 +3,7 @@
 const { sumAll } = require('../../utils')
 
 // Setup
-const preProcessing = (input, splitRules = true) => {
+const preProcessing = (input) => {
     const [rawRules, rawUpdates] = input.split('\n\n').map(list => list.split('\n'))
     return {
         rawRules,

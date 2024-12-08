@@ -1,6 +1,6 @@
 'use strict'
 
-const { convertRowsToCols } = require("../../utils")
+const { convertRowsToCols } = require('../../utils')
 
 // Setup
 const preProcessing = input => input.split('\n')
@@ -65,12 +65,12 @@ const part1 = input => {
         xsIndexes.forEach(xsIndex => {
             instances += findDiagonal(rows, rowIndex, xsIndex)
         })
-    });
+    })
     let cols = convertRowsToCols(rows).map(col => col.join(''))
     cols.forEach(col => {
         instances += col.match(/XMAS/g)?.length || 0
         instances += col.match(/SAMX/g)?.length || 0
-    });
+    })
 
     return instances
 }
@@ -86,7 +86,7 @@ const part2 = input => {
         const msIndexes = [...row.matchAll(/M|S/g)].map(match => match.index)
         msIndexes.forEach(msIndex => {
             instances += findXMAS(rows, rowIndex, msIndex)
-        });
+        })
     })
     return instances
 }
