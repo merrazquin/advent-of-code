@@ -783,7 +783,7 @@ class GridNode {
     }
   
     toString() {
-        return '[' + this.x + ' ' + this.y + '] ' + this.isWall()
+        return `[${this.x}, ${this.y}] (${this.weight}) ${this.isWall()}`
     }
     
     getCost(fromNeighbor) {
