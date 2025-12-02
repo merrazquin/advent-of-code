@@ -25,28 +25,16 @@ L99
 R14
 L82`
 
-describe('Day :', () => {
+describe('Day 1: Secret Entrance', () => {
     describe('Part One', () => {
-        it('', () => {
+        it('Should count the number of times the dial lands on 0 after a rotation', () => {
             assert.strictEqual(part1(data), 3)
         })
     })
 
     describe('Part Two', () => {
-        it('R1000', () => {
-            assert.strictEqual(part2('R1000'), 10)
-        })
-        it('R1049', () => {
-            assert.strictEqual(part2('R1049'), 10)
-        })
-        it('R1057', () => {
-            assert.strictEqual(part2('R1057'), 11)
-        })
-        it('L1057', () => {
-            assert.strictEqual(part2('L1057'), 11)
-        })
-        it.only('test input', () => {
-            // assert.strictEqual(part2(data), 6)
+        it('Should count the number of times the dial passes or lands on 0', () => {
+            assert.strictEqual(part2(data), 6)
             assert.strictEqual(part2(data2), 7)
         })
     })
