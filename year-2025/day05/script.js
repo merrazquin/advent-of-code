@@ -68,7 +68,6 @@ const part2 = input => {
     for (const range of ranges.slice()) {
         ranges = normalizeRange(ranges, range)
     }
-    console.log(`total ranges, ${ranges.length}`)
     return sumAll(ranges.map(({lower, upper}) => (upper-lower) + 1))
 }
 
